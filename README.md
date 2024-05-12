@@ -1,66 +1,188 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <a href="#"><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/57ge2v8fp17lcd8vmf1a.png" width="400" alt="LaraReact"></a>
 </p>
 
-## About Laravel
+## About LaraReact Dashboard Template (Laravel 10)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+LaraReact Dashboard Template is a Laravel Inertia and React-based web application template designed with inspiration from [Sakai PrimeReact](https://sakai.primereact.org/) for creating modern and interactive dashboard applications. This template provides you with a solid foundation for building powerful web applications with features such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Laravel-based backend](https://laravel.com)
+- [Inertia.js](https://inertiajs.com) for seamless SPA development
+- [React](https://reactjs.org) for creating dynamic user interfaces
+- [PrimeReact](https://www.primefaces.org/primereact) UI components for a polished look and feel
+- [Sakai-react](https://github.com/primefaces/sakai-react) Free React Admin Template CSS
+- [Vite](https://vitejs.dev/) for faster development experience
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+LaraReact Dashboard Template is aimed at Laravel developers who want to kickstart their project development with a ready-made template that incorporates these technologies.
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+To get started with LaraReact Dashboard Template first clone the [LaraReact Dashboard Template](https://github.com/boadusamuel/laravel-inertia-react) repository.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Clone Repository:**
+   ```bash
+   git clone https://github.com/boadusamuel/laravel-inertia-react
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Frontend
+```shell
+$ npm install
+$ npm run dev
+```
 
-## Laravel Sponsors
+## Backend
+```shell
+$ cp .env.example .env
+$ composer install
+$ php artisan key:generate
+$ php artisan serve
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Project Settings
 
-### Premium Partners
+The `AppConfig` component is a React component designed to provide a user interface for configuring the layout settings of the project. It utilizes the PrimeReact library for UI components and leverages context provided by the `LayoutContext` and `PrimeReactContext` to manage and apply configuration changes.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+## Table of Contents
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- [Usage: Accessing AppConfig Button on the Dashboard](#usage-accessing-appconfig-button-on-the-dashboard)
+- [Configuration Options](#configuration-options)
+    - [Scale](#scale)
+    - [Menu Type](#menu-type)
+    - [Input Style](#input-style)
+    - [Ripple Effect](#ripple-effect)
+    - [Themes](#themes)
+- [Usage: Applying Selected Theme to App.blade.php](#usage-applying-selected-theme-to-appbladephp)
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Usage: Accessing AppConfig Button on the Dashboard
+--------------------------------------------------
 
-## Security Vulnerabilities
+The `AppConfig` component provides a convenient way to access and customize the layout settings directly from the dashboard interface. Follow these steps to utilize the AppConfig button:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1.  Navigate to the Dashboard:
 
-## License
+2.  Locate AppConfig Button:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    -   Look for the configuration button represented by a cog icon typically positioned on the right center of the screen.
+3.  Click the AppConfig Button:
+
+    -   Once you've located the AppConfig button, click on it to open the configuration sidebar.
+4.  Adjust Configuration Options:
+
+    -   The sidebar will reveal various configuration options:
+        -   Scale: Adjust the font size of the application.
+        -   Menu Type: Choose between "Static" and "Overlay" menu types.
+        -   Input Style: Select between "Outlined" and "Filled" input styles.
+        -   Ripple Effect: Toggle the ripple effect on user interactions.
+        -   Themes: Choose from a variety of themes categorized by design systems (Bootstrap, Material Design, etc.).
+5.  Preview Changes:
+
+    -   Visualize the changes in real-time as you adjust the configuration options.
+6.  Apply Theme:
+
+    -   For theme changes, click on the theme button of your choice to apply the selected theme and color scheme to the entire application.
+7.  Close AppConfig Sidebar:
+
+    -   After configuring the settings, you can close the AppConfig sidebar by clicking outside the sidebar or using any provided close button.
+
+Configuration Options
+---------------------
+
+The `AppConfig` component provides a sidebar with various configuration options that can be adjusted to customize the project's layout and appearance. These options include:
+
+### Scale
+
+The "Scale" section allows users to adjust the font size of the application. Users can increment or decrement the scale and visualize the changes in real-time.
+
+### Menu Type
+
+The "Menu Type" section provides options to select the layout's menu mode. Users can choose between "Static" and "Overlay" menu types, influencing the navigation experience.
+
+### Input Style
+
+The "Input Style" section lets users choose between "Outlined" and "Filled" input styles, influencing the appearance of input fields in the application.
+
+### Ripple Effect
+
+The "Ripple Effect" section includes a toggle switch to enable or disable the ripple effect on user interactions.
+
+### Themes
+
+The "Themes" section categorizes available themes into different design systems:
+
+-   Bootstrap
+-   Material Design
+-   Material Design Compact
+-   Tailwind
+-   Fluent UI
+-   PrimeOne Design - 2022
+-   PrimeOne Design - 2021
+
+For each design system, multiple theme options are provided, each represented by a button with a preview image. Clicking on a theme button applies the selected theme and color scheme to the application.
+
+Feel free to explore and customize these options according to the desired look and feel of the "use client" project.
+
+
+Usage: Applying Selected Theme to App.blade.php
+-----------------------------------------------
+
+Once you have chosen a preferred theme, follow these steps to integrate the selected theme into the `app.blade.php` file:
+
+1.  Choose a Theme:
+
+    -   Using the AppConfig sidebar, select your preferred theme from the available options.
+
+2. Navigate to app.blade.php:
+
+    -   Locate the `app.blade.php` file in your project's `resources/views` directory.
+3. Paste Link in Head Section:
+
+    -   Open the `app.blade.php` file and locate the `<head>` section.
+    -   Paste the `<link>` tag with `id="theme-css"` within the `<head>` section. It should look something like this with your selected theme:
+
+
+```html
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title inertia>{{ config('app.name', 'LaraReact') }}</title>
+
+        <!-- Scripts -->
+        @routes
+        @viteReactRefresh
+        @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+        @inertiaHead
+
+        <link id="theme-css" href={{asset('/themes/lara-light-indigo/theme.css')}} rel="stylesheet"></link>
+    </head>
+    <body class="font-sans antialiased">
+        @inertia
+</body></html>
+```
+
+4. Set the Chosen theme inside the `LayoutProvider` within the `layoutcontext` component 
+```jsx
+    const [layoutConfig, setLayoutConfig] = useState({
+        ripple: false,
+        inputStyle: 'outlined',
+        menuMode: 'static',
+        colorScheme: 'light',
+        theme: 'tailwind-light',
+        scale: 14
+    });
+```
+
+4. Delete Unwanted Themes:
+
+    -   In the public directory, navigate to the `images/layout/themes` folder.
+    -   Delete the CSS files of the themes you no longer need. This step helps in keeping your project clean and reduces unnecessary file clutter.
+5. Save Changes:
+
+    -   Save the changes to the `app.blade.php` file.
+
+By following these steps, you have successfully integrated the selected theme into the main layout of your application. Remember to clean up the unwanted themes to maintain a tidy project structure.
+
+**NB: This project is still under development please report any bugs to the issue section of this repo**
