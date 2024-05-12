@@ -1,212 +1,69 @@
-import { Link, Head } from "@inertiajs/react";
-import React, { useState } from "react";
-
-import AspectRatio from "@mui/joy/AspectRatio";
-import Card from "@mui/joy/Card";
-import CardContent from "@mui/joy/CardContent";
-import CardOverflow from "@mui/joy/CardOverflow";
-import Divider from "@mui/joy/Divider";
-import Typography from "@mui/joy/Typography";
-import IconButton from "@mui/joy/IconButton";
-import Favorite from "@mui/icons-material/Favorite";
-import Button from "@mui/joy/Button";
-import List from "@mui/joy/List";
-import ListItem from "@mui/joy/ListItem";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import Switch from "@mui/joy/Switch";
-import Modal from "@mui/joy/Modal";
-import ModalDialog from "@mui/joy/ModalDialog";
-import ModalClose from "@mui/joy/ModalClose";
-import DialogTitle from "@mui/joy/DialogTitle";
-import Stack from "@mui/joy/Stack";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Link, Head } from '@inertiajs/react';
+import {LayoutContext, LayoutProvider} from "@/Layouts/layout/context/layoutcontext.jsx";
+import {PrimeReactProvider} from "primereact/api";
+import {Button} from "primereact/button";
+import React, {useContext} from "react";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
-    const [likes, setLikes] = useState(0);
-    const [comments, setComments] = useState([]);
-    const [layout, setLayout] = React.useState(undefined);
-    const [scroll, setScroll] = React.useState(true);
-
-    const handleLike = () => {
-        setLikes(likes + 1);
-    };
-
-    const handleComment = (comment) => {
-        setComments([...comments, comment]);
-        comment = "";
-    };
-
-    const deleteComment = (index) => {
-        const newComments = [...comments];
-        newComments.splice(index, 1);
-        setComments(newComments);
-    };
+    const { layoutConfig} = useContext(LayoutContext);
     return (
         <>
+            <PrimeReactProvider>
+                <LayoutProvider>
             <Head title="Welcome" />
+            <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+                <div className="sm:fixed sm:top-0 sm:left-0 p-6">
 
-            <div className="relative bg-gray-800 text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center">
-                            <div className=" md:block">
-                                <div className="ml-10 flex items-baseline space-x-4">
-                                    {auth.user ? (
-                                        <Link
-                                            href={route("dashboard")}
-                                            className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                        >
-                                            Dashboard
-                                        </Link>
-                                    ) : (
-                                        <>
-                                            <Link
-                                                href={route("login")}
-                                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                            >
-                                                Log in
-                                            </Link>
+                    <div className="flex align-items-center">
+                        <img src={`/images/logo/-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="100.22px" height={'35px'} alt="logo" className="mr-3"/>
 
-                                            <Link
-                                                href={route("register")}
-                                                className="ml-4 text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                            >
-                                                Register
-                                            </Link>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                        {auth.user ? (
+                            <Link
+                                href={route('dashboard')}
+                                className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                            >
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <>
+                                <Link
+                                    href={route('login')}
+                                    className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >
+                                    Log in
+                                </Link>
+
+                                <Link
+                                    href={route('register')}
+                                    className="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
-            </div>
 
-            <Card
-                variant="outlined"
-                className="post bg-white shadow-md rounded-23 p-6 m-4"
-            >
-                <CardOverflow>
-                    <AspectRatio ratio="2">
-                        <img
-                            src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                            srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
-                            loading="lazy"
-                            alt=""
-                        />
-                    </AspectRatio>
-                    <IconButton
-                        aria-label="Like minimal photography"
-                        size="md"
-                        variant="solid"
-                        color="danger"
-                        onClick={handleLike}
-                        sx={{
-                            position: "absolute",
-                            zIndex: 2,
-                            borderRadius: "50%",
-                            right: "1rem",
-                            bottom: 0,
-                            transform: "translateY(50%)",
-                        }}
-                    >
-                        <Favorite />
-                    </IconButton>
-                </CardOverflow>
-                <CardContent>
-                    <Typography level="title-md">
-                        <Link href="#multiple-actions" overlay underline="none">
-                            Yosemite National Park
-                        </Link>
-                    </Typography>
-                    <Typography level="body-sm">
-                        <Link
-                            href="#multiple-actions"
-                            onClick={() => {
-                                setLayout("fullscreen");
-                            }}
-                        >
-                            California
-                        </Link>
-                    </Typography>
-                </CardContent>
-                <CardOverflow variant="soft">
-                    <Divider inset="context" />
-                    <CardContent orientation="horizontal">
-                        <Typography level="body-xs">6.3k views</Typography>
-                        <Divider orientation="vertical" />
-                        <Typography level="body-xs">1 hour ago</Typography>
-                        <Divider orientation="vertical" />
-                        <Typography level="body-xs">
-                            {likes + " "}likes
-                        </Typography>
-                        <Divider orientation="vertical" />
-                        <Typography level="body-xs">
-                            {comments}comment
-                        </Typography>
-                        <Divider orientation="vertical" />
-                        {/* the full screen  */}
-                        <Typography
-                            level="body-xs"
-                            color="e5e7eb"
-                            style={{ mouse: "pointer" }}
-                            onClick={() => {
-                                setLayout("fullscreen");
-                            }}
-                        >
-                            Full screen
-                        </Typography>
-                    </CardContent>
-                </CardOverflow>
-                <div className="container">
-                    <React.Fragment>
-                        <Modal
-                            open={!!layout}
-                            onClose={() => {
-                                setLayout(undefined);
-                            }}
-                        >
-                            <ModalDialog layout={layout}>
-                                <ModalClose />
-                                <DialogTitle>
-                                    Vertical scroll example
-                                </DialogTitle>
-                                <FormControl
-                                    orientation="horizontal"
-                                    sx={{
-                                        bgcolor: "background.level2",
-                                        p: 1,
-                                        borderRadius: "sm",
-                                    }}
-                                >
-                                    <FormLabel>Container overflow</FormLabel>
-                                    <Switch
-                                        checked={scroll}
-                                        onChange={(event) =>
-                                            setScroll(event.target.checked)
-                                        }
-                                        sx={{ ml: "auto" }}
-                                    />
-                                </FormControl>
-                                <List
-                                    sx={{
-                                        overflow: scroll ? "scroll" : "initial",
-                                        mx: "calc(-1 * var(--ModalDialog-padding))",
-                                        px: "var(--ModalDialog-padding)",
-                                    }}
-                                >
-                                    {[...Array(100)].map((item, index) => (
-                                        <ListItem key={index}>
-                                            I&apos;m in a scrollable area.
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            </ModalDialog>
-                        </Modal>
-                    </React.Fragment>
+
+                <div className="grid grid-nogutter surface-0 text-800">
+                    <div className="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
+                        <section>
+                            <span className="block text-6xl font-bold mb-1">Create the dashboard</span>
+                            <div className="text-6xl text-primary font-bold mb-3">your clients deserve to see</div>
+                            <p className="mt-0 mb-4 text-700 line-height-3">Craft a visually stunning and user-centric dashboard that showcases the information your clients deserve with bold, impactful design elements.</p>
+
+                            <Button label="Learn More" type="button" className="mr-3 p-button-raised" />
+                            <Button label="Live Demo" type="button" className="p-button-outlined" />
+                        </section>
+                    </div>
+                    <div className="col-12 md:col-6 overflow-hidden">
+                        <img src="/images/hero/hero-1.png" alt="hero-1" className="md:ml-auto block md:h-full" style={{ clipPath: 'polygon(8% 0, 100% 0%, 100% 100%, 0 100%)' }} />
+                    </div>
                 </div>
-            </Card>
+
+            </div>
+            </LayoutProvider>
+            </PrimeReactProvider>
         </>
     );
 }
