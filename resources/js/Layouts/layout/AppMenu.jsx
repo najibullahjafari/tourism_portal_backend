@@ -17,19 +17,14 @@ const AppMenu = () => {
                     to: route("dashboard"),
                 },
                 {
-                    label: "Settings",
-                    icon: "pi pi-fw pi-home",
-                    to: route("dashboard"),
-                },
-                {
-                    label: "Login",
-                    icon: "pi pi-fw pi-home",
-                    to: route("dashboard"),
-                },
-                {
                     label: "Button",
                     icon: "pi pi-fw pi-id-card",
                     to: route("button"),
+                },
+                {
+                    label: "Transportation",
+                    icon: "pi pi-fw pi-id-card",
+                    to: route("transportation"),
                 },
             ],
         },
