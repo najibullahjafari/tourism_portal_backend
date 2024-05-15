@@ -44,6 +44,9 @@ Route::get('/uikit/button', function () {
 Route::get('/transportation', function () {
     return Inertia::render('Transportation');
 })->name('transportation');
+Route::get('/cars', function () {
+    return Inertia::render('Cars');
+})->name('cars');
 
 
 
