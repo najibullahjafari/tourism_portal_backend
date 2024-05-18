@@ -50,6 +50,21 @@ Route::get('/cars', function () {
 
 
 
+Route::get('/hotelList', function () {
+    return Inertia::render('Hotel/HotelList');
+})->name('hotelList');
+Route::get('/hotelRequest', function () {
+    return Inertia::render('Hotel/HotelRequest');
+})->name('hotelRequest');
 
+Route::get('hotelList/view', function () {
+    return Inertia::render('Hotel/HotelView');
+})->name('hotelView');
+Route::get('hotelRequest/view', function () {
+    return Inertia::render('Hotel/HotelRequestView');
+})->name('hotelRequestView');
+Route::get('addHotel', function () {
+    return Inertia::render('Hotel/AddHotel');
+})->name('addHotel');
 
 require __DIR__.'/auth.php';
