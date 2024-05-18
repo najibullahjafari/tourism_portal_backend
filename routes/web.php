@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/cars', function () {
+        return Inertia::render('Transportation/Cars');
+    })->name('cars');
 });
 
 
@@ -44,9 +47,6 @@ Route::get('/uikit/button', function () {
 Route::get('/transportation', function () {
     return Inertia::render('Transportation');
 })->name('transportation');
-Route::get('/cars', function () {
-    return Inertia::render('Transportation/Cars');
-})->name('cars');
 
 
 
@@ -67,4 +67,5 @@ Route::get('addHotel', function () {
     return Inertia::render('Hotel/AddHotel');
 })->name('addHotel');
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
