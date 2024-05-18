@@ -22,6 +22,27 @@ const AppMenu = () => {
                     to: route("button"),
                 },
                 {
+                    label: "Hotel",
+                    icon: "pi pi-fw pi-id-card",
+                    items: [
+                        {
+                            label: "Hotel List",
+                            icon: "pi pi-fw pi-car",
+                            to: route("hotelList"),
+                        },
+                        {
+                            label: "Hotel Request",
+                            icon: "pi pi-fw pi-car",
+                            to: route("hotelRequest"),
+                        },
+                        {
+                            label: "Add Hotel",
+                            icon: "pi pi-fw pi-car",
+                            to: route("addHotel"),
+                        },
+                    ],
+                },
+                {
                     label: "Transportation",
                     icon: "pi pi-fw pi-id-card",
                     items: [
