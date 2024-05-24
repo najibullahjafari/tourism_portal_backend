@@ -1,32 +1,12 @@
-import InputLabel from "@/Components/InputLabel";
 import Layout from "@/Layouts/layout/layout";
 import React from "react";
-import { usePage } from "@inertiajs/react";
-const HotelView = () => {
-    // const {
-    //     data: formData,
-    //     setData,
-    //     post,
-    //     processing,
-    //     errors,
-    // } = useForm({
-    //     id: data.id,
-    //     name: data.name,
-    //     address: data.address,
-    //     province: data.province,
-    // });
-    const { data } = usePage().props;
 
-    const handleSubmit = () => {
-        post("hotelList/view");
-    };
+const AddTourGuide = () => {
     return (
         <Layout>
-            {console.log(data, "Najibllah")}
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
-                <h3 class="max-w-md mx-auto mt-5">Hotel Information</h3>
+                <h3 class="max-w-md mx-auto mt-5">Add New Hotel</h3>
                 <form class="max-w-md mx-auto">
-                    @csrf
                     <div class="relative z-0 w-full mb-5 group mt-5">
                         <input
                             type="input"
@@ -35,8 +15,6 @@ const HotelView = () => {
                             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
                             required
-                            // value={data.id}
-                            // onChange={(e) => setData("id", e.target.value)}
                         />
                         <label
                             for="Admin_Hotel_ID"
@@ -53,8 +31,6 @@ const HotelView = () => {
                             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
                             required
-                            // value={formData.name}
-                            // onChange={(e) => setData("name", e.target.value)}
                         />
                         <label
                             for="Admin_Hotel_Name"
@@ -71,8 +47,6 @@ const HotelView = () => {
                             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
                             required
-                            // value={formData.address}
-                            // onChange={(e) => setData("address", e.target.value)}
                         />
                         <label
                             for="Admin_Hotel_Address"
@@ -84,15 +58,11 @@ const HotelView = () => {
                     <div class="relative z-0 w-full mb-5 group">
                         <input
                             type="input"
-                            name="Province"
+                            name="Address"
                             id="Admin_Hotel_Province"
                             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
                             required
-                            // value={formData.province}
-                            // onChange={(e) =>
-                            //     setData("province", e.target.value)
-                            // }
                         />
                         <label
                             for="Admin_Hotel_Province"
@@ -105,15 +75,8 @@ const HotelView = () => {
                         <button
                             type="submit"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-5"
-                            // disabled={processing}
                         >
                             Save
-                        </button>
-                        <button
-                            type="submit"
-                            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-5"
-                        >
-                            Delete
                         </button>
                     </span>
                 </form>
@@ -121,4 +84,5 @@ const HotelView = () => {
         </Layout>
     );
 };
-export default HotelView;
+
+export default AddTourGuide;

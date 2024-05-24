@@ -4,7 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use App\Http\Controllers\HotelController;
+use App\Http\Controllers\HotelRequestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/cars', function () {
         return Inertia::render('Transportation/Cars');
     })->name('cars');
+
+    // Hotel Rout
+    Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
+    Route::get('hotelList/view/{id}', [HotelController::class, 'show'])->name('item.show');
+
+    // Hotel Request
+    Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
 });
 
 
@@ -50,16 +58,16 @@ Route::get('/transportation', function () {
 
 
 
-Route::get('/hotelList', function () {
-    return Inertia::render('Hotel/HotelList');
-})->name('hotelList');
-Route::get('/hotelRequest', function () {
-    return Inertia::render('Hotel/HotelRequest');
-})->name('hotelRequest');
+// Route::get('/hotelList', function () {
+//     return Inertia::render('Hotel/HotelList');
+// })->name('hotelList');
+// Route::get('/hotelRequest', function () {
+//     return Inertia::render('Hotel/HotelRequest');
+// })->name('hotelRequest');
 
-Route::get('hotelList/view', function () {
-    return Inertia::render('Hotel/HotelView');
-})->name('hotelView');
+// Route::get('hotelList/view', function () {
+//     return Inertia::render('Hotel/HotelView');
+// })->name('hotelView');
 Route::get('hotelRequest/view', function () {
     return Inertia::render('Hotel/HotelRequestView');
 })->name('hotelRequestView');
@@ -67,5 +75,19 @@ Route::get('addHotel', function () {
     return Inertia::render('Hotel/AddHotel');
 })->name('addHotel');
 
-
+Route::get('tourGuide', function () {
+    return Inertia::render('TourGuide/TourGuideList');
+})->name('tourGuide');
+Route::get('tourGuideRequest', function () {
+    return Inertia::render('TourGuide/TourGuideRequest');
+})->name('tourGuideRequest');
+Route::get('addTourGuide', function () {
+    return Inertia::render('TourGuide/AddTourGuide');
+})->name('addTourGuide');
+Route::get('tourGuideList/view', function () {
+    return Inertia::render('TourGuide/TourGuideView');
+})->name('tourGuideListView');
+Route::get('tourGuideRequest/view', function () {
+    return Inertia::render('TourGuide/TourGuideRequestView');
+})->name('tourGuideRequestView');
 require __DIR__ . '/auth.php';

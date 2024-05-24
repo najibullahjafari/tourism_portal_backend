@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-class HotelController extends Controller
+class HotelRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $data=Hotel::where('status', 'active')->get();
-        return Inertia::render('Hotel/HotelList', [
-            'data' => $data,
+    { 
+        $data=Hotel::where('status', 'disactive')->get();
+        return Inertia::render('Hotel/HotelRequest',[
+            'data'=>$data
         ]);
     }
 
@@ -37,12 +38,9 @@ class HotelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Hotel $hotel)
     {
-        $data = Hotel::where('id',$id)->get();
-        return Inertia::render('Hotel/HotelView', [
-            'data' => $data,
-        ]);
+        //
     }
 
     /**
