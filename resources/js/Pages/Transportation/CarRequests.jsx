@@ -46,7 +46,7 @@ export default function Transportation() {
   const submit = (e) => {
     e.preventDefault();
 
-    post(route("car/requests"));
+    post(route("transportation.requests"));
   };
   // Function to handle file upload
   const handleFileUpload = (e) => {
@@ -131,9 +131,11 @@ export default function Transportation() {
                 >
                   Paaport image
                 </label>
-                <input
+                <InputText
                   type="file"
                   id="passport"
+                  placeholder="Email address"
+                  className="w-full"
                   name="passport"
                   onChange={handleFileUpload}
                 />
