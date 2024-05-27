@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\HotelRequestController;
+use App\Http\Controllers\tourguideController;
+use App\Http\Controllers\tourguideRequestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,10 +44,19 @@ Route::middleware('auth')->group(function () {
 
     // Hotel Rout
     Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
-    Route::get('hotelList/view/{id}', [HotelController::class, 'show'])->name('item.show');
-
+    Route::get('hotelList/view/{id}', [HotelController::class, 'show'])->name('hotelView');
+    Route::post('hotelList/view/{id}', [HotelController::class, 'update'])->name('hotel.update');
+    Route::get('addHotel',  [HotelController::class, 'create'])->name('hotel.create');
+    Route::post('addHotel', [HotelController::class, 'store'])->name('hotel.store');
+    Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
     // Hotel Request
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
+
+    // Tour Guide 
+    Route::get('tourGuide', [tourguideController::class, 'index'] )->name('tourGuide');
+
+    // Tour Guide Request
+    Route::get('tourGuideRequest', [tourguideRequestController::class, 'index'])->name('tourGuideRequest');
 });
 
 
@@ -75,9 +86,9 @@ Route::get('addHotel', function () {
     return Inertia::render('Hotel/AddHotel');
 })->name('addHotel');
 
-Route::get('tourGuide', function () {
-    return Inertia::render('TourGuide/TourGuideList');
-})->name('tourGuide');
+// Route::get('tourGuide', function () {
+//     return Inertia::render('TourGuide/TourGuideList');
+// })->name('tourGuide');
 Route::get('tourGuideRequest', function () {
     return Inertia::render('TourGuide/TourGuideRequest');
 })->name('tourGuideRequest');

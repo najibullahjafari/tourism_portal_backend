@@ -1,7 +1,10 @@
 import Layout from "@/Layouts/layout/layout";
+import { usePage } from "@inertiajs/react";
 import React from "react";
 
 const TourGuideRequest = () => {
+    const { data } = usePage().props;
+    console.log(data);
     return (
         <Layout>
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
@@ -15,100 +18,64 @@ const TourGuideRequest = () => {
                                 Name
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Address
+                                Father Name
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Province
+                                Photo
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Request Date
+                                Passpord
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Entity Type
+                                ID Card
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Location
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Bio
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Phone
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th
-                                scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        {data.map((item) => (
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                key={item.id}
                             >
-                                1001
-                            </th>
-                            <td class="px-6 py-4">Nasib</td>
-                            <td class="px-6 py-4">Bamyan Gholghola</td>
-                            <td class="px-6 py-4">Bamyan</td>
-                            <td class="px-6 py-4">14003/01/10</td>
-                            <td class="px-6 py-4">
-                                <a
-                                    href="tourGuideRequest/view"
+                                <td class="px-6 py-4">{item.id}</td>
+                                <td class="px-6 py-4">{item.name}</td>
+                                <td class="px-6 py-4">{item.father_name}</td>
+                                <td class="px-6 py-4">{item.image}</td>
+                                <td class="px-6 py-4">{item.password}</td>
+                                <td class="px-6 py-4">{item.id_card}</td>
+                                <td class="px-6 py-4">{item.location}</td>
+                                <td class="px-6 py-4">{item.bio}</td>
+                                <td class="px-6 py-4">{item.phone}</td>
+                                {/* <td class="px-6 py-4">
+                                <Link
+                                    href={route("item.show", {
+                                        id: item.id,
+                                    })}
+                                    as="a"
                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
                                 >
                                     View
-                                </a>
+                                </Link>
                             </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th
-                                scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                                1002
-                            </th>
-                            <td class="px-6 py-4">Aty Qadam</td>
-                            <td class="px-6 py-4">Barji Poly-e-khoshk</td>
-                            <td class="px-6 py-4">Kabul</td>
-                            <td class="px-6 py-4">14003/01/10</td>
                             <td class="px-6 py-4">
                                 <a
-                                    href="tourGuideRequest/view"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
+                                    href="#"
+                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
                                 >
-                                    View
+                                    Delete
                                 </a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <th
-                                scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                                1003
-                            </th>
-                            <td class="px-6 py-4">Bamyani</td>
-                            <td class="px-6 py-4">Bamyan Central</td>
-                            <td class="px-6 py-4">Bamyan</td>
-                            <td class="px-6 py-4">14003/01/10</td>
-                            <td class="px-6 py-4">
-                                <a
-                                    href="tourGuideRequest/view"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                >
-                                    View
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="bg-white dark:bg-gray-800 border-b">
-                            <th
-                                scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                                1004
-                            </th>
-                            <td class="px-6 py-4">Bamyani</td>
-                            <td class="px-6 py-4">Bamyan Central</td>
-                            <td class="px-6 py-4">Bamyan</td>
-                            <td class="px-6 py-4">14003/01/10</td>
-                            <td class="px-6 py-4">
-                                <a
-                                    href="tourGuideRequest/view"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                >
-                                    View
-                                </a>
-                            </td>
-                        </tr>
+                            </td> */}
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

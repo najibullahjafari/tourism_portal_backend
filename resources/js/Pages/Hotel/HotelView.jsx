@@ -16,13 +16,14 @@ const HotelView = () => {
     //     province: data.province,
     // });
     const { data } = usePage().props;
-
+    {
+        console.log(data, data.name);
+    }
     const handleSubmit = () => {
-        post("hotelList/view");
+        post(route(`hotelList/view/${data.id}`));
     };
     return (
         <Layout>
-            {console.log(data, "Najibllah")}
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
                 <h3 class="max-w-md mx-auto mt-5">Hotel Information</h3>
                 <form class="max-w-md mx-auto">
