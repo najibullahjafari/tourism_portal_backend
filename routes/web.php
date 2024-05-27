@@ -8,6 +8,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\HotelRequestController;
 use App\Http\Controllers\tourguideController;
 use App\Http\Controllers\tourguideRequestController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,16 +45,17 @@ Route::middleware('auth')->group(function () {
 
     // Hotel Rout
     Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
-    Route::get('hotelList/view/{id}', [HotelController::class, 'show'])->name('hotelView');
+    Route::get('hotelListView/{id}', [HotelController::class, 'show'])->name('hotelView');
     Route::post('hotelList/view/{id}', [HotelController::class, 'update'])->name('hotel.update');
-    Route::get('addHotel',  [HotelController::class, 'create'])->name('hotel.create');
+    Route::get('addHotel', [HotelController::class, 'create'])->name('hotel.create');
     Route::post('addHotel', [HotelController::class, 'store'])->name('hotel.store');
     Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
     // Hotel Request
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
-
+    Route::delete('/hotelRequest/{id}', [HotelRequestController::class, 'destroy'])->name('hotelRequest.destroy');
+    Route::post("/hotelRequest/{id}", [HotelRequestController::class, 'update'])->name('hotelRequest.update');
     // Tour Guide 
-    Route::get('tourGuide', [tourguideController::class, 'index'] )->name('tourGuide');
+    Route::get('tourGuide', [tourguideController::class, 'index'])->name('tourGuide');
 
     // Tour Guide Request
     Route::get('tourGuideRequest', [tourguideRequestController::class, 'index'])->name('tourGuideRequest');
@@ -79,9 +81,9 @@ Route::get('/transportation', function () {
 // Route::get('hotelList/view', function () {
 //     return Inertia::render('Hotel/HotelView');
 // })->name('hotelView');
-Route::get('hotelRequest/view', function () {
-    return Inertia::render('Hotel/HotelRequestView');
-})->name('hotelRequestView');
+// Route::get('hotelRequest/view', function () {
+//     return Inertia::render('Hotel/HotelRequestView');
+// })->name('hotelRequestView');
 Route::get('addHotel', function () {
     return Inertia::render('Hotel/AddHotel');
 })->name('addHotel');

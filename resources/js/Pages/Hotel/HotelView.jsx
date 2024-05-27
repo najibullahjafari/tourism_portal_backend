@@ -2,7 +2,7 @@ import InputLabel from "@/Components/InputLabel";
 import Layout from "@/Layouts/layout/layout";
 import React from "react";
 import { usePage } from "@inertiajs/react";
-const HotelView = () => {
+const HotelView = (props) => {
     // const {
     //     data: formData,
     //     setData,
@@ -16,9 +16,7 @@ const HotelView = () => {
     //     province: data.province,
     // });
     const { data } = usePage().props;
-    {
-        console.log(data, data.name);
-    }
+
     const handleSubmit = () => {
         post(route(`hotelList/view/${data.id}`));
     };

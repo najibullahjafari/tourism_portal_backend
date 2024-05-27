@@ -6,16 +6,17 @@ namespace App\Http\Controllers;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+
 class HotelRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    { 
-        $data=Hotel::where('status', 'deactive')->get();
-        return Inertia::render('Hotel/HotelRequest',[
-            'data'=>$data
+    {
+        $data = Hotel::where('status', 'deactive')->get();
+        return Inertia::render('Hotel/HotelRequest', [
+            'data' => $data
         ]);
     }
 
@@ -54,16 +55,21 @@ class HotelRequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Hotel $hotel)
+    public function update($id)
     {
-        //
+        $hotel = Hotel::find($id);
+        $hotel->status = 'active';
+        $hotel->save();
+        return redirect()->route('hotelRequest');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Hotel $hotel)
+    public function destroy($id)
     {
-        //
+        $hotel = Hotel::find($id);
+        $hotel->delete();
+        return redirect()->route('hotelRequest');
     }
 }

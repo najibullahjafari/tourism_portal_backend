@@ -1,8 +1,16 @@
 import Layout from "@/Layouts/layout/layout";
 import React from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
+import { Button } from "primereact/button";
 const HotelRequest = () => {
     const { data } = usePage().props;
+    const { delete: destroy } = useForm();
+    const handleReject = (id) => {
+        router.delete(`/hotelRequest/${id}`);
+    };
+    const handleAccept = (id) => {
+        router.post(`/hotelRequest/${id}`);
+    };
     return (
         <Layout>
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
@@ -25,7 +33,10 @@ const HotelRequest = () => {
                                 Status
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Entity Type
+                                Accept
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Reject
                             </th>
                         </tr>
                     </thead>
@@ -46,12 +57,21 @@ const HotelRequest = () => {
                                 <td class="px-6 py-4">{item.province}</td>
                                 <td class="px-6 py-4">{item.status}</td>
                                 <td class="px-6 py-4">
-                                    <a
-                                        href="hotelRequest/view"
+                                    <Button
+                                        // href="hotelRequest/view"
+                                        onClick={() => handleAccept(item.id)}
                                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
                                     >
-                                        View
-                                    </a>
+                                        Accept
+                                    </Button>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button
+                                        onClick={() => handleReject(item.id)}
+                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
+                                    >
+                                        Reject
+                                    </button>
                                 </td>
                             </tr>
                         ))}
