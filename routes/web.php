@@ -56,7 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::post("/hotelRequest/{id}", [HotelRequestController::class, 'update'])->name('hotelRequest.update');
     // Tour Guide 
     Route::get('tourGuide', [tourguideController::class, 'index'])->name('tourGuide');
-
+    Route::delete('/tourguide/{id}', [tourguideController::class, 'destroy'])->name('tourguide.destroy');
+    Route::get('addTourGuide', [tourguideController::class, 'create'])->name('addTourGuide');
+    Route::post('addTourGuide', [tourguideController::class, 'store'])->name('tourguide.store');
     // Tour Guide Request
     Route::get('tourGuideRequest', [tourguideRequestController::class, 'index'])->name('tourGuideRequest');
 });

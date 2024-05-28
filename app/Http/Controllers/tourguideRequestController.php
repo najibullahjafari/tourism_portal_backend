@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\tourguide;
@@ -12,8 +13,8 @@ class tourguideRequestController extends Controller
      */
     public function index()
     {
-        $data=tourguide::where('status', 'deactive')->get();
-        return Inertia::render('TourGuide/TourGuideRequest',['data'=>$data]);
+        $data = tourguide::where('status', 'deactive')->get();
+        return Inertia::render('TourGuide/TourGuideRequest', ['data' => $data]);
     }
 
     /**
@@ -21,7 +22,8 @@ class tourguideRequestController extends Controller
      */
     public function create()
     {
-        //
+
+        return Inertia::render('TourGuide/AddTourGuide');
     }
 
     /**

@@ -7,6 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class tourguide extends Model
 {
-    protected $table = 'tourguide';
     use HasFactory;
+    protected $table = 'tourguide';
+
+    protected $fillable = [
+
+        'name',
+        'father_name',
+        'image',
+        'password',
+        'id_card',
+        'location',
+        'bio',
+        'phone',
+        'status'
+
+    ];
+
 }

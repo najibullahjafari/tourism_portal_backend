@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\tourguide;
@@ -12,9 +13,9 @@ class tourguideController extends Controller
      */
     public function index()
     {
-        $data=tourguide::where('status', 'active')->get();
-        return Inertia::render('TourGuide/TourGuideList',[
-        'data'=>$data
+        $data = tourguide::where('status', 'active')->get();
+        return Inertia::render('TourGuide/TourGuideList', [
+            'data' => $data
         ]);
     }
 
@@ -31,7 +32,19 @@ class tourguideController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tourguide = new tourguide();
+        $tourguide->name = $request->name;
+        $tourguide->father_name = $request->father_name;
+        $tourguide->image = $request->image;
+        $tourguide->password = $request->pasword;
+        $tourguide->id_card = $request->id_card;
+        $tourguide->location = $request->location;
+        $tourguide->bio = $request->bio;
+        $tourguide->phone = $request->phone;
+        $tourguide->status = $request->status;
+        $tourguide->save();
+
+        return redirect()->back();
     }
 
     /**
@@ -48,7 +61,7 @@ class tourguideController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Hotel $hotel)
+    public function edit()
     {
         //
     }
@@ -56,7 +69,7 @@ class tourguideController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Hotel $hotel)
+    public function update(Request $request)
     {
         //
     }
@@ -64,8 +77,13 @@ class tourguideController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Hotel $hotel)
+    public function destroy($id)
     {
-        //
+        $hotel = tourguide::find($id);
+        $hotel->delete();
+        $data = tourguide::where('status', 'active')->get();
+        return Inertia::render('TourGuide/TourGuideList', [
+            'data' => $data
+        ]);
     }
 }

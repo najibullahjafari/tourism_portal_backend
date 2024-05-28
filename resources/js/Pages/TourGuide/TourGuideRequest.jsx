@@ -1,10 +1,10 @@
 import Layout from "@/Layouts/layout/layout";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import React from "react";
 
-const TourGuideRequest = () => {
+const TourGuideRequest = (props) => {
     const { data } = usePage().props;
-    console.log(data);
+    console.log(data, "rrrrrrrrrrrrrrrrrrrrrr");
     return (
         <Layout>
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">

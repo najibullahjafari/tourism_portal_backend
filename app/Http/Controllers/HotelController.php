@@ -35,14 +35,14 @@ class HotelController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // $request->validate([
-        //     'name' => 'required|string',
-        //     'address' => 'required|string',
-        //     'province' => 'required|string',
-        //     'photoAddress' => 'required|string',
-        //     'status'=>'string',
+        $request->validate([
+            'name' => 'required|string',
+            'address' => 'required|string',
+            'province' => 'required|string',
+            'photoAddress' => 'required|string',
+            'status' => 'string',
 
-        // ]);
+        ]);
 
 
         $hotel = new Hotel();
@@ -80,9 +80,10 @@ class HotelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Hotel $hotel)
+    public function update(Request $request, $id)
     {
         // Validate and update the hotel data
+        $hotel = Hotel::where('id', $id)->get();
         $hotel->update($request->all());
 
         // Redirect or return a response
