@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransportationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,18 +36,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
+    Route::delete('car/requests/{id}', [TransportationController::class, 'destroy'])->name('transportation.destroy');
+    Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
+    Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
+    Route::get('/cars/requests', function () {
+        return Inertia::render('Transportation/CarRequests');
+    })->name('cars/requests');
 });
 
 
 Route::get('/uikit/button', function () {
     return Inertia::render('main/uikit/button/page');
 })->name('button');
-Route::get('/transportation', function () {
-    return Inertia::render('Transportation');
-})->name('transportation');
 
 
 
 
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
