@@ -1,114 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@/Layouts/layout/layout.jsx";
-import ProductOne from "@/assets/images/layout/themes/fluent-light.png";
-
-const car = [
-    {
-        image: ProductOne,
-        name: "Apple Watch Series 7",
-        category: "Electronics",
-        price: 296,
-        sold: 22,
-        profit: 45,
-    },
-    {
-        image: ProductOne,
-        name: "Macbook Pro M1",
-        category: "Electronics",
-        price: 546,
-        sold: 12,
-        profit: 125,
-    },
-    {
-        image: ProductOne,
-        name: "Dell Inspiron 15",
-        category: "Electronics",
-        price: 443,
-        sold: 64,
-        profit: 247,
-    },
-    {
-        image: ProductOne,
-        name: "HP Probook 450",
-        category: "Electronics",
-        price: 499,
-        sold: 72,
-        profit: 103,
-    },
-];
+import { Head, Link, useForm } from "@inertiajs/react";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+import DangerButton from "@/Components/DangerButton";
 
 const Cars = () => {
-    return (
-        <Layout>
-            <div className="rounded-lg border border-stroke bg-white shadow-lg dark:border-strokedark dark:bg-boxdark">
-                <div className="py-6 px-4 md:px-6 xl:px-8">
-                    <h4 className="text-2xl font-semibold text-black dark:text-white">
-                        Top Products
-                    </h4>
-                </div>
+  const { data, setData, post, processing, errors, reset } = useForm({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    father_name: "",
+    tazkira_no: "",
+    passport: "",
+    image: "",
+    location: "",
+    entity_type: "",
+  });
 
-                <div className="grid grid-cols-6 border-t border-stroke py-4 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-8">
-                    <div className="col-span-3 mx-2 flex items-center">
-                        <p className="font-medium text-lg">Product Name</p>
-                    </div>
-                    <div className="col-span-2 hidden items-center sm:flex">
-                        <p className="font-medium text-lg">Category</p>
-                    </div>
-                    <div className="col-span-1 flex items-center">
-                        <p className="font-medium text-lg">Price</p>
-                    </div>
-                    <div className="col-span-1 flex items-center">
-                        <p className="font-medium text-lg">Sold</p>
-                    </div>
-                    <div className="col-span-1 flex items-center">
-                        <p className="font-medium text-lg">Profit</p>
-                    </div>
-                </div>
+  useEffect(() => {
+    return () => {
+      reset("password", "password_confirmation");
+    };
+  }, []);
 
-                {car.map((car, key) => (
-                    <div
-                        className="grid grid-cols-6 border-t border-stroke py-4 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-8 hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-300"
-                        key={key}
-                    >
-                        <div className="col-span-3 flex items-center">
-                            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                                <div className="h-16 w-20 rounded-md overflow-hidden">
-                                    <img
-                                        src={car.image}
-                                        alt="Product"
-                                        className="h-full w-full object-cover"
-                                    />
-                                </div>
-                                <p className="text-sm text-black dark:text-white">
-                                    {car.name}
-                                </p>
-                            </div>
-                        </div>
-                        <div className="col-span-2 hidden items-center sm:flex">
-                            <p className="text-sm text-gray-700 dark:text-gray-300">
-                                {car.category}
-                            </p>
-                        </div>
-                        <div className="col-span-1 flex items-center">
-                            <p className="text-sm text-black dark:text-white">
-                                ${car.price}
-                            </p>
-                        </div>
-                        <div className="col-span-1 flex items-center">
-                            <p className="text-sm text-black dark:text-white">
-                                {car.sold}
-                            </p>
-                        </div>
-                        <div className="col-span-1 flex items-center">
-                            <p className="text-sm text-green-600 dark:text-green-400">
-                                ${car.profit}
-                            </p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </Layout>
-    );
+  return (
+    <Layout>
+      <div className="container relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-white-50 uppercase bg-black-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                Name
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Email
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Father Name
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Tazkira No
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Passport
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Image
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Location
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Entity Type
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th
+                scope="row"
+                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {data.name}
+              </th>
+              <td className="px-6 py-4">{data.email}</td>
+              <td className="px-6 py-4">{data.father_name}</td>
+              <td className="px-6 py-4">{data.tazkira_no}</td>
+              <td className="px-6 py-4">
+                {/* <img src={`/images/logo/-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="100.22px" height={'35px'} alt="logo" /> */}
+                {console.log(data.passport)}
+                <img src={`{data.passport}`} alt="" />
+              </td>
+              <td className="px-6 py-4">{data.image}</td>
+              <td className="px-6 py-4">{data.location}</td>
+              <td className="px-6 py-4">{data.entity_type}</td>
+              <td className="px-6 py-4">
+                <DangerButton label="Edit" className="w-full" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </Layout>
+  );
 };
 
 export default Cars;

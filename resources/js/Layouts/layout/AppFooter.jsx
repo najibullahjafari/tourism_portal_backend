@@ -1,11 +1,15 @@
 import React, { useContext } from "react";
 
 const AppFooter = () => {
-    return (
-        <div className="layout-footer">
-            <span>Afghanistan Portal Tourism</span>
-        </div>
-    );
+
+  return (
+    <div className="layout-footer">
+      <span>
+        Made with <span className="text-red-500">&#10084;&#65039;</span> by
+      </span>
+      <span className="font-medium ml-2">Najibullah & Mohammad Bassir</span>
+    </div>
+  );
 };
 
 export default AppFooter;
