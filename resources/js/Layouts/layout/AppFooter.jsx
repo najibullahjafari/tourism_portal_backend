@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 
 const AppFooter = () => {
+
   return (
     <div className="layout-footer">
       <span>

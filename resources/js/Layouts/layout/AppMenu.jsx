@@ -22,6 +22,27 @@ const AppMenu = () => {
                     to: route("button"),
                 },
                 {
+                    label: "Hotel",
+                    icon: "pi pi-fw pi-id-card",
+                    items: [
+                        {
+                            label: "Hotel List",
+                            icon: "pi pi-fw pi-car",
+                            to: route("hotelList"),
+                        },
+                        {
+                            label: "Hotel Request",
+                            icon: "pi pi-fw pi-car",
+                            to: route("hotelRequest"),
+                        },
+                        {
+                            label: "Add Hotel",
+                            icon: "pi pi-fw pi-car",
+                            to: route("addHotel"),
+                        },
+                    ],
+                },
+                {
                     label: "Transportation",
                     icon: "pi pi-fw pi-id-card",
                     items: [
@@ -34,6 +55,27 @@ const AppMenu = () => {
                             label: "Request",
                             icon: "pi pi-fw pi-request",
                             to: route("cars/requests"),
+                        },
+                    ],
+                },
+                {
+                    label: "Tour Guide",
+                    icon: "pi pi-fw pi-id-card",
+                    items: [
+                        {
+                            label: "Tour Guide",
+                            icon: "pi pi-fw pi-car",
+                            to: route("tourGuide"),
+                        },
+                        {
+                            label: "Request",
+                            icon: "pi pi-fw pi-car",
+                            to: route("tourGuideRequest"),
+                        },
+                        {
+                            label: "Add TourGuide",
+                            icon: "pi pi-fw pi-car",
+                            to: route("addTourGuide"),
                         },
                     ],
                 },
