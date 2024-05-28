@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransportationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -61,38 +62,24 @@ Route::middleware('auth')->group(function () {
     Route::post('addTourGuide', [tourguideController::class, 'store'])->name('tourguide.store');
     // Tour Guide Request
     Route::get('tourGuideRequest', [tourguideRequestController::class, 'index'])->name('tourGuideRequest');
+    Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
+    Route::delete('car/requests/{id}', [TransportationController::class, 'destroy'])->name('transportation.destroy');
+    Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
+    Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
+    Route::get('/cars/requests', function () {
+        return Inertia::render('Transportation/CarRequests');
+    })->name('cars/requests');
 });
 
 
 Route::get('/uikit/button', function () {
     return Inertia::render('main/uikit/button/page');
 })->name('button');
-Route::get('/transportation', function () {
-    return Inertia::render('Transportation');
-})->name('transportation');
 
-
-
-// Route::get('/hotelList', function () {
-//     return Inertia::render('Hotel/HotelList');
-// })->name('hotelList');
-// Route::get('/hotelRequest', function () {
-//     return Inertia::render('Hotel/HotelRequest');
-// })->name('hotelRequest');
-
-// Route::get('hotelList/view', function () {
-//     return Inertia::render('Hotel/HotelView');
-// })->name('hotelView');
-// Route::get('hotelRequest/view', function () {
-//     return Inertia::render('Hotel/HotelRequestView');
-// })->name('hotelRequestView');
 Route::get('addHotel', function () {
     return Inertia::render('Hotel/AddHotel');
 })->name('addHotel');
 
-// Route::get('tourGuide', function () {
-//     return Inertia::render('TourGuide/TourGuideList');
-// })->name('tourGuide');
 Route::get('tourGuideRequest', function () {
     return Inertia::render('TourGuide/TourGuideRequest');
 })->name('tourGuideRequest');
