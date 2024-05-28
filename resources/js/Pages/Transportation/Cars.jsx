@@ -71,7 +71,11 @@ const Cars = () => {
               <td className="px-6 py-4">{data.email}</td>
               <td className="px-6 py-4">{data.father_name}</td>
               <td className="px-6 py-4">{data.tazkira_no}</td>
-              <td className="px-6 py-4">{data.passport}</td>
+              <td className="px-6 py-4">
+                {/* <img src={`/images/logo/-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="100.22px" height={'35px'} alt="logo" /> */}
+                {console.log(data.passport)}
+                <img src={`{data.passport}`} alt="" />
+              </td>
               <td className="px-6 py-4">{data.image}</td>
               <td className="px-6 py-4">{data.location}</td>
               <td className="px-6 py-4">{data.entity_type}</td>
