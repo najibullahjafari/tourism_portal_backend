@@ -59,9 +59,12 @@ Route::middleware('auth')->group(function () {
     Route::get('tourGuide', [tourguideController::class, 'index'])->name('tourGuide');
     Route::delete('/tourguide/{id}', [tourguideController::class, 'destroy'])->name('tourguide.destroy');
     Route::get('addTourGuide', [tourguideController::class, 'create'])->name('addTourGuide');
-    Route::post('addTourGuide', [tourguideController::class, 'store'])->name('tourguide.store');
+    Route::post('addTourGuide', [tourguideController::class, 'store'])->name('addTourGuide');
     // Tour Guide Request
     Route::get('tourGuideRequest', [tourguideRequestController::class, 'index'])->name('tourGuideRequest');
+    Route::delete('tourguideRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");
+    Route::post("/tourguideRequest/{id}", [tourguideRequestController::class, "update"])->name("tourguideRequest.update");
+    // Transportation
     Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
     Route::delete('car/requests/{id}', [TransportationController::class, 'destroy'])->name('transportation.destroy');
     Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
@@ -80,12 +83,8 @@ Route::get('addHotel', function () {
     return Inertia::render('Hotel/AddHotel');
 })->name('addHotel');
 
-Route::get('tourGuideRequest', function () {
-    return Inertia::render('TourGuide/TourGuideRequest');
-})->name('tourGuideRequest');
-Route::get('addTourGuide', function () {
-    return Inertia::render('TourGuide/AddTourGuide');
-})->name('addTourGuide');
+
+
 Route::get('tourGuideList/view', function () {
     return Inertia::render('TourGuide/TourGuideView');
 })->name('tourGuideListView');

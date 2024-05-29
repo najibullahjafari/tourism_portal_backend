@@ -23,7 +23,7 @@ const AddHotel = (props) => {
     return (
         <Layout>
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
-                <h3 class="max-w-md mx-auto mt-5">Add New Hotel</h3>
+                <h3 class="max-w-md mx-auto mt-5">ADD NEW HOTEL</h3>
                 <form class="max-w-md mx-auto" onSubmit={handleSubmit}>
                     <div class="relative z-0 w-full mb-5 group">
                         <input
