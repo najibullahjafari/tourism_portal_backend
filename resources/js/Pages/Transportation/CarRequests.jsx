@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Head, useForm } from "@inertiajs/react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import Layout from "@/Layouts/layout/layout.jsx";
 import InputError from "@/Components/InputError";
+import { InputTextarea } from "primereact/inputtextarea";
+import { FloatLabel } from "primereact/floatlabel";
 
 export default function Transportation() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -20,6 +22,9 @@ export default function Transportation() {
         location: "",
     });
 
+    const [passportImage, setPassportImage] = useState(null);
+    const [image, setImage] = useState(null);
+
     useEffect(() => {
         return () => {
             reset("password", "password_confirmation");
@@ -29,25 +34,37 @@ export default function Transportation() {
     const submit = (e) => {
         e.preventDefault();
         post(route("transportation.requests"));
+        reset(data);
     };
 
-    const handleFileUpload = (e) => {
-        const file = e.target.files[0];
+    // const handleFileUpload = (e) => {
+    //     const file = e.target.files[0];
+    //     setData("passport", file);
+    // };
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
         setData("passport", file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPassportImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (
         <Layout>
             <Head title="Transportation" />
             <div className="flex items-center justify-center flex-col">
-                <div className="bg-white p-6 sm:p-4 shadow-md rounded-lg w-full max-w-3xl">
+                <div className="bg-white p-6 sm:p-4 shadow-md rounded-lg w-full ">
                     <div className="text-center mb-5">
                         <div className="text-3xl font-medium mb-3">
                             Register a car services
                         </div>
                     </div>
                     <form onSubmit={submit}>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 ">
                             <div className="mb-3">
                                 <label
                                     htmlFor="name"
@@ -67,25 +84,7 @@ export default function Transportation() {
                                 />
                                 <InputError message={errors.name} />
                             </div>
-                            <div className="mb-3">
-                                <label
-                                    htmlFor="father_name"
-                                    className="block text-gray-700 font-medium mb-2"
-                                >
-                                    Father Name
-                                </label>
-                                <InputText
-                                    id="father_name"
-                                    type="text"
-                                    placeholder="Father Name"
-                                    className="w-full"
-                                    value={data.father_name}
-                                    onChange={(e) =>
-                                        setData("father_name", e.target.value)
-                                    }
-                                />
-                                <InputError message={errors.father_name} />
-                            </div>
+
                             <div className="mb-3">
                                 <label
                                     htmlFor="location"
@@ -105,12 +104,26 @@ export default function Transportation() {
                                 />
                                 <InputError message={errors.location} />
                             </div>
+
+                            {/* the text area for discription */}
+                            <FloatLabel>
+                                <InputTextarea
+                                    id="description"
+                                    value={data.description}
+                                    onChange={(e) =>
+                                        setData("description", e.target.value)
+                                    }
+                                    rows={5}
+                                    cols={30}
+                                />
+                                <label htmlFor="description">Description</label>
+                            </FloatLabel>
                             <div className="mb-3">
                                 <label
                                     htmlFor="tazkira_no"
                                     className="block text-gray-700 font-medium mb-2"
                                 >
-                                    Tazkira Number
+                                    Driver Tazkira Number
                                 </label>
                                 <InputText
                                     id="tazkira_no"
@@ -126,20 +139,53 @@ export default function Transportation() {
                             </div>
                             <div className="mb-3">
                                 <label
+                                    htmlFor="phone_number"
+                                    className="block text-gray-700 font-medium mb-2"
+                                >
+                                    Phone Number
+                                </label>
+                                <InputText
+                                    id="phone"
+                                    type="text"
+                                    placeholder="Phone Number"
+                                    className="w-full"
+                                    value={data.phone}
+                                    onChange={(e) =>
+                                        setData("phone", e.target.value)
+                                    }
+                                />
+                                <InputError message={errors.phone} />
+                            </div>
+                            <div className="mb-3">
+                                <label
                                     htmlFor="passport"
                                     className="block text-gray-700 font-medium mb-2"
                                 >
-                                    Passport Image
+                                    Licience Image
                                 </label>
-                                <InputText
+                                <input
                                     type="file"
                                     id="passport"
-                                    className="w-full"
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     name="passport"
                                     onChange={handleFileUpload}
                                 />
-                                <InputError message={errors.passport} />
+                                {errors.passport && (
+                                    <p className="text-red-600 text-sm mt-1">
+                                        {errors.passport}
+                                    </p>
+                                )}
+                                {passportImage && (
+                                    <div className="mt-3">
+                                        <img
+                                            src={passportImage}
+                                            alt="Passport Preview"
+                                            className="max-w-full h-auto rounded-md border border-gray-300 shadow-sm"
+                                        />
+                                    </div>
+                                )}
                             </div>
+
                             <div className="mb-3">
                                 <label
                                     htmlFor="image"
@@ -157,70 +203,24 @@ export default function Transportation() {
                                     }
                                 />
                                 <InputError message={errors.image} />
+                                {image && (
+                                    <div className="mt-3">
+                                        <img
+                                            src={image}
+                                            alt="Passport Preview"
+                                            className="max-w-full h-auto rounded-md border border-gray-300 shadow-sm"
+                                        />
+                                    </div>
+                                )}
                             </div>
-                            <div className="mb-3">
-                                <label
-                                    htmlFor="email"
-                                    className="block text-gray-700 font-medium mb-2"
-                                >
-                                    Email
-                                </label>
-                                <InputText
-                                    id="email"
-                                    type="text"
-                                    placeholder="Email"
-                                    className="w-full"
-                                    value={data.email}
-                                    onChange={(e) =>
-                                        setData("email", e.target.value)
-                                    }
-                                />
-                                <InputError message={errors.email} />
-                            </div>
-                            <div className="mb-3">
-                                <label
-                                    htmlFor="password"
-                                    className="block text-gray-700 font-medium mb-2"
-                                >
-                                    Password
-                                </label>
-                                <InputText
-                                    id="password"
-                                    type="password"
-                                    placeholder="Password"
-                                    className="w-full"
-                                    value={data.password}
-                                    onChange={(e) =>
-                                        setData("password", e.target.value)
-                                    }
-                                />
-                                <InputError message={errors.password} />
-                            </div>
-                            <div className="mb-3">
-                                <label
-                                    htmlFor="password_confirmation"
-                                    className="block text-gray-700 font-medium mb-2"
-                                >
-                                    Confirm Password
-                                </label>
-                                <InputText
-                                    id="password_confirmation"
-                                    type="password"
-                                    placeholder="Confirm Password"
-                                    className="w-full"
-                                    value={data.password_confirmation}
-                                    onChange={(e) =>
-                                        setData(
-                                            "password_confirmation",
-                                            e.target.value
-                                        )
-                                    }
-                                />
-                                <InputError
-                                    message={errors.password_confirmation}
-                                />
-                            </div>
-                            <div className="col-span-3 text-right">
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                            >
                                 <Button
                                     label="Submit"
                                     className="p-button"
