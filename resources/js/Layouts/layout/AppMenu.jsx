@@ -31,9 +31,9 @@ const AppMenu = () => {
                             to: route("cars"),
                         },
                         {
-                            label: "Request",
-                            icon: "pi pi-fw pi-request",
-                            to: route("cars/requests"),
+                            label: "Requests",
+                            icon: "pi pi-fw pi-id-card",
+                            to: route("cars.requested.cars"),
                         },
                     ],
                 },
