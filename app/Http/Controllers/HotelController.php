@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
+use App\Models\foot_category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
@@ -43,17 +44,33 @@ class HotelController extends Controller
             'status' => 'string',
 
         ]);
-
-
+        if ($request->hasFile('photoAddress')) {
+            try {
+              $file = $request->file('photoAddress');
+              $destinationPath = public_path('storage/photoAddress');
+              $fileName = time() . '.' . $file->getClientOriginalExtension();
+              $file->move($destinationPath, $fileName);
+              if (!file_exists($destinationPath . '/' . $fileName)) {
+                return Redirect::back()->with('error', 'Failed to save passport. Please try again.');
+              }
+              $photoAddressPath = 'storage/photoAddress/' . $fileName;
+            } catch (\Exception $e) {
+              return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+            }
+          } else {
+            return Redirect::back()->with('error', 'No passport file found in the request.');
+          }
+    
+     
         $hotel = new Hotel();
         $hotel->name = $request->name;
         $hotel->address = $request->address;
         $hotel->province = $request->province;
-        $hotel->photoAddress = $request->photoAddress;
+        $hotel->photoAddress = $photoAddressPath;
         $hotel->status = $request->status;
         $hotel->save();
 
-        return redirect::back()->with('message', 'Car request has been sent successfully');
+        return redirect::back()->with('message', 'Hotel request has been sent successfully');
 
     }
 
@@ -98,5 +115,17 @@ class HotelController extends Controller
         $hotel = Hotel::find($id);
         $hotel->delete();
         return redirect()->route('hotelList');
+    }
+    public function createFootCategory()
+    {
+        return Inertia::render('Hotel/AddFootCategory');
+    }
+    public function storeFootCategory(Request $request)
+    {
+        $cat_food = new foot_category();
+        $cat_food->name = $request->name;
+        $cat_food->description = $request->description;
+        $cat_food->save();
+        return Inertia::render('Hotel/AddFootCategory');
     }
 }

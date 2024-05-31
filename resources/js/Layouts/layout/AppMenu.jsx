@@ -40,6 +40,11 @@ const AppMenu = () => {
                             icon: "pi pi-fw pi-home",
                             to: route("addHotel"),
                         },
+                        {
+                            label: "Categoy Foot",
+                            icon: "pi pi-fw pi-home",
+                            to: route("addFootCategory"),
+                        },
                     ],
                 },
                 {

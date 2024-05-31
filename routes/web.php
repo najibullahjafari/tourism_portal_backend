@@ -48,9 +48,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
     Route::get('hotelListView/{id}', [HotelController::class, 'show'])->name('hotelView');
     Route::post('hotelList/view/{id}', [HotelController::class, 'update'])->name('hotel.update');
-    Route::get('addHotel', [HotelController::class, 'create'])->name('hotel.create');
+    Route::get('addHotel', [HotelController::class, 'create'])->name('addHotel');
     Route::post('addHotel', [HotelController::class, 'store'])->name('hotel.store');
     Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
+
+    // Foot Rout footCategory.store
+    Route::get('/addFootCategory', [HotelController::class, 'createFootCategory'])->name('addFootCategory');
+    Route::post('/addFootCategory', [HotelController::class, 'storeFootCategory'])->name('footCategory.store');
+
     // Hotel Request
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
     Route::delete('/hotelRequest/{id}', [HotelRequestController::class, 'destroy'])->name('hotelRequest.destroy');
