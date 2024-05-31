@@ -18,6 +18,10 @@ class HotelController extends Controller
     public function index()
     {
         $data = Hotel::where('status', 'active')->get();
+        foreach ($data as $item) {
+            $item->passport = asset($item->passport);
+            $item->image = asset($item->image);
+        }
         return Inertia::render('Hotel/HotelList', [
             'data' => $data,
         ]);
@@ -40,28 +44,28 @@ class HotelController extends Controller
             'name' => 'required|string',
             'address' => 'required|string',
             'province' => 'required|string',
-            'photoAddress' => 'required|string',
+            'photoAddress' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'string',
 
         ]);
+        $photoAddressPath = null;
         if ($request->hasFile('photoAddress')) {
             try {
-              $file = $request->file('photoAddress');
-              $destinationPath = public_path('storage/photoAddress');
-              $fileName = time() . '.' . $file->getClientOriginalExtension();
-              $file->move($destinationPath, $fileName);
-              if (!file_exists($destinationPath . '/' . $fileName)) {
-                return Redirect::back()->with('error', 'Failed to save passport. Please try again.');
-              }
-              $photoAddressPath = 'storage/photoAddress/' . $fileName;
+                $file = $request->file('photoAddress');
+                $destinationPath = public_path('storage/photoAddress');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileName);
+                if (!file_exists($destinationPath . '/' . $fileName)) {
+                    return Redirect::back()->with('error', 'Failed to save passport. Please try again.');
+                }
+                $photoAddressPath = 'storage/photoAddress/' . $fileName;
             } catch (\Exception $e) {
-              return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+                return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
             }
-          } else {
+        } else {
             return Redirect::back()->with('error', 'No passport file found in the request.');
-          }
-    
-     
+        }
+
         $hotel = new Hotel();
         $hotel->name = $request->name;
         $hotel->address = $request->address;
@@ -116,6 +120,20 @@ class HotelController extends Controller
         $hotel->delete();
         return redirect()->route('hotelList');
     }
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+// Food Parts
+
+    public function indexFootCategory()
+    {
+        $data = foot_category::all();
+
+        return Inertia::render('Hotel/FoodCategories', [
+            'data' => $data,
+        ]);
+    }
     public function createFootCategory()
     {
         return Inertia::render('Hotel/AddFootCategory');
@@ -127,5 +145,11 @@ class HotelController extends Controller
         $cat_food->description = $request->description;
         $cat_food->save();
         return Inertia::render('Hotel/AddFootCategory');
+    }
+    public function deleteFoodCategory($id)
+    {
+        $cat_food = foot_category::find($id);
+        $cat_food->delete();
+        return redirect()->route('foodCategories');
     }
 }
