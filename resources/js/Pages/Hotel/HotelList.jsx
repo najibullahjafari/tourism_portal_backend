@@ -28,7 +28,7 @@ const HotelList = () => {
                                 Province
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Status
+                                Image
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Entity Type
@@ -48,7 +48,14 @@ const HotelList = () => {
                                 <td class="px-6 py-4">{item.name}</td>
                                 <td class="px-6 py-4">{item.address}</td>
                                 <td class="px-6 py-4">{item.province}</td>
-                                <td class="px-6 py-4">{item.status}</td>
+                                <td class="px-6 py-4">
+                                    {" "}
+                                    <img
+                                        src={item.photoAddress}
+                                        alt="Image"
+                                        class="w-20 object-cover rounded"
+                                    />
+                                </td>
                                 <td class="px-6 py-4">
                                     <Link
                                         href={`hotelListView/${item.id}`}

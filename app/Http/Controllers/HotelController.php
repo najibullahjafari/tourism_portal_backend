@@ -150,6 +150,14 @@ class HotelController extends Controller
     {
         $cat_food = foot_category::find($id);
         $cat_food->delete();
-        return redirect()->route('foodCategories');
+        return redirect()->route('footCategories');
+
+    }
+
+
+    // Food Parts
+    public function createAddFood($id)
+    {
+        return Inertia::render('Hotel/AddFood', ['HotelID' => $id]);
     }
 }

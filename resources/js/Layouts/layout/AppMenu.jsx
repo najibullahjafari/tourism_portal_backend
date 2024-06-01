@@ -41,9 +41,14 @@ const AppMenu = () => {
                             to: route("addHotel"),
                         },
                         {
-                            label: "Categoy Foot",
+                            label: "Add Categoy Foot",
                             icon: "pi pi-fw pi-home",
                             to: route("addFootCategory"),
+                        },
+                        {
+                            label: "Categoy Foot",
+                            icon: "pi pi-fw pi-home",
+                            to: route("footCategories"),
                         },
                     ],
                 },

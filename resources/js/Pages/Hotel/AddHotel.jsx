@@ -23,16 +23,6 @@ const AddHotel = (props) => {
         };
     }, []);
 
-    // const submit = (e) => {
-    //     e.preventDefault();
-    //     post(route("transportation.requests"));
-    //     reset(data);
-    // };
-
-    // const handleFileUpload = (e) => {
-    //     const file = e.target.files[0];
-    //     setData("passport", file);
-    // };
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         setData("photoAddress", file);

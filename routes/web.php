@@ -52,9 +52,14 @@ Route::middleware('auth')->group(function () {
     Route::post('addHotel', [HotelController::class, 'store'])->name('hotel.store');
     Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
 
-    // Foot Rout footCategory.store
+    // Food Category Rout 
     Route::get('/addFootCategory', [HotelController::class, 'createFootCategory'])->name('addFootCategory');
     Route::post('/addFootCategory', [HotelController::class, 'storeFootCategory'])->name('footCategory.store');
+    Route::get('/footCategory', [HotelController::class, 'indexFootCategory'])->name('footCategories');
+    Route::delete('/foodCategory/{id}', [HotelController::class, 'deleteFoodCategory'])->name('foodCategory.delete');
+
+    //Food Route
+Route::get('/addFood/{id}',[HotelController::class,'createAddFood'])->name('addFood.create');
 
     // Hotel Request
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
