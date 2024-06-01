@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/car/last-transportation-id', [TransportationController::class, 'lastTransportationId']);
     Route::post('car/rejected/{id}', [TransportationController::class, 'rejectCar']);
     Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
+    Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
     Route::get('cars/requested/cars', [TransportationController::class, 'showrequests'])->name('cars.requested.cars');
     Route::get('/cars/requests', function () {
         return Inertia::render('Transportation/CarRequests');

@@ -68,7 +68,7 @@ const requestedCars = () => {
                 <Toast ref={toast} />
                 <ConfirmDialog />
                 <div className="flex justify-content-between items-center m-3">
-                    <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+                    <h1 className="text-xl w-full font-bold text-gray-800 dark:text-gray-100">
                         The Requested Transportation services (Cars)
                     </h1>
                 </div>
@@ -160,9 +160,7 @@ const requestedCars = () => {
                         >
                             <div className="flex flex-column px-8 py-5 gap-4">
                                 <h2>Name: {selectedCar.name}</h2>
-                                <p>Father Name: {selectedCar.father_name}</p>
-                                <p>Email: {selectedCar.email}</p>
-                                <p>Phone: {selectedCar.phone}</p>
+                                <p>Driver Phone: {selectedCar.phone}</p>
                                 <p>Address: {selectedCar.location}</p>
                                 <div>
                                     <p>Car:</p>
