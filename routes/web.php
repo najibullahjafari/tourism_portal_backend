@@ -41,9 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // transportation part
-    Route::get('/cars', function () {
-        return Inertia::render('Transportation/Cars');
-    })->name('cars');
+    // Route::get('/cars', function () {
+    //     return Inertia::render('Transportation/Cars');
+    // })->name('cars');
     // Hotel Rout
     Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
     Route::get('hotelListView/{id}', [HotelController::class, 'show'])->name('hotelView');
@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/foodCategory/{id}', [HotelController::class, 'deleteFoodCategory'])->name('foodCategory.delete');
 
     //Food Route
-Route::get('/addFood/{id}',[HotelController::class,'createAddFood'])->name('addFood.create');
+    Route::get('/addFood/{id}', [HotelController::class, 'createAddFood'])->name('addFood.create');
 
     // Hotel Request
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
@@ -75,13 +75,15 @@ Route::get('/addFood/{id}',[HotelController::class,'createAddFood'])->name('addF
     Route::delete('tourguideRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");
     Route::post("/tourguideRequest/{id}", [tourguideRequestController::class, "update"])->name("tourguideRequest.update");
     // Transportation
+    Route::get('/cars', function () {
+        return Inertia::render('Transportation/cars');
+    })->name('cars');
     Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
     Route::delete('car/requests/{id}', [TransportationController::class, 'destroy'])->name('transportation.destroy');
     Route::post('car/requests/', [TransportationController::class, 'store'])->name('transportation.requests');
     Route::post('car/accepted/{id}', [TransportationController::class, 'acceptCar']);
     Route::get('/car/last-transportation-id', [TransportationController::class, 'lastTransportationId']);
     Route::post('car/rejected/{id}', [TransportationController::class, 'rejectCar']);
-    Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
     Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
     Route::get('cars/requested/cars', [TransportationController::class, 'showrequests'])->name('cars.requested.cars');
     Route::get('/cars/requests', function () {
