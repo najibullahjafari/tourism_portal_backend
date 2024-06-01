@@ -50,7 +50,7 @@ export default function Login({ status, canResetPassword }) {
                     width={500}
                     className="mb-3"
                 />
-                <div className="surface-card p-6 sm:p-4 shadow-2 border-round w-full lg:w-4">
+                <div className="surface-card p-6 sm:p-4 shadow-2 border-round w-full ">
                     <div className="text-center mb-5">
                         <div className="text-900 text-3xl font-medium mb-3">
                             Welcome Back

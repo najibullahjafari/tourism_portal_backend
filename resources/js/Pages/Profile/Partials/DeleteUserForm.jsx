@@ -20,6 +20,7 @@ export default function DeleteUserForm({ className = "" }) {
         errors,
     } = useForm({
         password: "",
+        id: "",
     });
 
     const confirmUserDeletion = () => {
