@@ -1,16 +1,17 @@
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { Chart } from "primereact/chart";
 import { Menu } from "primereact/menu";
-import React, { useContext, useEffect, useRef, useState } from "react";
 import { LayoutContext } from "@/Layouts/layout/context/layoutcontext";
 import Layout from "@/Layouts/layout/layout.jsx";
 import DashboardInfoCard from "@/Components/DashboardInfoCard.jsx";
+import { router } from "@inertiajs/react";
 
 const lineData = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
         {
-            label: "First Dataset",
+            label: "Internal Tourists",
             data: [65, 59, 80, 81, 56, 55, 40],
             fill: false,
             backgroundColor: "#2f4860",
@@ -18,7 +19,7 @@ const lineData = {
             tension: 0.4,
         },
         {
-            label: "Second Dataset",
+            label: "External Tourists",
             data: [28, 48, 40, 19, 86, 27, 90],
             fill: false,
             backgroundColor: "#00bb7e",
@@ -34,6 +35,7 @@ const Dashboard = () => {
     const menu2 = useRef(null);
     const [lineOptions, setLineOptions] = useState({});
     const { layoutConfig } = useContext(LayoutContext);
+    const [lastTransportationId, setLastTransportationId] = useState(null);
 
     const applyLightTheme = () => {
         const lineOptions = {
@@ -99,6 +101,10 @@ const Dashboard = () => {
         setLineOptions(lineOptions);
     };
 
+    const getLastTransportationId = () => {
+        router.get("/car/last-transportation-id");
+    };
+
     useEffect(() => {
         if (layoutConfig.colorScheme === "light") {
             applyLightTheme();
@@ -111,23 +117,23 @@ const Dashboard = () => {
         <Layout>
             <div className="grid">
                 <DashboardInfoCard
-                    title="Orders"
-                    value="152"
+                    title="Requested Cars"
+                    value="25"
                     icon="map-marker"
                     iconColor="blue"
                     descriptionValue="24 new"
-                    descriptionText="since last visit"
+                    descriptionText="since established"
                 ></DashboardInfoCard>
                 <DashboardInfoCard
                     title="Revenue"
-                    value="GHS 2.100"
+                    value="AF 2.100"
                     icon="map-marker"
                     iconColor="orange"
                     descriptionValue="%52+"
                     descriptionText="since last week"
                 ></DashboardInfoCard>
                 <DashboardInfoCard
-                    title="Customers"
+                    title="Users"
                     value="28441"
                     descriptionValue="520"
                     icon="inbox"
@@ -145,7 +151,7 @@ const Dashboard = () => {
 
                 <div className="col-12 xl:col-6">
                     <div className="card">
-                        <h5>Sales Overview</h5>
+                        <h5>Overview</h5>
                         <Chart
                             type="line"
                             data={lineData}
@@ -157,7 +163,7 @@ const Dashboard = () => {
                 <div className="col-12 xl:col-6">
                     <div className="card">
                         <div className="flex justify-content-between align-items-center mb-5">
-                            <h5>Best Selling Products</h5>
+                            <h5>Most visited places</h5>
                             <div>
                                 <Button
                                     type="button"
@@ -189,10 +195,10 @@ const Dashboard = () => {
                             <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div>
                                     <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Space T-Shirt
+                                        Bamyan
                                     </span>
                                     <div className="mt-1 text-600">
-                                        Clothing
+                                        Band Amir
                                     </div>
                                 </div>
                                 <div className="mt-2 md:mt-0 flex align-items-center">
@@ -213,10 +219,10 @@ const Dashboard = () => {
                             <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div>
                                     <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Portal Sticker
+                                        Mazar Sharif
                                     </span>
                                     <div className="mt-1 text-600">
-                                        Accessories
+                                        Band Qush Tepa
                                     </div>
                                 </div>
                                 <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
@@ -237,10 +243,10 @@ const Dashboard = () => {
                             <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div>
                                     <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Supernova Sticker
+                                        Noristan
                                     </span>
                                     <div className="mt-1 text-600">
-                                        Accessories
+                                        Band Qala
                                     </div>
                                 </div>
                                 <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
@@ -261,9 +267,11 @@ const Dashboard = () => {
                             <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div>
                                     <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Wonders Notebook
+                                        Jalalabad
                                     </span>
-                                    <div className="mt-1 text-600">Office</div>
+                                    <div className="mt-1 text-600">
+                                        Dare Noor
+                                    </div>
                                 </div>
                                 <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                     <div

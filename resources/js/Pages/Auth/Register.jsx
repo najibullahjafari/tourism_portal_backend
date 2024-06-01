@@ -34,15 +34,15 @@ export default function Register() {
             <Head title="Register" />
 
             <div className="flex align-items-center justify-content-center flex-column">
-                <div className="container w-10 h-4">
-                    <img
-                        src="/images/logo/logo.png"
-                        alt="hyper"
-                        height={50}
-                        className="mb-3"
-                    />
-                </div>
-                <div className="surface-card p-6 sm:p-4 shadow-2 border-round w-full lg:w-4">
+                <img
+                    src="/images/logo/logo.png"
+                    alt="hyper"
+                    height={50}
+                    width={400}
+                    className="mb-3"
+                />
+
+                <div className="surface-card p-6 sm:p-4 shadow-2 border-round w-full ">
                     <div className="text-center mb-5">
                         <div className="text-900 text-3xl font-medium mb-3">
                             Register
