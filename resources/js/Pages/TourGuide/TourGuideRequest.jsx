@@ -1,10 +1,16 @@
 import Layout from "@/Layouts/layout/layout";
-import { router, usePage } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import React from "react";
-
+import { Button } from "primereact/button";
 const TourGuideRequest = (props) => {
     const { data } = usePage().props;
-    console.log(data, "rrrrrrrrrrrrrrrrrrrrrr");
+    const { delete: destroy } = useForm();
+    const handleReject = (id) => {
+        router.delete(`/tourguideRequest/${id}`);
+    };
+    const handleAccept = (id) => {
+        router.post(`/tourguideRequest/${id}`);
+    };
     return (
         <Layout>
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
@@ -38,6 +44,12 @@ const TourGuideRequest = (props) => {
                             <th scope="col" class="px-6 py-3">
                                 Phone
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                Accept
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Reject
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,25 +67,22 @@ const TourGuideRequest = (props) => {
                                 <td class="px-6 py-4">{item.location}</td>
                                 <td class="px-6 py-4">{item.bio}</td>
                                 <td class="px-6 py-4">{item.phone}</td>
-                                {/* <td class="px-6 py-4">
-                                <Link
-                                    href={route("item.show", {
-                                        id: item.id,
-                                    })}
-                                    as="a"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                >
-                                    View
-                                </Link>
-                            </td>
-                            <td class="px-6 py-4">
-                                <a
-                                    href="#"
-                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                >
-                                    Delete
-                                </a>
-                            </td> */}
+                                <td class="px-6 py-4">
+                                    <Button
+                                        onClick={() => handleAccept(item.id)}
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
+                                    >
+                                        Accept
+                                    </Button>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button
+                                        onClick={() => handleReject(item.id)}
+                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
+                                    >
+                                        Reject
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

@@ -74,9 +74,11 @@ const TourGuideList = () => {
                                 <td class="px-6 py-4">
                                     <button
                                         onClick={() => handleDelete(item.id)}
-                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
+                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
                                     >
-                                        Delete
+                                        <i className="pi pi-times px-2">
+                                            Delete
+                                        </i>
                                     </button>
                                 </td>
                             </tr>

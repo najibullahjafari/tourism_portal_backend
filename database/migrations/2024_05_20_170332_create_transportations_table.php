@@ -10,21 +10,22 @@ return new class extends Migration {
      */
     public function up(): void
     {
-
-        Schema::create('transportations', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('tazkira_no')->nullable();
-            $table->string('passport')->nullable();
-            $table->string('image')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('discription')->nullable();
-            $table->string('location')->nullable();
-            $table->enum('status', ['accepted', 'rejected', 'pending'])->default('pending');
-            // $table->enum('type', ['Taxi', 'Van', 'Land cruiser', 'SUV', 'Limousine']);
-            $table->rememberToken();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('users')) {
+            Schema::create('transportations', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('father_name')->nullable();
+                $table->string('tazkira_no')->nullable();
+                $table->string('passport')->nullable();
+                $table->string('image')->nullable();
+                $table->string('phone')->nullable();
+                $table->string('discription')->nullable();
+                $table->string('location')->nullable();
+                $table->string('email')->unique();
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

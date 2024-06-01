@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
+use App\Models\foot_category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
@@ -17,6 +18,10 @@ class HotelController extends Controller
     public function index()
     {
         $data = Hotel::where('status', 'active')->get();
+        foreach ($data as $item) {
+            $item->passport = asset($item->passport);
+            $item->image = asset($item->image);
+        }
         return Inertia::render('Hotel/HotelList', [
             'data' => $data,
         ]);
@@ -39,21 +44,37 @@ class HotelController extends Controller
             'name' => 'required|string',
             'address' => 'required|string',
             'province' => 'required|string',
-            'photoAddress' => 'required|string',
+            'photoAddress' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'string',
 
         ]);
-
+        $photoAddressPath = null;
+        if ($request->hasFile('photoAddress')) {
+            try {
+                $file = $request->file('photoAddress');
+                $destinationPath = public_path('storage/photoAddress');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileName);
+                if (!file_exists($destinationPath . '/' . $fileName)) {
+                    return Redirect::back()->with('error', 'Failed to save passport. Please try again.');
+                }
+                $photoAddressPath = 'storage/photoAddress/' . $fileName;
+            } catch (\Exception $e) {
+                return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+            }
+        } else {
+            return Redirect::back()->with('error', 'No passport file found in the request.');
+        }
 
         $hotel = new Hotel();
         $hotel->name = $request->name;
         $hotel->address = $request->address;
         $hotel->province = $request->province;
-        $hotel->photoAddress = $request->photoAddress;
+        $hotel->photoAddress = $photoAddressPath;
         $hotel->status = $request->status;
         $hotel->save();
 
-        return redirect::back()->with('message', 'Car request has been sent successfully');
+        return redirect::back()->with('message', 'Hotel request has been sent successfully');
 
     }
 
@@ -98,5 +119,45 @@ class HotelController extends Controller
         $hotel = Hotel::find($id);
         $hotel->delete();
         return redirect()->route('hotelList');
+    }
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+// Food Parts
+
+    public function indexFootCategory()
+    {
+        $data = foot_category::all();
+
+        return Inertia::render('Hotel/FoodCategories', [
+            'data' => $data,
+        ]);
+    }
+    public function createFootCategory()
+    {
+        return Inertia::render('Hotel/AddFootCategory');
+    }
+    public function storeFootCategory(Request $request)
+    {
+        $cat_food = new foot_category();
+        $cat_food->name = $request->name;
+        $cat_food->description = $request->description;
+        $cat_food->save();
+        return Inertia::render('Hotel/AddFootCategory');
+    }
+    public function deleteFoodCategory($id)
+    {
+        $cat_food = foot_category::find($id);
+        $cat_food->delete();
+        return redirect()->route('footCategories');
+
+    }
+
+
+    // Food Parts
+    public function createAddFood($id)
+    {
+        return Inertia::render('Hotel/AddFood', ['HotelID' => $id]);
     }
 }

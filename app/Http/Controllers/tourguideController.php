@@ -24,7 +24,7 @@ class tourguideController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('TourGuide/AddTourGuide');
     }
 
     /**
@@ -36,7 +36,7 @@ class tourguideController extends Controller
         $tourguide->name = $request->name;
         $tourguide->father_name = $request->father_name;
         $tourguide->image = $request->image;
-        $tourguide->password = $request->pasword;
+        $tourguide->passpord = $request->passpord;
         $tourguide->id_card = $request->id_card;
         $tourguide->location = $request->location;
         $tourguide->bio = $request->bio;
