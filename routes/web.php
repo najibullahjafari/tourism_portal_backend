@@ -41,9 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // transportation part
-    // Route::get('/cars', function () {
-    //     return Inertia::render('Transportation/Cars');
-    // })->name('cars');
+    Route::get('/cars', function () {
+        return Inertia::render('Transportation/Cars');
+    })->name('cars');
     // Hotel Rout
     Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
     Route::get('hotelListView/{id}', [HotelController::class, 'show'])->name('hotelView');

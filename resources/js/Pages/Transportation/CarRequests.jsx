@@ -10,11 +10,7 @@ import { FloatLabel } from "primereact/floatlabel";
 export default function Transportation() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
         father_name: "",
-        tazkira_no: "",
         passport: "",
         phone: "",
         description: "",
