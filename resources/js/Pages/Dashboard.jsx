@@ -1,7 +1,7 @@
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { Chart } from "primereact/chart";
 import { Menu } from "primereact/menu";
-import React, { useContext, useEffect, useRef, useState } from "react";
 import { LayoutContext } from "@/Layouts/layout/context/layoutcontext";
 import Layout from "@/Layouts/layout/layout.jsx";
 import DashboardInfoCard from "@/Components/DashboardInfoCard.jsx";
@@ -11,7 +11,7 @@ const lineData = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
         {
-            label: "Interanl Tourists",
+            label: "Internal Tourists",
             data: [65, 59, 80, 81, 56, 55, 40],
             fill: false,
             backgroundColor: "#2f4860",
@@ -151,7 +151,7 @@ const Dashboard = () => {
 
                 <div className="col-12 xl:col-6">
                     <div className="card">
-                        <h5> Overview</h5>
+                        <h5>Overview</h5>
                         <Chart
                             type="line"
                             data={lineData}
@@ -246,7 +246,6 @@ const Dashboard = () => {
                                         Noristan
                                     </span>
                                     <div className="mt-1 text-600">
-                                        {/* name of a nice place of Nooristan province of aghanistan */}
                                         Band Qala
                                     </div>
                                 </div>

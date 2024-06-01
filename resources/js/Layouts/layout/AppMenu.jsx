@@ -17,6 +17,27 @@ const AppMenu = () => {
                     to: route("dashboard"),
                 },
                 {
+                    label: "Hotel",
+                    icon: "pi pi-fw pi-id-card",
+                    items: [
+                        {
+                            label: "Hotel List",
+                            icon: "pi pi-fw pi-car",
+                            to: route("hotelList"),
+                        },
+                        {
+                            label: "Hotel Request",
+                            icon: "pi pi-fw pi-car",
+                            to: route("hotelRequest"),
+                        },
+                        {
+                            label: "Add Hotel",
+                            icon: "pi pi-fw pi-car",
+                            to: route("addHotel"),
+                        },
+                    ],
+                },
+                {
                     label: "Transportation",
                     icon: "pi pi-fw pi-id-card",
                     items: [
@@ -33,6 +54,27 @@ const AppMenu = () => {
                     ],
                 },
                 {
+                    label: "Tour Guide",
+                    icon: "pi pi-fw pi-id-card",
+                    items: [
+                        {
+                            label: "Tour Guide",
+                            icon: "pi pi-fw pi-car",
+                            to: route("tourGuide"),
+                        },
+                        {
+                            label: "Request",
+                            icon: "pi pi-fw pi-car",
+                            to: route("tourGuideRequest"),
+                        },
+                        {
+                            label: "Add Tour Guide",
+                            icon: "pi pi-fw pi-car",
+                            to: route("addTourGuide"),
+                        },
+                    ],
+                },
+                {
                     label: "Settings",
                     icon: "pi pi-fw pi-cog",
                     to: route("dashboard"),
@@ -44,8 +86,8 @@ const AppMenu = () => {
     return (
         <MenuProvider>
             <ul className="layout-menu">
-                {model.map((item, i) => {
-                    return !item?.seperator ? (
+                {model.map((item, i) => (
+                    !item?.separator ? (
                         <AppMenuitem
                             item={item}
                             root={true}
@@ -53,9 +95,9 @@ const AppMenu = () => {
                             key={item.label}
                         />
                     ) : (
-                        <li className="menu-separator"></li>
-                    );
-                })}
+                        <li className="menu-separator" key={`separator-${i}`}></li>
+                    )
+                ))}
             </ul>
         </MenuProvider>
     );

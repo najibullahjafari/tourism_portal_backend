@@ -79,7 +79,6 @@ const AppTopbar = forwardRef((props, ref) => {
                 <a href="">
                     <AppConfig />
                 </a>
-                <span>app</span>
             </div>
         </div>
     );
