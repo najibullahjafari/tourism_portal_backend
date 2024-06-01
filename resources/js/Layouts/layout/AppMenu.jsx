@@ -17,11 +17,6 @@ const AppMenu = () => {
                     to: route("dashboard"),
                 },
                 {
-                    label: "Button",
-                    icon: "pi pi-fw pi-id-card",
-                    to: route("button"),
-                },
-                {
                     label: "Hotel",
                     icon: "pi pi-fw pi-id-card",
                     items: [
@@ -52,9 +47,9 @@ const AppMenu = () => {
                             to: route("cars"),
                         },
                         {
-                            label: "Request",
-                            icon: "pi pi-fw pi-request",
-                            to: route("cars/requests"),
+                            label: "Requests",
+                            icon: "pi pi-fw pi-id-card",
+                            to: route("cars.requested.cars"),
                         },
                     ],
                 },
@@ -73,11 +68,16 @@ const AppMenu = () => {
                             to: route("tourGuideRequest"),
                         },
                         {
-                            label: "Add TourGuide",
-                            icon: "pi pi-fw pi-user-plus",
+                            label: "Add Tour Guide",
+                            icon: "pi pi-fw pi-car",
                             to: route("addTourGuide"),
                         },
                     ],
+                },
+                {
+                    label: "Settings",
+                    icon: "pi pi-fw pi-cog",
+                    to: route("dashboard"),
                 },
             ],
         },
@@ -86,8 +86,8 @@ const AppMenu = () => {
     return (
         <MenuProvider>
             <ul className="layout-menu">
-                {model.map((item, i) => {
-                    return !item?.seperator ? (
+                {model.map((item, i) => (
+                    !item?.separator ? (
                         <AppMenuitem
                             item={item}
                             root={true}
@@ -95,9 +95,9 @@ const AppMenu = () => {
                             key={item.label}
                         />
                     ) : (
-                        <li className="menu-separator"></li>
-                    );
-                })}
+                        <li className="menu-separator" key={`separator-${i}`}></li>
+                    )
+                ))}
             </ul>
         </MenuProvider>
     );

@@ -21,17 +21,23 @@ class TransportationController extends Controller
   // the index function 
   public function index()
   {
-    $cars = Transportation::all();
-    return Inertia::render('Transportation/TransportationList', ['data' => $cars]);
+    // if the status is pending then do not show it
+    $cars = Transportation::where('status', 'accepted')->get();
+    foreach ($cars as $car) {
+      $car->passport = asset($car->passport);
+      $car->image = asset($car->image);
+    }
+
+    return Inertia::render('Transportation/cars', ['data' => $cars]);
   }
   public function store(Request $request)
   {
     // Validate the incoming request
     $request->validate([
       'name' => 'required|string|max:255',
-      'email' => 'required|email|max:255|unique:transportations',
       'location' => 'required|string|max:255',
       'passport' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+      'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
     $passportPath = null;
@@ -75,11 +81,12 @@ class TransportationController extends Controller
     // Store other fields and the file path in the database
     $transportation = new Transportation();
     $transportation->name = $request->name;
-    $transportation->email = $request->email;
+    $transportation->tazkira_no = $request->tazkira_no;
     $transportation->phone = $request->phone;
     $transportation->location = $request->location;
     $transportation->passport = $passportPath;
     $transportation->image = $imagePath;
+    $transportation->discription = $request->discription;
     $transportation->save();
 
     // here to redirect to cars list
@@ -112,5 +119,36 @@ class TransportationController extends Controller
 
     $car->delete();
     return Redirect::to('/cars')->with('message', 'Car deleted successfully.');
+  }
+
+  public function showrequests()
+  {
+    $cars = Transportation::where('status', '=', 'pending')->get();
+    foreach ($cars as $car) {
+      $car->passport = asset($car->passport);
+      $car->image = asset($car->image);
+    }
+    return Inertia::render('Transportation/RequestedCars', ['data' => $cars]);
+  }
+
+  public function acceptCar($id)
+  {
+    $car = Transportation::find($id);
+    $car->status = 'accepted';
+    $car->save();
+    return Redirect::to('/cars/requested/cars')->with('message', 'Car accepted successfully.');
+  }
+  public function rejectCar($id)
+  {
+    $car = Transportation::find($id);
+    $car->status = 'rejected';
+    $car->save();
+    return Redirect::to('/cars/requested/cars')->with('message', 'Car rejected successfully.');
+  }
+
+  public function lastTransportationId()
+  {
+    $car = Transportation::latest()->first();
+    return $car->id;
   }
 }

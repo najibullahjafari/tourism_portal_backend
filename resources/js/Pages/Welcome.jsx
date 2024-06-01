@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { PrimeReactProvider } from "primereact/api";
 import { Button } from "primereact/button";
 import React, { useContext } from "react";
+
 const ImgStyled = styled.img`
     clip-path: polygon(8% 0, 100% 0%, 100% 100%, 0 100%);
     transform: scale(1.1);
@@ -14,15 +15,15 @@ const ImgStyled = styled.img`
     transition-duration: 0.5s;
 `;
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Welcome({ auth }) {
     const { layoutConfig } = useContext(LayoutContext);
     return (
         <>
             <PrimeReactProvider>
                 <LayoutProvider>
                     <Head title="Welcome" />
-                    <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-                        <div className="sm:fixed sm:top-0 sm:left-0 p-6">
+                    <div className="bg-white">
+                        <div className=" p-6">
                             <div className="flex align-items-center">
                                 <img
                                     src={`/images/logo/logo.png`}
@@ -75,16 +76,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                         stay, the best restaurants to eat and
                                         the best transportation to travel.
                                     </p>
-                                    {/* <Button
-                                        label="Live Demo"
-                                        type="button"
-                                        className="p-button-outlined mr-2"
-                                    />
-                                    <Button
-                                        label="Live Demo"
-                                        type="button"
-                                        className="p-button-outlined"
-                                    /> */}
                                 </section>
                             </div>
                             <div className="col-12 md:col-6 overflow-hidden">
