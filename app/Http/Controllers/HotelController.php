@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use App\Models\foot_category;
+use App\Models\foot;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
@@ -156,8 +157,46 @@ class HotelController extends Controller
 
 
     // Food Parts
-    public function createAddFood($id)
+    public function createAddFood()
     {
-        return Inertia::render('Hotel/AddFood', ['HotelID' => $id]);
+        $categories = foot_category::all();
+        $hotels = Hotel::all();
+
+        return Inertia::render('Hotel/AddFood', ['categories' => $categories, 'hotels' => $hotels]);
+    }
+    public function AddFood(Request $request)
+    {
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            try {
+                $file = $request->file('image');
+                $destinationPath = public_path('storage/image');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileName);
+                if (!file_exists($destinationPath . '/' . $fileName)) {
+                    return Redirect::back()->with('error', 'Failed to save passport. Please try again.');
+                }
+                $imagePath = 'storage/image/' . $fileName;
+            } catch (\Exception $e) {
+                return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+            }
+        } else {
+            return Redirect::back()->with('error', 'No passport file found in the request.');
+        }
+        $food = new foot();
+        $food->name = $request->name;
+        $food->image = $imagePath;
+        $food->description = $request->description;
+        $food->hotel_id = $request->hotel_id;
+        $food->category_id = $request->category_id;
+        $food->cost = $request->cost;
+        $food->save();
+        return Redirect::back()->with('Success');
+
+
     }
 }

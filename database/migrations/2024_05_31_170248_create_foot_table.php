@@ -14,9 +14,9 @@ return new class extends Migration {
             Schema::create('foot', function (Blueprint $table) {
                 $table->id();
                 $table->timestamps();
-                $table->integer('hotel_id');
+                $table->string('hotel_id');
                 $table->string('name');
-                $table->integer('category_id');
+                $table->string('category_id');
                 $table->text('description');
                 $table->string('cost');
                 $table->string('image');

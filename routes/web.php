@@ -46,10 +46,10 @@ Route::middleware('auth')->group(function () {
     })->name('cars');
     // Hotel Rout
     Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
-    Route::get('hotelListView/{id}', [HotelController::class, 'show'])->name('hotelView');
-    Route::post('hotelList/view/{id}', [HotelController::class, 'update'])->name('hotel.update');
-    Route::get('addHotel', [HotelController::class, 'create'])->name('addHotel');
-    Route::post('addHotel', [HotelController::class, 'store'])->name('hotel.store');
+    Route::get('/hotelListView/{id}', [HotelController::class, 'show'])->name('hotelView');
+    Route::post('/hotelList/view/{id}', [HotelController::class, 'update'])->name('hotel.update');
+    Route::get('/addHotel', [HotelController::class, 'create'])->name('addHotel');
+    Route::post('/addHotel', [HotelController::class, 'store'])->name('hotel.store');
     Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
 
     // Food Category Rout 
@@ -59,8 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/foodCategory/{id}', [HotelController::class, 'deleteFoodCategory'])->name('foodCategory.delete');
 
     //Food Route
-Route::get('/addFood/{id}',[HotelController::class,'createAddFood'])->name('addFood.create');
-
+    Route::get('/addFood', [HotelController::class, 'createAddFood'])->name('addFood.create');
+    Route::post('/addFood', [HotelController::class, 'AddFood'])->name('food.store');
     // Hotel Request
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
     Route::delete('/hotelRequest/{id}', [HotelRequestController::class, 'destroy'])->name('hotelRequest.destroy');
@@ -94,9 +94,6 @@ Route::get('/uikit/button', function () {
     return Inertia::render('main/uikit/button/page');
 })->name('button');
 
-Route::get('addHotel', function () {
-    return Inertia::render('Hotel/AddHotel');
-})->name('addHotel');
 
 
 

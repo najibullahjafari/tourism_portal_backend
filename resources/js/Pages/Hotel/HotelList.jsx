@@ -1,17 +1,58 @@
 import Layout from "@/Layouts/layout/layout";
 import React from "react";
-import { Link, useForm, usePage } from "@inertiajs/react";
-import NavLink from "@/Components/NavLink";
+import { useForm, usePage } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
+import { useState } from "react";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { Toast } from "primereact/toast";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { useRef } from "react";
+// import { SpeedDial } from "primereact/speeddial";
+// import { useRouter } from "next/router";
 const HotelList = () => {
     const { data } = usePage().props;
     const { delete: destroy } = useForm();
+
+    // const handleDelete = (id) => {
+    //     router.delete(`/hotels/${id}`);
+    // };
+    const [selectedHotel, setSelectedHotel] = useState(null);
+    const [visible, setVisible] = useState(false);
+    const toast = useRef(null);
     const handleDelete = (id) => {
         router.delete(`/hotels/${id}`);
+        toast.current.show({
+            severity: "danger",
+            summary: "Delete",
+            detail: "You have deleted the request",
+            life: 3000,
+        });
     };
+    const confirmAction = (id, action) => {
+        confirmDialog({
+            message: "Are you sure you want to proceed?",
+            header: "Confirmation",
+            icon: "pi pi-exclamation-triangle",
+            accept: () => action(id),
+            reject: () => {
+                toast.current.show({
+                    severity: "info",
+                    summary: "Cancelled",
+                    detail: "You have cancelled the action",
+                    life: 3000,
+                });
+            },
+        });
+    };
+    if (!data) {
+        return <div className="fa fa-user">Loading...</div>;
+    }
     return (
         <Layout>
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
+                <Toast ref={toast} />
+                <ConfirmDialog />
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-white-50 uppercase bg-black-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -31,10 +72,10 @@ const HotelList = () => {
                                 Image
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Entity Type
+                                Add Action
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Delete
+                                Action Hotel
                             </th>
                         </tr>
                     </thead>
@@ -57,25 +98,89 @@ const HotelList = () => {
                                     />
                                 </td>
                                 <td class="px-6 py-4">
-                                    <Link
-                                        href={`hotelListView/${item.id}`}
-                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                    >
-                                        View
-                                    </Link>
+                                    <Button
+                                        icon="pi pi-plus"
+                                        severity="success"
+                                        onClick={() => {
+                                            router.get(`/addFood`);
+                                        }}
+                                        className="px-2 py-1 rounded"
+                                    ></Button>
                                 </td>
-                                <td class="px-6 py-4">
-                                    <button
-                                        onClick={() => handleDelete(item.id)}
-                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                    >
-                                        <i className="pi pi-times"></i> Delete
-                                    </button>
-                                </td>
+                                <div class="px-10 py-1">
+                                    <Button
+                                        onClick={() =>
+                                            confirmAction(item.id, handleDelete)
+                                        }
+                                        icon="pi pi-times"
+                                        className="p-button-danger"
+                                    ></Button>
+                                </div>
+                                <div class="px-10 py-1">
+                                    <Button
+                                        icon="pi pi-eye"
+                                        severity="success"
+                                        onClick={() => {
+                                            setSelectedHotel(item);
+                                            setVisible(true);
+                                        }}
+                                        className="px-2 py-1 rounded"
+                                    ></Button>
+                                </div>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                {selectedHotel && (
+                    <Dialog
+                        visible={visible}
+                        modal
+                        onHide={() => setVisible(false)}
+                    >
+                        <div
+                            style={{
+                                borderRadius: "12px",
+                                backgroundColor: "var(--secondary-400)",
+                            }}
+                        >
+                            <div className="flex flex-column px-8 py-5 gap-4">
+                                <h2>Name: {selectedHotel.name}</h2>
+                                <p>Address: {selectedHotel.address}</p>
+                                <p>Province: {selectedHotel.province}</p>
+                                <div>
+                                    <p>Hotel:</p>
+                                    <img
+                                        src={selectedHotel.photoAddress}
+                                        width={400}
+                                        height={50}
+                                        alt="Hotel"
+                                        className="rounded border p-2"
+                                    />
+                                </div>
+
+                                {/* <Button
+                                    label="Accept"
+                                    icon="pi pi-check"
+                                    className="p-button-success"
+                                    onClick={() =>
+                                        confirmAction(
+                                            selectedHotel.id,
+                                            acceptCar
+                                        )
+                                    }
+                                /> */}
+                                {/* <Button
+                                    label="Reject"
+                                    icon="pi pi-times"
+                                    className="p-button-danger"
+                                    onClick={() =>
+                                        confirmAction(selectedCar.id, rejectCar)
+                                    }
+                                /> */}
+                            </div>
+                        </div>
+                    </Dialog>
+                )}
             </div>
         </Layout>
     );
