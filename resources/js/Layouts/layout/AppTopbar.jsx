@@ -76,9 +76,6 @@ const AppTopbar = forwardRef((props, ref) => {
                     <i className="pi pi-lock"></i>
                     <span>Logout</span>
                 </Link>
-                <a href="">
-                    <AppConfig />
-                </a>
             </div>
         </div>
     );

@@ -48,7 +48,7 @@ class tourguideRequestController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Hotel $hotel)
+    public function edit()
     {
         //
     }
@@ -56,16 +56,21 @@ class tourguideRequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Hotel $hotel)
+    public function update($id)
     {
-        //
+        $tourguide = tourguide::find($id);
+        $tourguide->status = 'active';
+        $tourguide->save();
+        return redirect()->route('tourGuideRequest');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Hotel $hotel)
+    public function destroy($id)
     {
-        //
+        $tourguide = tourguide::find($id);
+        $tourguide->delete();
+        return redirect()->route('tourGuideRequest');
     }
 }

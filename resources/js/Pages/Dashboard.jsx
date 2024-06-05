@@ -30,9 +30,7 @@ const lineData = {
 };
 
 const Dashboard = () => {
-    const [products, setProducts] = useState([]);
     const menu1 = useRef(null);
-    const menu2 = useRef(null);
     const [lineOptions, setLineOptions] = useState({});
     const { layoutConfig } = useContext(LayoutContext);
     const [lastTransportationId, setLastTransportationId] = useState(null);
