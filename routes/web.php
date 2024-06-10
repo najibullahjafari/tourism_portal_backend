@@ -47,11 +47,13 @@ Route::middleware('auth')->group(function () {
     // Hotel Rout
     Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
     Route::get('/hotelListView/{id}', [HotelController::class, 'show'])->name('hotelView');
-    Route::post('/hotelList/view/{id}', [HotelController::class, 'update'])->name('hotel.update');
+
+    // Route::post('/hotelList/view/{id}', [HotelController::class, 'update'])->name('hotel.update');
     Route::get('/addHotel', [HotelController::class, 'create'])->name('addHotel');
     Route::post('/addHotel', [HotelController::class, 'store'])->name('hotel.store');
     Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
-
+    Route::post('/HotelDashboard/{id}', [HotelController::class, 'viewHotel'])->name('hotel.dashboard');
+    Route::put('/hotelUpdate/{id}', [HotelController::class, 'update'])->name('hotelUpdate');
     // Food Category Rout 
     Route::get('/addFootCategory', [HotelController::class, 'createFootCategory'])->name('addFootCategory');
     Route::post('/addFootCategory', [HotelController::class, 'storeFootCategory'])->name('footCategory.store');
@@ -61,6 +63,11 @@ Route::middleware('auth')->group(function () {
     //Food Route
     Route::get('/addFood', [HotelController::class, 'createAddFood'])->name('addFood.create');
     Route::post('/addFood', [HotelController::class, 'AddFood'])->name('food.store');
+
+    // Add Room
+    Route::get('/addRoom', [HotelController::class, 'createRoom'])->name(('room.create'));
+    Route::post('/addRoom', [HotelController::class, 'storeRoom'])->name(('room.store'));
+
     // Hotel Request
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
     Route::delete('/hotelRequest/{id}', [HotelRequestController::class, 'destroy'])->name('hotelRequest.destroy');

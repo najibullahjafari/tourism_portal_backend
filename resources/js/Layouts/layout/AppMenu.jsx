@@ -16,6 +16,12 @@ const AppMenu = () => {
                     icon: "pi pi-fw pi-home",
                     to: route("dashboard"),
                 },
+                // If our user is Hotel Admin Use this link instead of Dashboard
+                // {
+                //     label: "Hotel Admin",
+                //     icon: "pi pi-fw pi-home",
+                //     to: route("hotel.dashboard"),
+                // },
                 {
                     label: "Hotel",
                     icon: "pi pi-fw pi-id-card",
@@ -96,7 +102,7 @@ const AppMenu = () => {
     return (
         <MenuProvider>
             <ul className="layout-menu">
-                {model.map((item, i) => (
+                {model.map((item, i) =>
                     !item?.separator ? (
                         <AppMenuitem
                             item={item}
@@ -105,9 +111,12 @@ const AppMenu = () => {
                             key={item.label}
                         />
                     ) : (
-                        <li className="menu-separator" key={`separator-${i}`}></li>
+                        <li
+                            className="menu-separator"
+                            key={`separator-${i}`}
+                        ></li>
                     )
-                ))}
+                )}
             </ul>
         </MenuProvider>
     );
