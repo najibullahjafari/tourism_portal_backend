@@ -185,6 +185,6 @@ const [layoutConfig, setLayoutConfig] = useState({
 
     - Save the changes to the `app.blade.php` file.
 
-By following these steps, you have successfully integrated the selected theme into the main layout of your application. Remember to clean up the unwanted themes to maintain a tidy project structure.
+By following these steps, you have successfully integrated the selected theme into the main layout of your application. Remember to clean up the unwanted themes to maintain a tidy project structure
 
 **NB: This project is still under development please report any bugs to the issue section of this repo**
