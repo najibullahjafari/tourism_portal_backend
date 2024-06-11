@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
     // Tour Guide 
     Route::get('tourGuide', [tourguideController::class, 'index'])->name('tourGuide');
     Route::delete('/tourguide/{id}', [tourguideController::class, 'destroy'])->name('tourguide.destroy');
-    Route::get('addTourGuide', [tourguideController::class, 'create'])->name('addTourGuide');
+    Route::get('/addTourGuide', [tourguideController::class, 'create'])->name('addTourGuide');
     Route::post('addTourGuide', [tourguideController::class, 'store'])->name('addTourGuide');
     // Tour Guide Request
     Route::get('tourGuideRequest', [tourguideRequestController::class, 'index'])->name('tourGuideRequest');

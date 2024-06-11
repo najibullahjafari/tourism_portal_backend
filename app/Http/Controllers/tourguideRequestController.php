@@ -14,6 +14,11 @@ class tourguideRequestController extends Controller
     public function index()
     {
         $data = tourguide::where('status', 'deactive')->get();
+        foreach ($data as $item) {
+            $item->image = asset($item->image);
+            $item->passpord = asset($item->passpord);
+
+        }
         return Inertia::render('TourGuide/TourGuideRequest', ['data' => $data]);
     }
 

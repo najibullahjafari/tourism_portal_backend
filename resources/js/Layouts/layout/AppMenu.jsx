@@ -83,11 +83,11 @@ const AppMenu = () => {
                             icon: "pi pi-fw pi-user",
                             to: route("tourGuideRequest"),
                         },
-                        {
-                            label: "Add Tour Guide",
-                            icon: "pi pi-fw pi-car",
-                            to: route("addTourGuide"),
-                        },
+                        // {
+                        //     label: "Add Tour Guide",
+                        //     icon: "pi pi-fw pi-car",
+                        //     to: route("addTourGuide"),
+                        // },
                     ],
                 },
                 {

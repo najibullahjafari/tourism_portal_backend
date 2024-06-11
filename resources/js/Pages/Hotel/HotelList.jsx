@@ -28,7 +28,7 @@ const HotelList = () => {
             life: 3000,
         });
     };
-   
+
     const confirmAction = (id, action) => {
         confirmDialog({
             message: "Are you sure you want to proceed?",
@@ -74,9 +74,7 @@ const HotelList = () => {
                             <span className="mx-2">Room</span>
                         </Button>
                     </div>
-                    <form
-                        className="box-content shadow-sm bg-white my-5"
-                    >
+                    <form className="box-content shadow-sm bg-white my-5">
                         <select
                             name="category"
                             value={category}
@@ -170,26 +168,31 @@ const HotelList = () => {
                                         </Button>
                                     </div>
                                 </td>
-                                <div class="px-10 py-1">
-                                    <Button
-                                        onClick={() =>
-                                            confirmAction(item.id, handleDelete)
-                                        }
-                                        icon="pi pi-times"
-                                        className="p-button-danger"
-                                    ></Button>
-                                </div>
-                                <div class="px-10 py-1">
-                                    <Button
-                                        icon="pi pi-eye"
-                                        severity="success"
-                                        onClick={() => {
-                                            setSelectedHotel(item);
-                                            setVisible(true);
-                                        }}
-                                        className="px-2 py-1 rounded"
-                                    ></Button>
-                                </div>
+                                <td>
+                                    <div class="px-10 py-1">
+                                        <Button
+                                            onClick={() =>
+                                                confirmAction(
+                                                    item.id,
+                                                    handleDelete
+                                                )
+                                            }
+                                            icon="pi pi-times"
+                                            className="p-button-danger"
+                                        ></Button>
+                                    </div>
+                                    <div class="px-10 py-1">
+                                        <Button
+                                            icon="pi pi-eye"
+                                            severity="success"
+                                            onClick={() => {
+                                                setSelectedHotel(item);
+                                                setVisible(true);
+                                            }}
+                                            className="px-2 py-1 rounded"
+                                        ></Button>
+                                    </div>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

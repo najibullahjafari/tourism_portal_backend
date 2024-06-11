@@ -5,18 +5,39 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\tourguide;
+use Illuminate\Support\Facades\Redirect;
 
 class tourguideController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = tourguide::where('status', 'active')->get();
-        return Inertia::render('TourGuide/TourGuideList', [
-            'data' => $data
-        ]);
+        if ($request->has("category") && $request->has("q")) {
+            $col = $request->category;
+            $val = $request->q;
+            $data = tourguide::where('status', 'active')->where($col, 'like', '%' . $val . '%')->get();
+            foreach ($data as $item) {
+                $item->image = asset($item->image);
+                $item->passpord = asset($item->passpord);
+
+            }
+            return Inertia::render('TourGuide/TourGuideList', [
+                'data' => $data
+            ]);
+        } else {
+
+            $data = tourguide::where('status', 'active')->get();
+            foreach ($data as $item) {
+                $item->image = asset($item->image);
+                $item->passpord = asset($item->passpord);
+
+            }
+            return Inertia::render('TourGuide/TourGuideList', [
+                'data' => $data
+            ]);
+        }
     }
 
     /**
@@ -32,11 +53,47 @@ class tourguideController extends Controller
      */
     public function store(Request $request)
     {
+        $passpordPath = null;
+        $previousPath = false;
+        $imagePath = null;
+        $previousImagePath = false;
+        if ($request->hasFile('passpord')) {
+            try {
+                $file = $request->file('passpord');
+                $destinationPath = public_path('storage/passpord');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileName);
+                if (!file_exists($destinationPath . '/' . $fileName)) {
+                    $previousPath = true;
+                }
+                $passpordPath = 'storage/passpord/' . $fileName;
+            } catch (\Exception $e) {
+                return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+            }
+        } else {
+            return Redirect::back()->with('error', 'No passport file found in the request.');
+        }
+        if ($request->hasFile('image')) {
+            try {
+                $file = $request->file('image');
+                $destinationPath = public_path('storage/tourGuideImage');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileName);
+                if (!file_exists($destinationPath . '/' . $fileName)) {
+                    $previousImagePath = true;
+                }
+                $imagePath = 'storage/tourGuideImage/' . $fileName;
+            } catch (\Exception $e) {
+                return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+            }
+        } else {
+            return Redirect::back()->with('error', 'No passport file found in the request.');
+        }
         $tourguide = new tourguide();
         $tourguide->name = $request->name;
         $tourguide->father_name = $request->father_name;
-        $tourguide->image = $request->image;
-        $tourguide->passpord = $request->passpord;
+        $tourguide->image = $imagePath;
+        $tourguide->passpord = $passpordPath;
         $tourguide->id_card = $request->id_card;
         $tourguide->location = $request->location;
         $tourguide->bio = $request->bio;

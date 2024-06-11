@@ -61,8 +61,22 @@ const TourGuideRequest = (props) => {
                                 <td class="px-6 py-4">{item.id}</td>
                                 <td class="px-6 py-4">{item.name}</td>
                                 <td class="px-6 py-4">{item.father_name}</td>
-                                <td class="px-6 py-4">{item.image}</td>
-                                <td class="px-6 py-4">{item.password}</td>
+                                <td class="px-6 py-4">
+                                    {""}
+                                    <img
+                                        src={item.image}
+                                        class="w-20 object-cover rounded"
+                                        alt="Profile Image"
+                                    />
+                                </td>
+                                <td class="px-6 py-4">
+                                    {""}
+                                    <img
+                                        src={item.passpord}
+                                        class="w-20 object-cover rounded"
+                                        alt="Passport Image"
+                                    />
+                                </td>
                                 <td class="px-6 py-4">{item.id_card}</td>
                                 <td class="px-6 py-4">{item.location}</td>
                                 <td class="px-6 py-4">{item.bio}</td>
