@@ -9,15 +9,26 @@ import { Tag } from "primereact/tag";
 import { DataTable } from "primereact/datatable";
 import DangerButton from "@/Components/DangerButton";
 import { router } from "@inertiajs/react";
+import { Paginator } from "primereact/paginator";
 
 const cars = () => {
     const { data } = usePage().props;
     const deleteCar = (id) => {
         router.delete(`/car/requests/${id}`);
     };
+    // for pagination
+    const [first, setFirst] = useState(0);
+    const [rows, setRows] = useState(10);
+    const onPageChange = (event) => {
+        setFirst(event.first);
+        setRows(event.rows);
+    };
 
     const [selectedCar, setSelectedCar] = useState(null);
     const [visible, setVisible] = useState(false);
+
+    // for search
+    const [globalFilter, setGlobalFilter] = useState(null);
 
     if (!data) {
         return <div className="fa fa-user">Loading...</div>;
@@ -25,11 +36,20 @@ const cars = () => {
     return (
         <Layout>
             <div class="card p-2 border-round w-full ">
-                {/* here the add button */}
                 <div class=" flex justify-content-between items-center m-3">
-                    <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">
-                        The registered Cars
-                    </h1>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">
+                            The registered Cars
+                        </h1>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            onChange={(event) =>
+                                setGlobalFilter(event.target.value)
+                            }
+                            className="w-full rounded-md mr-3"
+                        />
+                    </div>
 
                     <Link href={route("cars.requests")} className="btn">
                         <span name="fa fa-plus" className="mr-2" />
@@ -40,7 +60,7 @@ const cars = () => {
                 </div>
                 <div className="overflow-x-auto">
                     <table class=" text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
-                        <thead class="text-xs text-white uppercase bg-gray-800 dark:bg-gray-700">
+                        <thead class="text-xs text-white uppercase bg-gray-300 dark:bg-gray-300">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
                                     ID
@@ -66,37 +86,47 @@ const cars = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((item) => (
-                                <tr
-                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900"
-                                    key={item.id}
-                                >
-                                    <td class="px-6 py-4">{item.id}</td>
-                                    <td class="px-6 py-4 font-medium">
-                                        {item.name}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <img
-                                            src={item.passport}
-                                            alt="Passport"
-                                            width={50}
-                                            height={50}
-                                            class=" object-cover rounded"
-                                        />
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {console.log(item.image)}
-                                        <img
-                                            src={item.image}
-                                            alt="Image"
-                                            width={50}
-                                            height={50}
-                                            class=" object-cover rounded"
-                                        />
-                                    </td>
-                                    <td class="px-6 py-4">{item.phone}</td>
-                                    <td class="px-6 py-4">{item.location}</td>
-                                    {/* <td class="px-6 py-4">
+                            {data
+                                .filter((item) =>
+                                    globalFilter
+                                        ? item.name.toLowerCase().includes(globalFilter.toLowerCase()) ||
+                                          item.location.toLowerCase().includes(globalFilter.toLowerCase())
+                                        : true
+                                )
+                                .slice(first, first + rows)
+                                .map((item) => (
+                                    <tr
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900"
+                                        key={item.id}
+                                    >
+                                        <td class="px-6 py-4">{item.id}</td>
+                                        <td class="px-6 py-4 font-medium">
+                                            {item.name}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <img
+                                                src={item.passport}
+                                                alt="Passport"
+                                                width={50}
+                                                height={50}
+                                                class=" object-cover rounded"
+                                            />
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {console.log(item.image)}
+                                            <img
+                                                src={item.image}
+                                                alt="Image"
+                                                width={50}
+                                                height={50}
+                                                class=" object-cover rounded"
+                                            />
+                                        </td>
+                                        <td class="px-6 py-4">{item.phone}</td>
+                                        <td class="px-6 py-4">
+                                            {item.location}
+                                        </td>
+                                        {/* <td class="px-6 py-4">
                                     <Link
                                         href={route("item.show", {
                                             id: item.id,
@@ -107,18 +137,30 @@ const cars = () => {
                                         View
                                     </Link>
                                 </td> */}
-                                    <td class="px-6 py-4">
-                                        <DangerButton
-                                            onClick={() => deleteCar(item.id)}
-                                            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-                                        >
-                                            delete
-                                        </DangerButton>
-                                    </td>
-                                </tr>
-                            ))}
+                                        <td class="px-6 py-4">
+                                            <DangerButton
+                                                onClick={() =>
+                                                    deleteCar(item.id)
+                                                }
+                                                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+                                            >
+                                                delete
+                                            </DangerButton>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
+                    <div className=" w-full">
+                        <Paginator
+                            className=""
+                            first={first}
+                            rows={rows}
+                            totalRecords={data.length}
+                            rowsPerPageOptions={[10, 20, 30]}
+                            onPageChange={onPageChange}
+                        />
+                    </div>
                 </div>
                 {selectedCar && (
                     <Dialog
