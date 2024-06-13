@@ -41,11 +41,11 @@ const AppMenu = () => {
                             icon: "pi pi-fw pi-home",
                             to: route("addHotel"),
                         },
-                        {
-                            label: "Add Categoy Foot",
-                            icon: "pi pi-fw pi-home",
-                            to: route("addFootCategory"),
-                        },
+                        // {
+                        //     label: "Add Categoy Foot",
+                        //     icon: "pi pi-fw pi-home",
+                        //     to: route("addFootCategory"),
+                        // },
                         {
                             label: "Categoy Foot",
                             icon: "pi pi-fw pi-home",
@@ -70,18 +70,18 @@ const AppMenu = () => {
                     ],
                 },
                 {
-                    label: "Tour Guide",
+                    label: "User",
                     icon: "pi pi-fw pi-id-card",
                     items: [
                         {
-                            label: "Tour Guide",
+                            label: "User",
                             icon: "pi pi-fw pi-user",
-                            to: route("tourGuide"),
+                            to: route("user"),
                         },
                         {
                             label: "Request",
                             icon: "pi pi-fw pi-user",
-                            to: route("tourGuideRequest"),
+                            to: route("userRequest"),
                         },
                         // {
                         //     label: "Add Tour Guide",

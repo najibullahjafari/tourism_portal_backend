@@ -15,7 +15,7 @@ const TourGuideList = () => {
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
     const handleDelete = (id) => {
-        router.delete(`/tourguide/${id}`);
+        router.delete(`/user/${id}`);
         toast.current.show({
             severity: "danger",
             summary: "Delete",
@@ -51,11 +51,11 @@ const TourGuideList = () => {
                             icon="pi pi-plus"
                             severity="success"
                             onClick={() => {
-                                router.get("/addTourGuide");
+                                router.get("/addUser");
                             }}
                             className="px-2 py-2 rounded m-3"
                         >
-                            <span className="mx-2">TourGuide</span>
+                            <span className="mx-2">User</span>
                         </Button>
                     </div>
                     <form className="box-content shadow-sm bg-white my-5">
@@ -71,6 +71,7 @@ const TourGuideList = () => {
                             <option value="id">ID</option>
                             <option value="name">Name</option>
                             <option value="phone">Phone</option>
+                            <option value="userType">User Type</option>
                         </select>
                         <input
                             type="search"
@@ -92,6 +93,8 @@ const TourGuideList = () => {
                 </div>
                 <Toast ref={toast} />
                 <ConfirmDialog />
+            </div>
+            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-white-50 uppercase bg-black-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -121,6 +124,9 @@ const TourGuideList = () => {
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Phone
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                User Type
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Visit
@@ -159,29 +165,21 @@ const TourGuideList = () => {
                                 <td class="px-6 py-4">{item.location}</td>
                                 <td class="px-6 py-4">{item.bio}</td>
                                 <td class="px-6 py-4">{item.phone}</td>
-                                {/* <td class="px-6 py-4">
-                                    <Link
-                                        href={route("item.show", {
-                                            id: item.id,
-                                        })}
-                                        as="a"
-                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                    >
-                                        View
-                                    </Link>
-                                </td>
-                                 */}
+                                <td class="px-6 py-4">{item.userType}</td>
                                 <td class="px-6 py-4">
-                                    <button
-                                        onClick={() =>
-                                            confirmAction(item.id, handleDelete)
-                                        }
-                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                    >
-                                        <i className="pi pi-times px-2">
-                                            Delete
-                                        </i>
-                                    </button>
+                                    <div class="px-10 py-1">
+                                        <Button
+                                            onClick={() =>
+                                                router.post(
+                                                    `/userProfile/${item.id}`
+                                                )
+                                            }
+                                            key={item.id}
+                                            className="p-button-success"
+                                        >
+                                            Visit
+                                        </Button>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="px-10 py-1">
@@ -232,6 +230,7 @@ const TourGuideList = () => {
                                 <p>ID Card: {selectedTourGuide.id_card}</p>
                                 <p>Location: {selectedTourGuide.location}</p>
                                 <p>Phone No: {selectedTourGuide.phone}</p>
+                                <p>User Type: {selectedTourGuide.userType}</p>
                                 <div>
                                     <p>{selectedTourGuide.name}:</p>
                                     <img

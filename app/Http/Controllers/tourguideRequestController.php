@@ -11,9 +11,17 @@ class tourguideRequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = tourguide::where('status', 'deactive')->get();
+        $data = null;
+        if ($request->has('category') && $request->has('q')) {
+            $col = $request->category;
+            $row = $request->q;
+            $data = tourguide::where('status', 'deactive')->where($col, 'like', '%' . $row . '%')->get();
+        } else {
+            $data = tourguide::where('status', 'deactive')->get();
+        }
+
         foreach ($data as $item) {
             $item->image = asset($item->image);
             $item->passpord = asset($item->passpord);
@@ -66,7 +74,7 @@ class tourguideRequestController extends Controller
         $tourguide = tourguide::find($id);
         $tourguide->status = 'active';
         $tourguide->save();
-        return redirect()->route('tourGuideRequest');
+        return redirect()->route('userRequest');
     }
 
     /**
@@ -76,6 +84,6 @@ class tourguideRequestController extends Controller
     {
         $tourguide = tourguide::find($id);
         $tourguide->delete();
-        return redirect()->route('tourGuideRequest');
+        return redirect()->route('userRequest');
     }
 }

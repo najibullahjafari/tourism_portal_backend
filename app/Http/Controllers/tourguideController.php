@@ -98,6 +98,7 @@ class tourguideController extends Controller
         $tourguide->location = $request->location;
         $tourguide->bio = $request->bio;
         $tourguide->phone = $request->phone;
+        $tourguide->userType = $request->userType;
         $tourguide->status = $request->status;
         $tourguide->save();
 
@@ -118,17 +119,24 @@ class tourguideController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit($id)
     {
-        //
+        $tour = tourguide::where('id', $id)->get();
+        foreach ($tour as $item) {
+            $item->image = asset($item->image);
+            $item->passpord = asset($item->passpord);
+        }
+        return Inertia::render('TourGuide/TourGuideProfile', [
+            'tour' => $tour
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        return Inertia::render('TourGuide/AddTourGuide');
     }
 
     /**

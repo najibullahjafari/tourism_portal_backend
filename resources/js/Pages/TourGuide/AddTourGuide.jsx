@@ -20,6 +20,7 @@ const AddTourGuide = (props) => {
         location: "",
         bio: "",
         phone: "",
+        userType: "",
         status: "deactive",
     });
     // useEffect(() => {
@@ -29,7 +30,7 @@ const AddTourGuide = (props) => {
     // }, []);
     const handleSubmite = (e, data) => {
         e.preventDefault();
-        post(route("addTourGuide"));
+        post(route("addUser"));
     };
     const [photo, setPhoto] = useState(null);
     const [passport, setPassport] = useState(null);
@@ -60,7 +61,7 @@ const AddTourGuide = (props) => {
         <Layout>
             <div className="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
                 <h3 className="max-w-md mx-auto mt-5 text-center ">
-                    ADD NEW TOUR GUIDE
+                    ADD NEW USER
                 </h3>
                 <form
                     className="max-w-md mx-auto"
@@ -210,6 +211,22 @@ const AddTourGuide = (props) => {
                         >
                             Bio
                         </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-5 group">
+                        <select
+                            name="userType"
+                            value={data.userType}
+                            onChange={(e) => {
+                                setData("userType", e.target.value);
+                            }}
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        >
+                            <option disabled selected>
+                                Choose an option
+                            </option>
+                            <option value="tourGuide">Tour Guide</option>
+                            <option value="tourist">Tourist</option>
+                        </select>
                     </div>
                     <span>
                         <button

@@ -189,9 +189,16 @@ class HotelController extends Controller
     /////////////////////////////////////////////////////////////////////////////////////////
 // Food Parts
 
-    public function indexFootCategory()
+    public function indexFootCategory(Request $request)
     {
-        $data = foot_category::all();
+        $data = null;
+        if ($request->has('category') && $request->has('q')) {
+            $col = $request->category;
+            $row = $request->q;
+            $data = foot_category::where($col, 'like', '%' . $row . '%')->get();
+        } else {
+            $data = foot_category::all();
+        }
 
         return Inertia::render('Hotel/FoodCategories', [
             'data' => $data,

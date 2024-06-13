@@ -12,8 +12,6 @@ import { useRef } from "react";
 // import { useRouter } from "next/router";
 const HotelList = () => {
     const { data } = usePage().props;
-    const { delete: destroy } = useForm();
-
     const [q, setQ] = useState("");
     const [category, setCategory] = useState("");
     const [selectedHotel, setSelectedHotel] = useState(null);
@@ -108,7 +106,8 @@ const HotelList = () => {
                 </div>
                 <Toast ref={toast} />
                 <ConfirmDialog />
-
+            </div>
+            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-white-50 uppercase bg-black-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>

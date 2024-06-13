@@ -73,14 +73,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/hotelRequest/{id}', [HotelRequestController::class, 'destroy'])->name('hotelRequest.destroy');
     Route::post("/hotelRequest/{id}", [HotelRequestController::class, 'update'])->name('hotelRequest.update');
     // Tour Guide 
-    Route::get('tourGuide', [tourguideController::class, 'index'])->name('tourGuide');
-    Route::delete('/tourguide/{id}', [tourguideController::class, 'destroy'])->name('tourguide.destroy');
-    Route::get('/addTourGuide', [tourguideController::class, 'create'])->name('addTourGuide');
-    Route::post('addTourGuide', [tourguideController::class, 'store'])->name('addTourGuide');
+    Route::get('user', [tourguideController::class, 'index'])->name('user');
+    Route::delete('/user/{id}', [tourguideController::class, 'destroy'])->name('user.destroy');
+    Route::get('/addUser', [tourguideController::class, 'create'])->name('addUser');
+    Route::post('addUser', [tourguideController::class, 'store'])->name('addUser');
+    Route::post('/userProfile/{id}', [tourguideController::class, 'edit'])->name('user.edit');
+    Route::get('/userProfile/update', [tourguideController::class, 'update'])->name('user.update');
+
     // Tour Guide Request
-    Route::get('tourGuideRequest', [tourguideRequestController::class, 'index'])->name('tourGuideRequest');
-    Route::delete('tourguideRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");
-    Route::post("/tourguideRequest/{id}", [tourguideRequestController::class, "update"])->name("tourguideRequest.update");
+    Route::get('userRequest', [tourguideRequestController::class, 'index'])->name('userRequest');
+    Route::delete('userRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");
+    Route::post("/userRequest/{id}", [tourguideRequestController::class, "update"])->name("tourguideRequest.update");
     // Transportation
     Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
     Route::delete('car/requests/{id}', [TransportationController::class, 'destroy'])->name('transportation.destroy');

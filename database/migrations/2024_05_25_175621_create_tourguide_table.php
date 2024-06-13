@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('location');
             $table->text('bio');
             $table->string('phone');
+            $table->string('userType');
             $table->string('status');
         });
     }
