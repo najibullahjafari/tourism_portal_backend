@@ -39,19 +39,13 @@ const HotelAdmin = (props) => {
         cost: "",
         image: "",
     });
-    const hotelSubmit = (e, id) => {
-        e.preventDefault();
-        router.put(`/hotelUpdate/${id}`);
-    };
+    
+    // const hotelSubmit = (e, id) => {
+    //     e.preventDefault();
+    //     router.put(`/hotelUpdate/${id}`);
+    // };
     const [hotelImage, setHotelImage] = useState(hotel[0].photoAddress);
     const [image, setImage] = useState();
-
-    // useEffect(() => {
-    //     return () => {
-    //         reset("photoAddress", "password_confirmation");
-    //     };
-    // }, []);
-
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         setData("photoAddress", file);
@@ -75,7 +69,7 @@ const HotelAdmin = (props) => {
         }
     };
     return (
-        <Layout>
+        <>
             <div className="bg-gray-50 py-12">
                 <div className="max-w-screen-lg mx-auto">
                     <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -83,7 +77,9 @@ const HotelAdmin = (props) => {
                             <div className="text-2xl font-bold text-gray-800 mb-6 text-center">
                                 Hotel {hotelData.name}
                             </div>
-                            <form onSubmit={(e) => hotelSubmit(e, hotel[0].id)}>
+                            <form
+                            // onSubmit={(e) => hotelSubmit(e, hotel[0].id)}
+                            >
                                 <div className="mb-6">
                                     <label
                                         htmlFor="name"
@@ -94,6 +90,7 @@ const HotelAdmin = (props) => {
                                     <input
                                         type="text"
                                         id="name"
+                                        name="name"
                                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         value={hotelData.name}
                                         onChange={(e) =>
@@ -112,6 +109,7 @@ const HotelAdmin = (props) => {
                                     <input
                                         type="text"
                                         id="address"
+                                        name="address"
                                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         value={hotelData.address}
                                         onChange={(e) =>
@@ -186,11 +184,12 @@ const HotelAdmin = (props) => {
                                 <div className="text-2xl font-bold text-gray-800 mb-6 text-center">
                                     Room Of {hotelData.name}
                                 </div>
-                                <form
-                                    onSubmit={(e) =>
-                                        hotelSubmit(e, hotel[0].id)
-                                    }
-                                >
+                                <form>
+                                    <input
+                                        name="id"
+                                        value={room.id}
+                                        className="hidden"
+                                    ></input>
                                     <div className="mb-6">
                                         <label
                                             htmlFor="cost"
@@ -221,9 +220,9 @@ const HotelAdmin = (props) => {
                                             Room Number
                                         </label>
                                         <input
-                                            type="room_number"
+                                            type="number"
                                             id="room_number"
-                                            name="room_numbert"
+                                            name="room_number"
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                             value={room.room_number}
                                             onChange={(e) =>
@@ -233,6 +232,7 @@ const HotelAdmin = (props) => {
                                                 )
                                             }
                                             required
+                                            disabled
                                         />
                                     </div>
                                     <div className="mb-6">
@@ -283,10 +283,16 @@ const HotelAdmin = (props) => {
                                     Food Of {hotelData.name}
                                 </div>
                                 <form
-                                    onSubmit={(e) =>
-                                        hotelSubmit(e, hotel[0].id)
-                                    }
+                                // onSubmit={(e) =>
+                                //     hotelSubmit(e, hotel[0].id)
+                                // }
                                 >
+                                    <input
+                                        type="number"
+                                        className="hidden"
+                                        name="id"
+                                        value={food.id}
+                                    />
                                     <div className="mb-6">
                                         <label
                                             htmlFor="cost"
@@ -390,7 +396,7 @@ const HotelAdmin = (props) => {
                     </div>
                 </div>
             ))}
-        </Layout>
+        </>
     );
 };
 

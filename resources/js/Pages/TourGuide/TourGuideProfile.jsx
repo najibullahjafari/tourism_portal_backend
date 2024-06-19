@@ -51,7 +51,7 @@ const TourGuideProfile = () => {
                         <div className="text-2xl font-bold text-gray-800 mb-6 text-center">
                             {data.userType == "tourGuide"
                                 ? "Tour Guide "
-                                : "Tourist"}
+                                : "Tourism"}
                         </div>
                         <form onSubmit={handleSubmit}>
                             <input

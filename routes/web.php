@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\sight_seeingController;
 use App\Http\Controllers\TransportationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,7 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\HotelRequestController;
 use App\Http\Controllers\tourguideController;
 use App\Http\Controllers\tourguideRequestController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/addHotel', [HotelController::class, 'create'])->name('addHotel');
     Route::post('/addHotel', [HotelController::class, 'store'])->name('hotel.store');
     Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
-    Route::post('/HotelDashboard/{id}', [HotelController::class, 'viewHotel'])->name('hotel.dashboard');
+    Route::get('/HotelDashboard/{id}', [HotelController::class, 'viewHotel'])->name('hotel.dashboard');
     Route::put('/hotelUpdate/{id}', [HotelController::class, 'update'])->name('hotelUpdate');
     // Food Category Rout 
     Route::get('/addFootCategory', [HotelController::class, 'createFootCategory'])->name('addFootCategory');
@@ -97,6 +99,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/cars/requests', function () {
         return Inertia::render('Transportation/CarRequests');
     })->name('cars.requests');
+
+    // Sight Seeing Places
+    Route::get('/sightSeeing', [sight_seeingController::class, 'index'])->name('sightSeeing.index');
+    Route::get('/sightSeeingRequest', [sight_seeingController::class, 'show'])->name('userRequest');
+    Route::get('/addSightSeeing', [sight_seeingController::class, 'create'])->name('sightSeeing.create');
+    Route::post('/addSightSeeing', [sight_seeingController::class, 'store'])->name('sightSeeing.store');
+    Route::delete('/sightSeeingRequest/{id}', [sight_seeingController::class, 'destroy'])->name('sighgtSeeingRequest.destroy');
+    Route::post('/sightSeeingRequest/{id}', [sight_seeingController::class, 'change'])->name('sightSeeingRequest.update');
+    Route::delete('/sightSeeing/{id}', [sight_seeingController::class, 'deleteSightSeeing'])->name('sightSeeing.delete');
+    Route::get('/sightSeeingDashboard/{id}', [sight_seeingController::class, 'updateSightSeeing'])->name('sightSeeing.update');
 });
 
 
@@ -107,10 +119,5 @@ Route::get('/uikit/button', function () {
 
 
 
-Route::get('tourGuideList/view', function () {
-    return Inertia::render('TourGuide/TourGuideView');
-})->name('tourGuideListView');
-Route::get('tourGuideRequest/view', function () {
-    return Inertia::render('TourGuide/TourGuideRequestView');
-})->name('tourGuideRequestView');
+
 require __DIR__ . '/auth.php';

@@ -5,7 +5,7 @@ import { Button } from "primereact/button";
 import { useState } from "react";
 const HotelRequest = () => {
     const { data } = usePage().props;
-    console.log(data, "none");
+
     const handleReject = (id) => {
         router.delete(`/hotelRequest/${id}`);
     };

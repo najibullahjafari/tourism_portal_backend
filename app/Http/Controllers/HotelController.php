@@ -100,8 +100,32 @@ class HotelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function viewHotel($id)
+    public function viewHotel($id, Request $request)
     {
+        if ($request->has('name') && $request->has('address') && $request->has('province')) {
+            $hotel = Hotel::findOrFail($id);
+            $hotel->name = $request->name;
+            $hotel->address = $request->address;
+            $hotel->province = $request->province;
+            $hotel->save();
+
+        }
+        if ($request->has('cost') && $request->has('room_number') && $request->has('capacity')) {
+            $room = room::findOrFail($request->id);
+            $room->cost = $request->cost;
+            $room->room_number = $request->room_number;
+            $room->capacity = $request->capacity;
+            $room->save();
+
+        }
+        if ($request->has('name') && $request->has('description') && $request->has('cost')) {
+            $food = foot::findOrFail($request->id);
+            $food->cost = $request->cost;
+            $food->name = $request->name;
+            $food->description = $request->description;
+            $food->save();
+
+        }
         $hotel = Hotel::where('id', $id)->get();
         $rooms = room::where('hotel_id', $id)->get();
         $foods = foot::where('hotel_id', $id)->get();
