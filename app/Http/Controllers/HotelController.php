@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\Hotel;
 use App\Models\foot_category;
 use App\Models\foot;
@@ -10,6 +12,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
+use App\Models\like;
 
 
 class HotelController extends Controller
@@ -310,5 +313,94 @@ class HotelController extends Controller
         $room->hotel_id = $request->hotel_id;
         $room->save();
         return Redirect::back();
+    }
+
+    // Hotel Views
+    public function view()
+    {
+        $data = Hotel::where('status', 'active')->get();
+
+        foreach ($data as $item) {
+            $item->photoAddress = asset($item->photoAddress);
+            $item->food = foot::where('hotel_id', $item->id)->get();
+            $item->liked = like::where('type', "hotel")->where('obj_id', $item->id)->get()->count();
+
+        }
+        return Inertia::render('Hotel/Hotels', [
+            'data' => $data,
+        ]);
+    }
+
+    // Hotel Communication
+    public function comment()
+    {
+        return null;
+    }
+    public function showDetial($id)
+    {
+        $hotel = Hotel::where('id', $id)->get();
+        $rooms = room::where('hotel_id', $id)->get();
+        $foods = foot::where('hotel_id', $id)->get();
+
+        $hotel[0]->photoAddress = asset($hotel[0]->photoAddress);
+        $hotel[0]->hotelLiked = like::where('type', "hotel")->where('obj_id', $hotel[0]->id)->get()->count();
+
+        foreach ($foods as $item) {
+            $item->image = asset($item->image);
+            $item->foodsLiked = like::where('type', "food")->where('obj_id', $item->id)->get()->count();
+
+        }
+        foreach ($rooms as $item) {
+
+            $item->roomsLiked = like::where('type', "room")->where('obj_id', $item->id)->get()->count();
+
+        }
+        return Inertia::render('Hotel/HotelDetial', [
+            'hotel' => $hotel,
+            'rooms' => $rooms,
+            'foods' => $foods
+        ]);
+    }
+    public function like($id, Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $type = $request->type;
+        $page = $request->page;
+        $like = like::where('user_id', $user_id)->where('obj_id', $id)->where('type', $type)->get();
+        if ($like->count() == 0) {
+            $newLike = new like();
+            $newLike->user_id = $user_id;
+            $newLike->obj_id = $id;
+            $newLike->type = $type;
+            $newLike->save();
+
+        } else {
+            foreach ($like as $existingLike) {
+                $existingLike->delete();
+            }
+        }
+        if ($page == 'hotel') {
+            return redirect()->route('hotels');
+        } else if ($type == 'hotelDetial') {
+            return redirect()->route('hotel.showDetial', ['id' => $id]);
+        } else if ($page == 'sight_seeing') {
+            return redirect()->route('sightSeeings');
+        } else if ($page == 'sight_seeingDetial') {
+            return redirect()->route('SightSeeingDetial', ['id' => $id]);
+
+        } else if ($page == 'tourGuide') {
+            return redirect()->route('tourGuides');
+
+        } else if ($page == 'tourGuideDetial') {
+            return redirect()->route('TourGuideDetial', ['id' => $id]);
+
+        } else if ($page == 'tourists') {
+            return redirect()->route('tourists');
+
+        } else if ($page == 'touristDetial') {
+            return redirect()->route('touristDetial', ['id' => $id]);
+
+        }
+
     }
 }

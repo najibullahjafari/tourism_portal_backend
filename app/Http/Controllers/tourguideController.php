@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\tourguide;
+use App\Models\like;
 use Illuminate\Support\Facades\Redirect;
 
 class tourguideController extends Controller
@@ -149,6 +150,60 @@ class tourguideController extends Controller
         $data = tourguide::where('status', 'active')->get();
         return Inertia::render('TourGuide/TourGuideList', [
             'data' => $data
+        ]);
+    }
+    public function view()
+    {
+        $data = tourguide::where('status', 'active')->where('userType', 'tourGuide')->get();
+
+        foreach ($data as $item) {
+            $item->image = asset($item->image);
+            $item->liked = like::where('type', "tourGuide")->where('obj_id', $item->id)->get()->count();
+
+        }
+        return Inertia::render('TourGuide/TourGuides', [
+            'data' => $data,
+        ]);
+    }
+    public function viewDetial($id)
+    {
+        $data = tourguide::where('id', $id)->get();
+
+        foreach ($data as $item) {
+            $item->image = asset($item->image);
+            $item->liked = like::where('type', "tourGuide")->where('obj_id', $item->id)->get()->count();
+
+        }
+        return Inertia::render('TourGuide/TourGuideDetial', [
+            'data' => $data,
+        ]);
+    }
+
+    // Tourist View and Like
+    public function viewTourist()
+    {
+        $data = tourguide::where('status', 'active')->where('userType', 'tourist')->get();
+
+        foreach ($data as $item) {
+            $item->image = asset($item->image);
+            $item->liked = like::where('type', "tourist")->where('obj_id', $item->id)->get()->count();
+
+        }
+        return Inertia::render('TourGuide/Tourists', [
+            'data' => $data,
+        ]);
+    }
+    public function touristDetial($id)
+    {
+        $data = tourguide::where('id', $id)->get();
+
+        foreach ($data as $item) {
+            $item->image = asset($item->image);
+            $item->liked = like::where('type', "tourist")->where('obj_id', $item->id)->get()->count();
+
+        }
+        return Inertia::render('TourGuide/TouristDetial', [
+            'data' => $data,
         ]);
     }
 }

@@ -74,7 +74,7 @@ class tourguideRequestController extends Controller
         $tourguide = tourguide::find($id);
         $tourguide->status = 'active';
         $tourguide->save();
-        return redirect()->route('userRequest');
+        return redirect()->route('user');
     }
 
     /**
@@ -84,6 +84,6 @@ class tourguideRequestController extends Controller
     {
         $tourguide = tourguide::find($id);
         $tourguide->delete();
-        return redirect()->route('userRequest');
+        return redirect()->route('userRequest.index');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\like;
 use App\Models\sight_seeing;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -180,5 +181,30 @@ class sight_seeingController extends Controller
             return Inertia::render('SightSeeing/SightSeeingUpdate', ['data' => $data]);
         }
     }
+    public function view()
+    {
+        $data = sight_seeing::where('status', 'active')->get();
 
+        foreach ($data as $item) {
+            $item->image = asset($item->image);
+            $item->liked = like::where('type', "sight_seeing")->where('obj_id', $item->id)->get()->count();
+
+        }
+        return Inertia::render('SightSeeing/SightSeeings', [
+            'data' => $data,
+        ]);
+    }
+    public function viewDetial($id)
+    {
+        $data = sight_seeing::where('id', $id)->get();
+
+        foreach ($data as $item) {
+            $item->image = asset($item->image);
+            $item->liked = like::where('type', "sight_seeing")->where('obj_id', $item->id)->get()->count();
+
+        }
+        return Inertia::render('SightSeeing/SightSeeingDetial', [
+            'data' => $data,
+        ]);
+    }
 }

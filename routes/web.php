@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/userProfile/update', [tourguideController::class, 'update'])->name('user.update');
 
     // Tour Guide Request
-    Route::get('userRequest', [tourguideRequestController::class, 'index'])->name('userRequest');
+    Route::get('userRequest', [tourguideRequestController::class, 'index'])->name('userRequest.index');
     Route::delete('userRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");
     Route::post("/userRequest/{id}", [tourguideRequestController::class, "update"])->name("tourguideRequest.update");
     // Transportation
@@ -109,6 +109,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/sightSeeingRequest/{id}', [sight_seeingController::class, 'change'])->name('sightSeeingRequest.update');
     Route::delete('/sightSeeing/{id}', [sight_seeingController::class, 'deleteSightSeeing'])->name('sightSeeing.delete');
     Route::get('/sightSeeingDashboard/{id}', [sight_seeingController::class, 'updateSightSeeing'])->name('sightSeeing.update');
+
+    // Views
+    Route::get('/hotel/view', [HotelController::class, 'view'])->name("hotels");
+    // Route::get('/hotel/comment', [HotelController::class, 'comment'])->name('hotelComment');
+    Route::get('/HotelDetial/{id}', [HotelController::class, 'showDetial'])->name('hotel.showDetial');
+    Route::get('/sightSeeing/view', [sight_seeingController::class, 'view'])->name('sightSeeings');
+    Route::get('/SightSeeingDetial/{id}', [sight_seeingController::class, 'viewDetial'])->name('SightSeeingDetial');
+    Route::get('/tourGuide/view', [tourguideController::class, 'view'])->name('tourGuides');
+    Route::get('/tourGuideDetial/{id}', [tourGuideController::class, 'viewDetial'])->name('TourGuideDetial');
+    Route::get('/tourist/view', [tourguideController::class, 'viewTourist'])->name('tourists');
+    Route::get('/touristDetial/{id}', [tourGuideController::class, 'touristDetial'])->name('touristDetial');
+
+    // Like 
+    Route::get('/like/{id}', [HotelController::class, 'like'])->name('hotel.like');
+
 });
 
 
