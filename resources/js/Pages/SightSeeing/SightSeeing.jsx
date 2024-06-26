@@ -8,17 +8,15 @@ import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useRef } from "react";
-// import { SpeedDial } from "primereact/speeddial";
-// import { useRouter } from "next/router";
-const HotelList = () => {
+const SightSeeing = () => {
     const { data } = usePage().props;
     const [q, setQ] = useState("");
     const [category, setCategory] = useState("");
-    const [selectedHotel, setSelectedHotel] = useState(null);
+    const [selectedSightSeeing, setSelectedSeeing] = useState(null);
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
     const handleDelete = (id) => {
-        router.delete(`/hotels/${id}`);
+        router.delete(`/sightSeeing/${id}`);
         toast.current.show({
             severity: "danger",
             summary: "Delete",
@@ -55,21 +53,11 @@ const HotelList = () => {
                             icon="pi pi-plus"
                             severity="success"
                             onClick={() => {
-                                router.get(`/addFood`);
+                                router.get("/addSightSeeing");
                             }}
                             className="px-2 py-2 rounded m-3"
                         >
-                            <span className="mx-2">Food</span>
-                        </Button>
-                        <Button
-                            icon="pi pi-plus"
-                            severity="success"
-                            onClick={() => {
-                                router.get(`/addRoom`);
-                            }}
-                            className="px-2 py-2 rounded m-3"
-                        >
-                            <span className="mx-2">Room</span>
+                            <span className="mx-2">Sight Seeing</span>
                         </Button>
                     </div>
                     <form className="box-content shadow-sm bg-white my-5">
@@ -124,13 +112,20 @@ const HotelList = () => {
                                 Province
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Open Time
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Close Time
+                            </th>
+
+                            <th scope="col" class="px-6 py-3">
                                 Image
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Visit
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Action Hotel
+                                Action 
                             </th>
                         </tr>
                     </thead>
@@ -144,10 +139,12 @@ const HotelList = () => {
                                 <td class="px-6 py-4">{item.name}</td>
                                 <td class="px-6 py-4">{item.address}</td>
                                 <td class="px-6 py-4">{item.province}</td>
+                                <td class="px-6 py-4">{item.close_time}</td>
+                                <td class="px-6 py-4">{item.open_time}</td>
                                 <td class="px-6 py-4">
                                     {" "}
                                     <img
-                                        src={item.photoAddress}
+                                        src={item.image}
                                         alt="Image"
                                         class="w-20 object-cover rounded"
                                     />
@@ -157,7 +154,7 @@ const HotelList = () => {
                                         <Button
                                             onClick={() =>
                                                 router.get(
-                                                    `/HotelDashboard/${item.id}`
+                                                    `/sightSeeingDashboard/${item.id}`
                                                 )
                                             }
                                             key={item.id}
@@ -185,7 +182,7 @@ const HotelList = () => {
                                             icon="pi pi-eye"
                                             severity="success"
                                             onClick={() => {
-                                                setSelectedHotel(item);
+                                                setSelectedSeeing(item);
                                                 setVisible(true);
                                             }}
                                             className="px-2 py-1 rounded"
@@ -196,7 +193,7 @@ const HotelList = () => {
                         ))}
                     </tbody>
                 </table>
-                {selectedHotel && (
+                {selectedSightSeeing && (
                     <Dialog
                         visible={visible}
                         modal
@@ -209,39 +206,41 @@ const HotelList = () => {
                             }}
                         >
                             <div className="flex flex-column px-8 py-5 gap-4">
-                                <h2>Name: {selectedHotel.name}</h2>
-                                <p>Address: {selectedHotel.address}</p>
-                                <p>Province: {selectedHotel.province}</p>
                                 <div>
-                                    <p>Hotel:</p>
+                                    <h2>SightSeeing:</h2>
                                     <img
-                                        src={selectedHotel.photoAddress}
+                                        src={selectedSightSeeing.image}
                                         width={400}
                                         height={50}
-                                        alt="Hotel"
+                                        alt=""
                                         className="rounded border p-2"
                                     />
                                 </div>
-
-                                {/* <Button
-                                    label="Accept"
-                                    icon="pi pi-check"
-                                    className="p-button-success"
-                                    onClick={() =>
-                                        confirmAction(
-                                            selectedHotel.id,
-                                            acceptCar
-                                        )
-                                    }
-                                /> */}
-                                {/* <Button
-                                    label="Reject"
-                                    icon="pi pi-times"
-                                    className="p-button-danger"
-                                    onClick={() =>
-                                        confirmAction(selectedCar.id, rejectCar)
-                                    }
-                                /> */}
+                                <div>
+                                    <h2>Name</h2>
+                                    <p>{selectedSightSeeing.name}</p>
+                                </div>
+                                <div>
+                                    <h2>Address</h2>
+                                    <p> {selectedSightSeeing.address}</p>
+                                </div>
+                                <div>
+                                    <h2>Province</h2>
+                                    <p>{selectedSightSeeing.province}</p>
+                                </div>
+                                <div>
+                                    <h2>Close Time</h2>
+                                    <p>{selectedSightSeeing.close_time}</p>
+                                </div>
+                                <div>
+                                    <h2>Open Time</h2>
+                                    <p>{selectedSightSeeing.open_time}</p>
+                                </div>
+                                <div>
+                                    {" "}
+                                    <h2>Description</h2>
+                                    <p>{selectedSightSeeing.description}</p>
+                                </div>
                             </div>
                         </div>
                     </Dialog>
@@ -251,4 +250,4 @@ const HotelList = () => {
     );
 };
 
-export default HotelList;
+export default SightSeeing;

@@ -2,6 +2,8 @@ import Layout from "@/Layouts/layout/layout";
 import { router, useForm } from "@inertiajs/react";
 import React from "react";
 import { data } from "autoprefixer";
+import { useEffect } from "react";
+import { useState } from "react";
 const AddTourGuide = (props) => {
     const {
         data: formData,
@@ -18,18 +20,48 @@ const AddTourGuide = (props) => {
         location: "",
         bio: "",
         phone: "",
+        userType: "",
         status: "deactive",
     });
+    // useEffect(() => {
+    //     return () => {
+    //         reset("passpord", "image");
+    //     };
+    // }, []);
     const handleSubmite = (e, data) => {
         e.preventDefault();
-        console.log(data.name, "It should work");
-        post(route("addTourGuide"));
+        post(route("addUser"));
+    };
+    const [photo, setPhoto] = useState(null);
+    const [passport, setPassport] = useState(null);
+
+    const handleFileUploadImage = (event) => {
+        const file = event.target.files[0];
+        setData("image", file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPhoto(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    const handleFileUploadPassport = (event) => {
+        const file = event.target.files[0];
+        setData("passpord", file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPassport(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
     return (
         <Layout>
             <div className="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
                 <h3 className="max-w-md mx-auto mt-5 text-center ">
-                    ADD NEW TOUR GUIDE
+                    ADD NEW USER
                 </h3>
                 <form
                     className="max-w-md mx-auto"
@@ -75,14 +107,13 @@ const AddTourGuide = (props) => {
                     </div>
                     <div className="relative z-0 w-full mb-5 group mt-5">
                         <input
-                            type="input"
+                            type="file"
                             name="image"
                             id="image"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
                             required
-                            value={data.image}
-                            onChange={(e) => setData("image", e.target.value)}
+                            onChange={handleFileUploadImage}
                         />
                         <label
                             htmlFor="image"
@@ -93,16 +124,13 @@ const AddTourGuide = (props) => {
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
                         <input
-                            type="Input"
+                            type="file"
                             name="passpord"
                             id="passpord"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" "
                             required
-                            value={data.passpord}
-                            onChange={(e) =>
-                                setData("passpord", e.target.value)
-                            }
+                            onChange={handleFileUploadPassport}
                         />
                         <label
                             htmlFor="passpord"
@@ -183,6 +211,22 @@ const AddTourGuide = (props) => {
                         >
                             Bio
                         </label>
+                    </div>
+                    <div className="relative z-0 w-full mb-5 group">
+                        <select
+                            name="userType"
+                            value={data.userType}
+                            onChange={(e) => {
+                                setData("userType", e.target.value);
+                            }}
+                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        >
+                            <option disabled selected>
+                                Choose an option
+                            </option>
+                            <option value="tourGuide">Tour Guide</option>
+                            <option value="tourist">Tourist</option>
+                        </select>
                     </div>
                     <span>
                         <button
