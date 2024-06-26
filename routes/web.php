@@ -63,12 +63,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/foodCategory/{id}', [HotelController::class, 'deleteFoodCategory'])->name('foodCategory.delete');
 
     //Food Route
+
     Route::get('/addFood', [HotelController::class, 'createAddFood'])->name('addFood.create');
     Route::post('/addFood', [HotelController::class, 'AddFood'])->name('food.store');
 
     // Add Room
     Route::get('/addRoom', [HotelController::class, 'createRoom'])->name(('room.create'));
     Route::post('/addRoom', [HotelController::class, 'storeRoom'])->name(('room.store'));
+
 
     // Hotel Request
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
@@ -87,13 +89,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('userRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");
     Route::post("/userRequest/{id}", [tourguideRequestController::class, "update"])->name("tourguideRequest.update");
     // Transportation
+    Route::get('/cars', function () {
+        return Inertia::render('Transportation/cars');
+    })->name('cars');
     Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
     Route::delete('car/requests/{id}', [TransportationController::class, 'destroy'])->name('transportation.destroy');
     Route::post('car/requests/', [TransportationController::class, 'store'])->name('transportation.requests');
     Route::post('car/accepted/{id}', [TransportationController::class, 'acceptCar']);
     Route::get('/car/last-transportation-id', [TransportationController::class, 'lastTransportationId']);
     Route::post('car/rejected/{id}', [TransportationController::class, 'rejectCar']);
-    Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
     Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
     Route::get('cars/requested/cars', [TransportationController::class, 'showrequests'])->name('cars.requested.cars');
     Route::get('/cars/requests', function () {

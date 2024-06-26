@@ -28,7 +28,7 @@ class TransportationController extends Controller
       $car->image = asset($car->image);
     }
 
-    return Inertia::render('Transportation/cars', ['data' => $cars]);
+    return Inertia::render('Transportation/Cars', ['data' => $cars]);
   }
   public function store(Request $request)
   {
