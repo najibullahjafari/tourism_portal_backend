@@ -2,18 +2,68 @@ import Layout from "@/Layouts/layout/layout";
 import React from "react";
 import { Link, router, useForm, usePage } from "@inertiajs/react";
 import { Button } from "primereact/button";
+import { useState } from "react";
 const HotelRequest = () => {
     const { data } = usePage().props;
-    const { delete: destroy } = useForm();
+
     const handleReject = (id) => {
         router.delete(`/hotelRequest/${id}`);
     };
     const handleAccept = (id) => {
         router.post(`/hotelRequest/${id}`);
     };
+    const [q, setQ] = useState("");
+    const [category, setCategory] = useState("");
     return (
         <Layout>
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <Button
+                            icon="pi pi-plus"
+                            severity="success"
+                            onClick={() => {
+                                router.get(`/addHotel`);
+                            }}
+                            className="px-2 py-2 rounded m-3"
+                        >
+                            <span className="mx-2">Hotel</span>
+                        </Button>
+                    </div>
+                    <form className="box-content shadow-sm bg-white my-5">
+                        <select
+                            name="category"
+                            value={category}
+                            onChange={(e) => {
+                                setCategory(e.target.value);
+                            }}
+                            className="mx-2 my-2 w-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <legend>Option</legend>
+                            <option value="id">ID</option>
+                            <option value="name">Name</option>
+                            <option value="province">Province</option>
+                        </select>
+                        <input
+                            type="search"
+                            required
+                            name="q"
+                            value={q}
+                            onChange={(e) => {
+                                setQ(e.target.value);
+                            }}
+                            className="w-4 mx-2 my-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        ></input>
+                        <button
+                            type="submit"
+                            className=" mx-2 my-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        >
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-white-50 uppercase bg-black-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>

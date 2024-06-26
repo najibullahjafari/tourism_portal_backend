@@ -12,12 +12,33 @@ class HotelRequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Hotel::where('status', 'deactive')->get();
-        return Inertia::render('Hotel/HotelRequest', [
-            'data' => $data
-        ]);
+        if ($request->has("category") && $request->has("q")) {
+            $col = $request->category;
+            $val = $request->q;
+            $data = Hotel::where('status', 'deactive')->where($col, 'like', '%' . $val . '%')->get();
+            foreach ($data as $item) {
+                $item->photoAddress = asset($item->photoAddress);
+
+            }
+            return Inertia::render('Hotel/HotelRequest', [
+                'data' => $data,
+            ]);
+
+        } else {
+
+
+            $data = Hotel::where('status', 'deactive')->get();
+            foreach ($data as $item) {
+                $item->photoAddress = asset($item->photoAddress);
+
+            }
+            return Inertia::render('Hotel/HotelRequest', [
+                'data' => $data,
+            ]);
+        }
+
     }
 
     /**

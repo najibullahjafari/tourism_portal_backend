@@ -10,18 +10,17 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('tourguide', function (Blueprint $table) {
+        Schema::create('sight_seeing', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('father_name');
+            $table->string('province');
+            $table->string('address');
+            $table->string('description');
+            $table->date('close_time');
+            $table->date('open_time');
+            $table->string('ticket_cost');
             $table->string('image');
-            $table->string('passpord');
-            $table->string('id_card');
-            $table->string('location');
-            $table->text('bio');
-            $table->string('phone');
-            $table->string('userType');
             $table->string('status');
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('tourguide');
+        Schema::dropIfExists('sight_seeing');
     }
 };

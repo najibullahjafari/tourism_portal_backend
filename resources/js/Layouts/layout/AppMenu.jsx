@@ -16,6 +16,12 @@ const AppMenu = () => {
                     icon: "pi pi-fw pi-home",
                     to: route("dashboard"),
                 },
+                // If our user is Hotel Admin Use this link instead of Dashboard
+                // {
+                //     label: "Hotel Admin",
+                //     icon: "pi pi-fw pi-home",
+                //     to: route("hotel.dashboard"),
+                // },
                 {
                     label: "Hotel",
                     icon: "pi pi-fw pi-id-card",
@@ -35,11 +41,11 @@ const AppMenu = () => {
                             icon: "pi pi-fw pi-home",
                             to: route("addHotel"),
                         },
-                        {
-                            label: "Add Categoy Foot",
-                            icon: "pi pi-fw pi-home",
-                            to: route("addFootCategory"),
-                        },
+                        // {
+                        //     label: "Add Categoy Foot",
+                        //     icon: "pi pi-fw pi-home",
+                        //     to: route("addFootCategory"),
+                        // },
                         {
                             label: "Categoy Foot",
                             icon: "pi pi-fw pi-home",
@@ -64,30 +70,62 @@ const AppMenu = () => {
                     ],
                 },
                 {
-                    label: "Tour Guide",
+                    label: "User",
                     icon: "pi pi-fw pi-id-card",
                     items: [
                         {
-                            label: "Tour Guide",
+                            label: "User",
                             icon: "pi pi-fw pi-user",
-                            to: route("tourGuide"),
+                            to: route("user"),
                         },
                         {
                             label: "Request",
                             icon: "pi pi-fw pi-user",
-                            to: route("tourGuideRequest"),
-                        },
-                        {
-                            label: "Add Tour Guide",
-                            icon: "pi pi-fw pi-car",
-                            to: route("addTourGuide"),
+                            to: route("userRequest.index"),
                         },
                     ],
                 },
                 {
-                    label: "Settings",
-                    icon: "pi pi-fw pi-cog",
-                    to: route("dashboard"),
+                    label: "Sight Seeing",
+                    icon: "pi pi-fw pi-id-card",
+                    items: [
+                        {
+                            label: "Sight Seeing",
+                            icon: "pi pi-fw pi-user",
+                            to: route("sightSeeing.index"),
+                        },
+                        {
+                            label: "Request",
+                            icon: "pi pi-fw pi-user",
+                            to: route("userRequest"),
+                        },
+                    ],
+                },
+                {
+                    label: "View",
+                    icon: "pi pi-fw pi-id-card",
+                    items: [
+                        {
+                            label: "Hotels",
+                            icon: "pi pi-fw pi-user",
+                            to: route("hotels"),
+                        },
+                        {
+                            label: "Sight Seeing",
+                            icon: "pi pi-fw pi-user",
+                            to: route("sightSeeings"),
+                        },
+                        {
+                            label: "Tour Guide",
+                            icon: "pi pi-fw pi-user",
+                            to: route("tourGuides"),
+                        },
+                        {
+                            label: "Tourist",
+                            icon: "pi pi-fw pi-user",
+                            to: route("tourists"),
+                        },
+                    ],
                 },
             ],
         },
@@ -96,7 +134,7 @@ const AppMenu = () => {
     return (
         <MenuProvider>
             <ul className="layout-menu">
-                {model.map((item, i) => (
+                {model.map((item, i) =>
                     !item?.separator ? (
                         <AppMenuitem
                             item={item}
@@ -105,9 +143,12 @@ const AppMenu = () => {
                             key={item.label}
                         />
                     ) : (
-                        <li className="menu-separator" key={`separator-${i}`}></li>
+                        <li
+                            className="menu-separator"
+                            key={`separator-${i}`}
+                        ></li>
                     )
-                ))}
+                )}
             </ul>
         </MenuProvider>
     );
