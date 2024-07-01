@@ -22,6 +22,7 @@ const Hotel = () => {
                         type="search"
                         placeholder="Search Hotel"
                         className="search"
+                        name="q"
                     />
                     <Button
                         icon="pi pi-search"

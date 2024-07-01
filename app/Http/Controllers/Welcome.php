@@ -15,7 +15,12 @@ class Welcome extends Controller
     //
     public function hotel(Request $request)
     {
-        $data = Hotel::where('status', 'active')->get();
+        $data = Hotel::where('status', 'active');
+        if ($request->has('q')) {
+            $search = $request->q;
+            $data = $data->where('name', 'like', '%' . $search . '%')->orwhere('province', 'like', '%' . $search . '%');
+        }
+        $data = $data->get();
         foreach ($data as $item) {
             $item->photoAddress = asset($item->photoAddress);
 
@@ -32,7 +37,13 @@ class Welcome extends Controller
     }
     public function sightSeeing(Request $request)
     {
-        $data = sight_seeing::where('status', 'active')->get();
+        $data = sight_seeing::where('status', 'active');
+
+        if ($request->has('q')) {
+            $search = $request->q;
+            $data = $data->where('name', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
+        }
+        $data = $data->get();
         foreach ($data as $item) {
             $item->image = asset($item->image);
 
@@ -50,7 +61,12 @@ class Welcome extends Controller
 
     public function tourGuide(Request $request)
     {
-        $data = tourguide::where('status', 'active')->where('userType', 'tourGuide')->get();
+        $data = tourguide::where('status', 'active')->where('userType', 'tourGuide');
+        if ($request->has('q')) {
+            $search = $request->q;
+            $data = $data->where('name', 'like', '%' . $search . '%')->orwhere('bio', 'like', '%' . $search . '%');
+        }
+        $data = $data->get();
         foreach ($data as $item) {
             $item->image = asset($item->image);
 

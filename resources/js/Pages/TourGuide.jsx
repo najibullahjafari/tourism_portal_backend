@@ -20,8 +20,9 @@ const TourGuide = () => {
                 <form>
                     <input
                         type="search"
-                        placeholder="Search Hotel"
+                        placeholder="Search Tour Guide"
                         className="search"
+                        name="q"
                     />
                     <Button
                         icon="pi pi-search"

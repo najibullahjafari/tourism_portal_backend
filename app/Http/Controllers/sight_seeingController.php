@@ -79,7 +79,7 @@ class sight_seeingController extends Controller
             'open_time' => 'required|date',
             'description' => 'required|string',
             'ticket_cost' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'string',
 
         ]);
