@@ -1,0 +1,32 @@
+.contianer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    height: 60vh;
+    padding: 20px;
+    margin-top: 10px;
+}
+.contianer h4,
+p {
+    color: beige;
+}
+.about-us,
+.communication {
+    width: 25%;
+}
+.about-us img {
+    min-width: 60px;
+    width: 10%;
+    height: auto;
+    border: 2px solid whitesmoke;
+    margin-bottom: 4px;
+}
+
+.communication div {
+    margin-top: 10px;
+}
+/* .communication div a span {
+    color: beige;
+    margin-left: 5px;
+} */

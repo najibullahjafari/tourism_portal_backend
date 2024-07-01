@@ -112,8 +112,8 @@ class sight_seeingController extends Controller
         $sightSeeing->description = $request->description;
         $sightSeeing->status = $request->status;
         $sightSeeing->save();
-
-        return redirect::back()->with('message', 'Hotel request has been sent successfully');
+        return Inertia::render('Hotel/addHotel');
+        // return redirect::back()->with('message', 'Hotel request has been sent successfully');
 
     }
     public function destroy($id)
