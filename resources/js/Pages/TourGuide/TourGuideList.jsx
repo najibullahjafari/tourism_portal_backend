@@ -111,7 +111,7 @@ const TourGuideList = () => {
                                 Photo
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Passpord
+                                Passport
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 ID Card
@@ -156,7 +156,7 @@ const TourGuideList = () => {
                                 <td class="px-6 py-4">
                                     {""}
                                     <img
-                                        src={item.passpord}
+                                        src={item.passport}
                                         class="w-20 object-cover rounded"
                                         alt="Passport Image"
                                     />
@@ -244,10 +244,10 @@ const TourGuideList = () => {
                                 <div>
                                     <p>Passport:</p>
                                     <img
-                                        src={selectedTourGuide.passpord}
+                                        src={selectedTourGuide.passport}
                                         width={400}
                                         height={50}
-                                        alt="passpord"
+                                        alt="passport"
                                         className="rounded border p-2"
                                     />
                                 </div>

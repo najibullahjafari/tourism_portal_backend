@@ -114,7 +114,7 @@ const TourGuideRequest = (props) => {
                                 Photo
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Passpord
+                                Passport
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 ID Card
@@ -159,7 +159,7 @@ const TourGuideRequest = (props) => {
                                 <td class="px-6 py-4">
                                     {""}
                                     <img
-                                        src={item.passpord}
+                                        src={item.passport}
                                         class="w-20 object-cover rounded"
                                         alt="Passport Image"
                                     />
