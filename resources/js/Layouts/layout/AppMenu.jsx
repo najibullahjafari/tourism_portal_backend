@@ -127,6 +127,32 @@ const AppMenu = () => {
                         },
                     ],
                 },
+                {
+                    label: "Message",
+                    icon: "pi pi-fw pi-id-card",
+                    items: [
+                        {
+                            label: "Hotels",
+                            icon: "pi pi-fw pi-user",
+                            to: route("hotelsMessage"),
+                        },
+                        // {
+                        //     label: "Sight Seeing",
+                        //     icon: "pi pi-fw pi-user",
+                        //     to: route("sightSeeingsMessage"),
+                        // },
+                        // {
+                        //     label: "Tour Guide",
+                        //     icon: "pi pi-fw pi-user",
+                        //     to: route("tourGuidesMessage"),
+                        // },
+                        // {
+                        //     label: "Tourist",
+                        //     icon: "pi pi-fw pi-user",
+                        //     to: route("touristsMessage"),
+                        // },
+                    ],
+                },
             ],
         },
     ];
