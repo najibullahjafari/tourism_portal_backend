@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\tourguide;
+use App\Models\User;
 use App\Models\like;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
 
 class tourguideController extends Controller
 {
@@ -18,10 +20,10 @@ class tourguideController extends Controller
         if ($request->has("category") && $request->has("q")) {
             $col = $request->category;
             $val = $request->q;
-            $data = tourguide::where('status', 'active')->where($col, 'like', '%' . $val . '%')->get();
+            $data = User::where('status', 'active')->where($col, 'like', '%' . $val . '%')->get();
             foreach ($data as $item) {
                 $item->image = asset($item->image);
-                $item->passpord = asset($item->passpord);
+                $item->passport = asset($item->passport);
 
             }
             return Inertia::render('TourGuide/TourGuideList', [
@@ -29,10 +31,10 @@ class tourguideController extends Controller
             ]);
         } else {
 
-            $data = tourguide::where('status', 'active')->get();
+            $data = User::where('status', 'active')->get();
             foreach ($data as $item) {
                 $item->image = asset($item->image);
-                $item->passpord = asset($item->passpord);
+                $item->passport = asset($item->passport);
 
             }
             return Inertia::render('TourGuide/TourGuideList', [
@@ -54,20 +56,20 @@ class tourguideController extends Controller
      */
     public function store(Request $request)
     {
-        $passpordPath = null;
+        $passportPath = null;
         $previousPath = false;
         $imagePath = null;
         $previousImagePath = false;
-        if ($request->hasFile('passpord')) {
+        if ($request->hasFile('passport')) {
             try {
-                $file = $request->file('passpord');
-                $destinationPath = public_path('storage/passpord');
+                $file = $request->file('passport');
+                $destinationPath = public_path('storage/passport');
                 $fileName = time() . '.' . $file->getClientOriginalExtension();
                 $file->move($destinationPath, $fileName);
                 if (!file_exists($destinationPath . '/' . $fileName)) {
                     $previousPath = true;
                 }
-                $passpordPath = 'storage/passpord/' . $fileName;
+                $passportPath = 'storage/passport/' . $fileName;
             } catch (\Exception $e) {
                 return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
             }
@@ -90,18 +92,20 @@ class tourguideController extends Controller
         } else {
             return Redirect::back()->with('error', 'No passport file found in the request.');
         }
-        $tourguide = new tourguide();
-        $tourguide->name = $request->name;
-        $tourguide->father_name = $request->father_name;
-        $tourguide->image = $imagePath;
-        $tourguide->passpord = $passpordPath;
-        $tourguide->id_card = $request->id_card;
-        $tourguide->location = $request->location;
-        $tourguide->bio = $request->bio;
-        $tourguide->phone = $request->phone;
-        $tourguide->userType = $request->userType;
-        $tourguide->status = $request->status;
-        $tourguide->save();
+        $user = new User();
+        $user->name = $request->name;
+        $user->father_name = $request->father_name;
+        $user->image = $imagePath;
+        $user->passport = $passportPath;
+        $user->id_card = $request->id_card;
+        $user->location = $request->location;
+        $user->bio = $request->bio;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->userType = $request->userType;
+        $user->status = $request->status;
+        $user->save();
 
         return redirect()->back();
     }
@@ -122,13 +126,13 @@ class tourguideController extends Controller
      */
     public function edit($id)
     {
-        $tour = tourguide::where('id', $id)->get();
-        foreach ($tour as $item) {
+        $user = User::where('id', $id)->get();
+        foreach ($user as $item) {
             $item->image = asset($item->image);
-            $item->passpord = asset($item->passpord);
+            $item->passport = asset($item->passport);
         }
         return Inertia::render('TourGuide/TourGuideProfile', [
-            'tour' => $tour
+            'tour' => $user
         ]);
     }
 
@@ -154,7 +158,7 @@ class tourguideController extends Controller
     }
     public function view()
     {
-        $data = tourguide::where('status', 'active')->where('userType', 'tourGuide')->get();
+        $data = User::where('status', 'active')->get();
 
         foreach ($data as $item) {
             $item->image = asset($item->image);

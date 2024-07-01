@@ -1,15 +1,17 @@
 import { router, useForm, usePage } from "@inertiajs/react";
 import React from "react";
 import { useState } from "react";
+import Layout from "@/Layouts/layout/layout";
 
 const TourGuideProfile = () => {
     const { tour } = usePage().props;
+    console.log(tour);
     const { data, setData, processing } = useForm({
         id: tour[0].id,
         name: tour[0].name,
         father_name: tour[0].father_name,
         image: tour[0].image,
-        passpord: tour[0].passpord,
+        passport: tour[0].passport,
         id_card: tour[0].id_card,
         location: tour[0].location,
         bio: tour[0].bio,
@@ -20,7 +22,7 @@ const TourGuideProfile = () => {
         router.get("/userProfile/update");
     };
     const [imageProfile, setImage] = useState();
-    const [imagePasspord, setPasspord] = useState();
+    const [imagePassport, setPassport] = useState();
     const handleFileUploadImage = (event) => {
         const file = event.target.files[0];
         setData("image", file);
@@ -34,11 +36,11 @@ const TourGuideProfile = () => {
     };
     const handleFileUploadPassport = (event) => {
         const file = event.target.files[0];
-        setData("passpord", file);
+        setData("passport", file);
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setPasspord(reader.result);
+                setPassport(reader.result);
             };
             reader.readAsDataURL(file);
         }
@@ -117,22 +119,22 @@ const TourGuideProfile = () => {
                             </div>
                             <div className="mb-6">
                                 <img
-                                    src={data.passpord}
-                                    alt="Passpord image"
+                                    src={data.passport}
+                                    alt="Passport image"
                                     className="block py-2.5 px-0 w-full"
                                 />
                             </div>
                             <div className="mb-6">
                                 <input
                                     type="file"
-                                    name="passpord"
-                                    id="passpord"
+                                    name="passport"
+                                    id="passport"
                                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                     placeholder=" "
                                     onChange={handleFileUploadPassport}
                                 />
                                 <label
-                                    for="passpord"
+                                    for="passport"
                                     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                                 >
                                     Choose Passport

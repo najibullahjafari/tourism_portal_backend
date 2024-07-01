@@ -3,10 +3,12 @@ import AppMenuitem from "./AppMenuitem";
 import { LayoutContext } from "./context/layoutcontext";
 import { MenuProvider } from "./context/menucontext";
 import { Link } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
+import { rule } from "postcss";
 
 const AppMenu = () => {
-    const { layoutConfig } = useContext(LayoutContext);
-
+    const { user } = usePage().props;
+    const userRole = user.roles[0];
     const model = [
         {
             label: "Home",
@@ -15,13 +17,13 @@ const AppMenu = () => {
                     label: "Dashboard",
                     icon: "pi pi-fw pi-home",
                     to: route("dashboard"),
+                    roles: [
+                        "super-admin",
+                        "hotel-admin",
+                        "transport-admin",
+                        "tourist",
+                    ],
                 },
-                // If our user is Hotel Admin Use this link instead of Dashboard
-                // {
-                //     label: "Hotel Admin",
-                //     icon: "pi pi-fw pi-home",
-                //     to: route("hotel.dashboard"),
-                // },
                 {
                     label: "Hotel",
                     icon: "pi pi-fw pi-id-card",
@@ -41,17 +43,13 @@ const AppMenu = () => {
                             icon: "pi pi-fw pi-home",
                             to: route("addHotel"),
                         },
-                        // {
-                        //     label: "Add Categoy Foot",
-                        //     icon: "pi pi-fw pi-home",
-                        //     to: route("addFootCategory"),
-                        // },
                         {
                             label: "Categoy Foot",
                             icon: "pi pi-fw pi-home",
                             to: route("footCategories"),
                         },
                     ],
+                    roles: ["super-admin", "hotel-admin"],
                 },
                 {
                     label: "Transportation",
@@ -68,6 +66,7 @@ const AppMenu = () => {
                             to: route("cars.requested.cars"),
                         },
                     ],
+                    roles: ["super-admin", "transport-admin"],
                 },
                 {
                     label: "User",
@@ -84,6 +83,7 @@ const AppMenu = () => {
                             to: route("userRequest.index"),
                         },
                     ],
+                    roles: ["super-admin"],
                 },
                 {
                     label: "Sight Seeing",
@@ -126,6 +126,12 @@ const AppMenu = () => {
                             to: route("tourists"),
                         },
                     ],
+                    roles: [
+                        "super-admin",
+                        "hotel-admin",
+                        "transport-admin",
+                        "user",
+                    ],
                 },
                 {
                     label: "Message",
@@ -156,11 +162,28 @@ const AppMenu = () => {
             ],
         },
     ];
+    // Function to filter items based on the user's role
+    const filterItemsByRole = (items) => {
+        return items
+            .filter((item) => {
+                if (!item.roles) return true;
+                return item.roles.includes(userRole);
+            })
+            .map((item) => {
+                // Recursively filter sub-items if they exist
+                if (item.items) {
+                    return { ...item, items: filterItemsByRole(item.items) };
+                }
+                return item;
+            });
+    };
+
+    const filteredModel = filterItemsByRole(model);
 
     return (
         <MenuProvider>
             <ul className="layout-menu">
-                {model.map((item, i) =>
+                {filteredModel.map((item, i) =>
                     !item?.separator ? (
                         <AppMenuitem
                             item={item}

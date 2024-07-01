@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\tourguide;
+use App\Models\User;
 
 class tourguideRequestController extends Controller
 {
@@ -17,9 +18,9 @@ class tourguideRequestController extends Controller
         if ($request->has('category') && $request->has('q')) {
             $col = $request->category;
             $row = $request->q;
-            $data = tourguide::where('status', 'deactive')->where($col, 'like', '%' . $row . '%')->get();
+            $data = User::where('status', 'deactive')->where($col, 'like', '%' . $row . '%')->get();
         } else {
-            $data = tourguide::where('status', 'deactive')->get();
+            $data = User::where('status', 'deactive')->get();
         }
 
         foreach ($data as $item) {
@@ -71,7 +72,7 @@ class tourguideRequestController extends Controller
      */
     public function update($id)
     {
-        $tourguide = tourguide::find($id);
+        $tourguide = User::find($id);
         $tourguide->status = 'active';
         $tourguide->save();
         return redirect()->route('user');
@@ -82,7 +83,7 @@ class tourguideRequestController extends Controller
      */
     public function destroy($id)
     {
-        $tourguide = tourguide::find($id);
+        $tourguide = User::find($id);
         $tourguide->delete();
         return redirect()->route('userRequest.index');
     }
