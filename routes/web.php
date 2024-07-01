@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\sight_seeingController;
 use App\Http\Controllers\TransportationController;
+use App\Http\Controllers\Welcome;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,15 +25,16 @@ use App\Http\Controllers\tourguideRequestController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get(
+    '/',
+    [Welcome::class, 'sightSeeing']
+)->name('welcome.sightSeeing');
 
+Route::get(
+    '/about-hotel',
+    [Welcome::class, 'hotel']
+)->name('welcome.hotel');
+Route::get('/about-tourGuide', [Welcome::class, 'tourGuide'])->name('welcome.tourGuide');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })
@@ -139,15 +141,15 @@ Route::middleware('auth')->group(function () {
 
     });
 
+    // Message
+    Route::get('message', [HotelController::class, 'createMessage'])->name('hotelsMessage');
+    Route::get('messageDetail/{id}', [HotelController::class, 'createMessageDetial'])->name('messageDetial');
+    // Route::get('sendMessage', [HotelController::class, 'sendMessage'])->name('message.send');
+
 });
 
 
 Route::get('/uikit/button', function () {
     return Inertia::render('main/uikit/button/page');
 })->name('button');
-
-
-
-
-
 require __DIR__ . '/auth.php';

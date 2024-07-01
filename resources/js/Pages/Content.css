@@ -1,0 +1,60 @@
+form {
+    width: 100%;
+}
+.search {
+    width: 60%;
+    border: 2px solid lightblue;
+    border-radius: 3px;
+}
+.split {
+    width: 50%;
+    border: 1px solid black;
+}
+.main-hotel {
+    background-image: url("ghol.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+.main-sightSeeing {
+    background-image: url("Darloman.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+.main-tour-guide {
+    background-image: url("bg-tourGuide.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+div img {
+    height: 100vh;
+}
+.card {
+    padding-left: 0%;
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover .button {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.button {
+    transition: all 0.3s ease-in-out;
+    transform: translateX(10px);
+    opacity: 0;
+    width: max-content;
+}
+.card span p {
+    color: darkgray;
+}

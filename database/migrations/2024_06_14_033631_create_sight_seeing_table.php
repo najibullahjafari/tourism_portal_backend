@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('province');
             $table->string('address');
-            $table->string('description');
+            $table->text('description');
             $table->date('close_time');
             $table->date('open_time');
             $table->string('ticket_cost');
