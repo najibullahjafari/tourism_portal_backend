@@ -89,8 +89,16 @@ const cars = () => {
                             {data
                                 .filter((item) =>
                                     globalFilter
-                                        ? item.name.toLowerCase().includes(globalFilter.toLowerCase()) ||
-                                          item.location.toLowerCase().includes(globalFilter.toLowerCase())
+                                        ? item.name
+                                              .toLowerCase()
+                                              .includes(
+                                                  globalFilter.toLowerCase()
+                                              ) ||
+                                          item.location
+                                              .toLowerCase()
+                                              .includes(
+                                                  globalFilter.toLowerCase()
+                                              )
                                         : true
                                 )
                                 .slice(first, first + rows)
@@ -113,7 +121,6 @@ const cars = () => {
                                             />
                                         </td>
                                         <td class="px-6 py-4">
-                                            {console.log(item.image)}
                                             <img
                                                 src={item.image}
                                                 alt="Image"
