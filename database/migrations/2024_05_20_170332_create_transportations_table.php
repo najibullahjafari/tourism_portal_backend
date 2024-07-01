@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('phone')->nullable();
             $table->string('discription')->nullable();
             $table->string('location')->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             // here add status enum('pending, 'accepted', 'rejected'    )
             $table->enum('status', ['pending', 'accepted', 'rejected']);
 

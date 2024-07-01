@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('father_name');
             $table->string('image');
-            $table->string('passpord');
+            $table->string('passport');
             $table->string('id_card');
             $table->string('location');
             $table->text('bio');
