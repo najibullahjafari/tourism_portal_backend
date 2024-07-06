@@ -106,6 +106,31 @@ class tourguideController extends Controller
         $user->userType = $request->userType;
         $user->status = $request->status;
         $user->save();
+        // Assign role based on userType
+        switch ($user->userType) {
+            case 'tourguide':
+                $user->assignRole('tour-guide');
+                break;
+            case 'superadmin':
+                $user->assignRole('super-admin');
+                break;
+            case 'tourist':
+                $user->assignRole('tourist');
+                break;
+            case 'hoteladmin':
+                $user->assignRole('hotel-admin');
+                break;
+            case 'admin':
+                $user->assignRole('admin');
+                break;
+            case 'transportadmin':
+                $user->assignRole('transport-admin');
+                break;
+            default:
+                // Optionally handle unknown userType
+                $user->assignRole('user');
+                break;
+        }
 
         return redirect()->back();
     }
@@ -149,9 +174,9 @@ class tourguideController extends Controller
      */
     public function destroy($id)
     {
-        $hotel = tourguide::find($id);
+        $hotel = User::find($id);
         $hotel->delete();
-        $data = tourguide::where('status', 'active')->get();
+        $data = User::where('status', 'active')->get();
         return Inertia::render('TourGuide/TourGuideList', [
             'data' => $data
         ]);
