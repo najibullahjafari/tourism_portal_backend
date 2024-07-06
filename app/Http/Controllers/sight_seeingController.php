@@ -127,7 +127,7 @@ class sight_seeingController extends Controller
         $sight_seeing = sight_seeing::find($id);
         $sight_seeing->status = 'active';
         $sight_seeing->save();
-        return redirect()->route('sightSeeing.index');
+        return redirect()->route('userRequest');
     }
 
     public function deleteSightSeeing($id)
