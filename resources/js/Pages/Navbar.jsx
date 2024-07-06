@@ -1,14 +1,18 @@
 import { Link, router } from "@inertiajs/react";
 import { Button } from "primereact/button";
-import { ToggleButton } from "primereact/togglebutton";
 import React, { useState } from "react";
 
 const Navbar = ({ children }) => {
+    const [activeLink, setActiveLink] = useState("sightSeeing");
     const [isOpen, setIsOpen] = useState(false);
 
+    const handleLinkClick = (link) => {
+        setActiveLink(link);
+    };
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
     return (
         <nav className="sticky top-0 z-10 bg-white py-2 w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,7 +21,7 @@ const Navbar = ({ children }) => {
                         <Link to="/" className="flex-shrink-0">
                             <img
                                 className="h-8 w-auto"
-                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                                src="images\logo\logo.png"
                                 alt="Tourism Portal"
                             />
                         </Link>
@@ -25,25 +29,47 @@ const Navbar = ({ children }) => {
                             <div className="ml-10 flex items-baseline space-x-4">
                                 <Link
                                     href={route("welcome.sightSeeing")}
-                                    className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                                        activeLink === "sightSeeing"
+                                            ? "bg-gray-900 text-white"
+                                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                                    }`}
+                                    onClick={() =>
+                                        handleLinkClick("sightSeeing")
+                                    }
                                 >
                                     Sight Seeing
                                 </Link>
                                 <Link
                                     href={route("welcome.hotel")}
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                                        activeLink === "hotel"
+                                            ? "bg-gray-900 text-white"
+                                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                                    }`}
+                                    onClick={() => handleLinkClick("hotel")}
                                 >
                                     Hotel
                                 </Link>
                                 <Link
                                     href={route("welcome.tourGuide")}
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                                        activeLink === "tourGuide"
+                                            ? "bg-gray-900 text-white"
+                                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                                    }`}
+                                    onClick={() => handleLinkClick("tourGuide")}
                                 >
                                     Tour Guide
                                 </Link>
                                 <Link
                                     to="/about"
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                                        activeLink === "transport"
+                                            ? "bg-gray-900 text-white"
+                                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                                    }`}
+                                    onClick={() => handleLinkClick("transport")}
                                 >
                                     Transport
                                 </Link>
@@ -97,31 +123,56 @@ const Navbar = ({ children }) => {
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <Link
                         to="/"
-                        className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
+                        className={`block px-3 py-2 rounded-md text-base font-medium ${
+                            activeLink === "sightSeeing"
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                        onClick={() => handleLinkClick("sightSeeing")}
                     >
                         Sight Seeing
                     </Link>
                     <Link
                         to="/destinations"
-                        className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                        className={`block px-3 py-2 rounded-md text-base font-medium ${
+                            activeLink === "tourGuide"
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                        onClick={() => handleLinkClick("tourGuide")}
                     >
                         Tour Guide
                     </Link>
                     <Link
                         to="/packages"
-                        className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                        className={`block px-3 py-2 rounded-md text-base font-medium ${
+                            activeLink === "hotel"
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                        onClick={() => handleLinkClick("hotel")}
                     >
                         Hotel
                     </Link>
                     <Link
                         to="/about"
-                        className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                        className={`block px-3 py-2 rounded-md text-base font-medium ${
+                            activeLink === "transport"
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                        onClick={() => handleLinkClick("transport")}
                     >
                         Transport
                     </Link>
                     <Link
                         to="/contact"
-                        className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                        className={`block px-3 py-2 rounded-md text-base font-medium ${
+                            activeLink === "contact"
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                        }`}
+                        onClick={() => handleLinkClick("contact")}
                     >
                         Contact
                     </Link>

@@ -180,6 +180,7 @@ const AddTourGuide = () => {
                                 }
                             />
                         </div>
+                        {/* password */}
                         <div className="md:w-1/3 px-3 mb-6 md:mb-0">
                             <label
                                 htmlFor="password"
@@ -200,6 +201,7 @@ const AddTourGuide = () => {
                                 }
                             />
                         </div>
+                        {/* usertype */}
                         <div className="md:w-1/3 px-3 mb-6 md:mb-0">
                             <label
                                 htmlFor="userType"
@@ -218,8 +220,14 @@ const AddTourGuide = () => {
                                 <option disabled selected>
                                     Choose an option
                                 </option>
-                                <option value="tourGuide">Tour Guide</option>
+                                <option value="tourguide">Tour Guide</option>
                                 <option value="tourist">Tourist</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                                <option value="hoteladmin">Hotel Admin</option>
+                                <option value="transportadmin">
+                                    Transportation Admin
+                                </option>
                             </select>
                         </div>
                         {/* image */}

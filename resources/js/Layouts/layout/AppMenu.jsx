@@ -26,26 +26,27 @@ const AppMenu = () => {
                 },
                 {
                     label: "Hotel",
-                    icon: "pi pi-fw pi-id-card",
+                    icon: "pi pi-fw pi-building",
                     items: [
                         {
                             label: "Hotel List",
-                            icon: "pi pi-fw pi-home",
+                            icon: "pi pi-fw pi-list",
                             to: route("hotelList"),
                         },
                         {
-                            label: "Hotel Request",
-                            icon: "pi pi-fw pi-home",
+                            label: "Requests",
+                            icon: "pi pi-fw pi-request",
                             to: route("hotelRequest"),
+                            icon: "pi pi-fw pi-question",
                         },
                         {
                             label: "Add Hotel",
-                            icon: "pi pi-fw pi-home",
+                            icon: "pi pi-fw pi-plus",
                             to: route("addHotel"),
                         },
                         {
-                            label: "Categoy Foot",
-                            icon: "pi pi-fw pi-home",
+                            label: "Food categories",
+                            icon: "pi pi-fw pi-palette",
                             to: route("footCategories"),
                         },
                     ],
@@ -53,7 +54,7 @@ const AppMenu = () => {
                 },
                 {
                     label: "Transportation",
-                    icon: "pi pi-fw pi-id-card",
+                    icon: "pi pi-fw pi-car",
                     items: [
                         {
                             label: "Cars",
@@ -62,57 +63,42 @@ const AppMenu = () => {
                         },
                         {
                             label: "Requests",
-                            icon: "pi pi-fw pi-id-card",
+                            icon: "pi pi-fw pi-question",
                             to: route("cars.requested.cars"),
                         },
                     ],
                     roles: ["super-admin", "transport-admin"],
                 },
-                {
-                    label: "User",
-                    icon: "pi pi-fw pi-id-card",
-                    items: [
-                        {
-                            label: "User",
-                            icon: "pi pi-fw pi-user",
-                            to: route("user"),
-                        },
-                        {
-                            label: "Request",
-                            icon: "pi pi-fw pi-user",
-                            to: route("userRequest.index"),
-                        },
-                    ],
-                    roles: ["super-admin"],
-                },
+
                 {
                     label: "Sight Seeing",
-                    icon: "pi pi-fw pi-id-card",
+                    icon: "pi pi-fw pi-map",
                     items: [
                         {
                             label: "Sight Seeing",
-                            icon: "pi pi-fw pi-user",
+                            icon: "pi pi-fw pi-map",
                             to: route("sightSeeing.index"),
                         },
                         {
                             label: "Request",
-                            icon: "pi pi-fw pi-user",
+                            icon: "pi pi-fw pi-question",
                             to: route("userRequest"),
                         },
                     ],
+                    roles: ["super-admin", "sight-seeing-admin"],
                 },
                 {
                     label: "View",
-                    icon: "pi pi-fw pi-id-card",
+                    icon: "pi pi-fw pi-eye",
                     items: [
                         {
                             label: "Hotels",
-                            icon: "pi pi-fw pi-user",
+                            icon: "pi pi-fw pi-building", // Modified icon for hotel
                             to: route("hotels"),
                         },
                         {
                             label: "Sight Seeing",
-                            icon: "pi pi-fw pi-user",
+                            icon: "pi pi-fw pi-map",
                             to: route("sightSeeings"),
                         },
                         {
@@ -135,7 +121,7 @@ const AppMenu = () => {
                 },
                 {
                     label: "Message",
-                    icon: "pi pi-fw pi-id-card",
+                    icon: "pi pi-fw pi-envelope",
                     items: [
                         {
                             label: "Hotels",
@@ -158,6 +144,28 @@ const AppMenu = () => {
                         //     to: route("touristsMessage"),
                         // },
                     ],
+                },
+                {
+                    label: "User",
+                    icon: "pi pi-fw pi-user",
+                    items: [
+                        {
+                            label: "Active users",
+                            icon: "pi pi-fw pi-users",
+                            to: route("user"),
+                        },
+                        {
+                            label: "Request",
+                            icon: "pi pi-fw pi-question",
+                            to: route("userRequest.index"),
+                        },
+                        {
+                            label: "Profile",
+                            icon: "pi pi-fw pi-setting",
+                            to: route("profile.edit"),
+                        },
+                    ],
+                    roles: ["super-admin"],
                 },
             ],
         },

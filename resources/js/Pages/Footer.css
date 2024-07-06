@@ -8,9 +8,6 @@
     margin-top: 10px;
 }
 .contianer h4,
-p {
-    color: beige;
-}
 .about-us,
 .communication {
     width: 25%;
@@ -26,7 +23,11 @@ p {
 .communication div {
     margin-top: 10px;
 }
-/* .communication div a span {
+.communication div a span {
     color: beige;
     margin-left: 5px;
-} */
+}
+
+.sightseeing-place-container {
+    display: grid;
+}

@@ -85,18 +85,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
     Route::delete('/hotelRequest/{id}', [HotelRequestController::class, 'destroy'])->name('hotelRequest.destroy');
     Route::post("/hotelRequest/{id}", [HotelRequestController::class, 'update'])->name('hotelRequest.update');
-    // Tour Guide 
-    Route::get('user', [tourguideController::class, 'index'])->name('user');
-    Route::delete('/user/{id}', [tourguideController::class, 'destroy'])->name('user.destroy');
-    Route::get('/addUser', [tourguideController::class, 'create'])->name('addUser');
-    Route::post('addUser', [tourguideController::class, 'store'])->name('addUser');
-    Route::post('/userProfile/{id}', [tourguideController::class, 'edit'])->name('user.edit');
-    Route::get('/userProfile/{id}', [tourguideController::class, 'edit'])->name('user.edit');
-    Route::get('/userProfile/update', [tourguideController::class, 'update'])->name('user.update');
-    // Tour Guide Request
-    Route::get('userRequest', [tourguideRequestController::class, 'index'])->name('userRequest.index');
-    Route::delete('userRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");
-    Route::post("/userRequest/{id}", [tourguideRequestController::class, "update"])->name("tourguideRequest.update");
+
 
     // for setting 
     Route::get('/settings', [SettingsController::class, ''])->name('');
@@ -138,6 +127,19 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('users', App\Http\Controllers\UserController::class);
         Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
+        // User
+
+        Route::get('user', [tourguideController::class, 'index'])->name('user');
+        Route::delete('/user/{id}', [tourguideController::class, 'destroy'])->name('user.destroy');
+        Route::get('/addUser', [tourguideController::class, 'create'])->name('addUser');
+        Route::post('addUser', [tourguideController::class, 'store'])->name('addUser');
+        Route::post('/userProfile/{id}', [tourguideController::class, 'edit'])->name('user.edit');
+        Route::get('/userProfile/{id}', [tourguideController::class, 'edit'])->name('user.edit');
+        Route::get('/userProfile/update', [tourguideController::class, 'update'])->name('user.update');
+        // requested users
+        Route::get('userRequest', [tourguideRequestController::class, 'index'])->name('userRequest.index');
+        Route::delete('userRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");
+        Route::post("/userRequest/{id}", [tourguideRequestController::class, "update"])->name("tourguideRequest.update");
 
     });
 
