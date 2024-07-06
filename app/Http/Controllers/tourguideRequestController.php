@@ -20,7 +20,7 @@ class tourguideRequestController extends Controller
             $row = $request->q;
             $data = User::where('status', 'deactive')->where($col, 'like', '%' . $row . '%')->get();
         } else {
-            $data = User::where('status', 'deactive')->get();
+            $data = User::where('status')->get();
         }
 
         foreach ($data as $item) {
