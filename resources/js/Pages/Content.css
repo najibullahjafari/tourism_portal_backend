@@ -16,14 +16,16 @@
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-}
-.main-sightSeeing {
-    background-image: url("Darloman.jpg");
+}*/
+.sightSeeing {
+    background-image: url("sightSeeingBG.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: scroll;
+    filter: blur(0.5px);
 }
+/*
 .main-tour-guide {
     background-image: url("bg-tourGuide.jpg");
     background-size: cover;
@@ -58,3 +60,11 @@ div img {
 .card span p {
     color: darkgray;
 } */
+
+nav div ul li .costum-active {
+    padding: 8px;
+    background-color: rgb(71, 71, 71);
+    border: 1px solid rgb(71, 71, 71);
+    border-radius: 5px;
+    color: white;
+}
