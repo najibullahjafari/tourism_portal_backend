@@ -1,21 +1,50 @@
-import InputError from '@/Components/InputError';
-import PrimaryButton from '@/Components/PrimaryButton';
-import { Link, useForm, usePage } from '@inertiajs/react';
-import { Transition } from '@headlessui/react';
-import {InputText} from "primereact/inputtext";
+import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
+import { Link, useForm, usePage } from "@inertiajs/react";
+import { Transition } from "@headlessui/react";
+import { InputText } from "primereact/inputtext";
+import { useState } from "react";
 
-export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
+export default function UpdateProfileInformation({
+    mustVerifyEmail,
+    status,
+    className = "",
+}) {
     const user = usePage().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+    const {
+        data,
+        setData,
+        patch,
+        reset,
+        errors,
+        processing,
+        recentlySuccessful,
+    } = useForm({
         name: user.name,
         email: user.email,
+        father_name: user.father_name,
+        id_card: user.id_card,
+        phone: user.phone,
+        passport: user.passport,
+        image: user.image,
+        bio: user.bio,
+        status: user.status,
+        role: user.role,
     });
+    const [successMessage, setSuccessMessage] = useState("");
 
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        patch(route("profile.update"));
+        onSuccess = () => {
+            reset();
+            setSuccessMessage("The user Updated successfully!");
+            setTimeout(() => {
+                setSuccessMessage("");
+            }, 3000);
+        };
     };
 
     return (
@@ -30,29 +59,107 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
             <form onSubmit={submit} className="mt-4 space-y-6">
                 <div className="mb-3">
-                    <label htmlFor="name" className="block text-900 font-medium mb-2">Name</label>
+                    <label
+                        htmlFor="name"
+                        className="block text-900 font-medium mb-2"
+                    >
+                        Name
+                    </label>
                     <InputText
                         id="name"
                         type="text"
                         placeholder="Name"
                         className="w-full"
                         value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
+                        onChange={(e) => setData("name", e.target.value)}
                     />
-                    <InputError message={errors.email} className=""/>
+                    <InputError message={errors.email} className="" />
+                </div>
+                <div className="mb-3">
+                    <label
+                        htmlFor="father_name"
+                        className="block text-900 font-medium mb-2"
+                    >
+                        Father Name
+                    </label>
+                    <InputText
+                        id="father_name"
+                        type="text"
+                        placeholder="Father Name"
+                        className="w-full"
+                        value={data.father_name}
+                        onChange={(e) => setData("father_name", e.target.value)}
+                    />
+                    <InputError message={errors.father_name} className="" />
+                </div>
+                <div className="mb-3">
+                    <label
+                        htmlFor="id_card"
+                        className="block text-900 font-medium mb-2"
+                    >
+                        Id Card
+                    </label>
+                    <InputText
+                        id="id_card"
+                        type="text"
+                        placeholder="ID Card NO"
+                        className="w-full"
+                        value={data.id_card}
+                        onChange={(e) => setData("id_card", e.target.value)}
+                    />
+                    <InputError message={errors.id_card} className="" />
+                </div>
+                <div className="mb-3">
+                    <label
+                        htmlFor="phone"
+                        className="block text-900 font-medium mb-2"
+                    >
+                        Phone
+                    </label>
+                    <InputText
+                        id="phone"
+                        type="text"
+                        placeholder="Phone Number"
+                        className="w-full"
+                        value={data.phone}
+                        onChange={(e) => setData("phone", e.target.value)}
+                    />
+                    <InputError message={errors.phone} className="" />
+                </div>
+                <div className="mb-3">
+                    <label
+                        htmlFor="bio"
+                        className="block text-900 font-medium mb-2"
+                    >
+                        Bio
+                    </label>
+                    <InputText
+                        id="bio"
+                        type="text"
+                        placeholder="Bio"
+                        className="w-full"
+                        value={data.bio}
+                        onChange={(e) => setData("bio", e.target.value)}
+                    />
+                    <InputError message={errors.bio} className="" />
                 </div>
 
                 <div className="mb-3">
-                    <label htmlFor="email" className="block text-900 font-medium mb-2">Email</label>
+                    <label
+                        htmlFor="email"
+                        className="block text-900 font-medium mb-2"
+                    >
+                        Email
+                    </label>
                     <InputText
                         id="email"
                         type="text"
                         placeholder="Email address"
                         className="w-full"
                         value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
+                        onChange={(e) => setData("email", e.target.value)}
                     />
-                    <InputError message={errors.email} className=""/>
+                    <InputError message={errors.email} className="" />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
@@ -60,7 +167,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         <p className="text-sm mt-2 text-gray-800">
                             Your email address is unverified.
                             <Link
-                                href={route('verification.send')}
+                                href={route("verification.send")}
                                 method="post"
                                 as="button"
                                 className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -69,9 +176,10 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                             </Link>
                         </p>
 
-                        {status === 'verification-link-sent' && (
+                        {status === "verification-link-sent" && (
                             <div className="mt-2 font-medium text-sm text-green-600">
-                                A new verification link has been sent to your email address.
+                                A new verification link has been sent to your
+                                email address.
                             </div>
                         )}
                     </div>
