@@ -1,23 +1,22 @@
 import React from "react";
 import "./Footer.css";
 import { Tag } from "primereact/tag";
+
 const Footer = () => {
     return (
-        <div className=" mx-auto bg-black p-8">
-            <h2 className="text-white mb-5">About us</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* First Person - </div>Najibullah Jafari */}
-                <div className="">
+        <footer className="bg-gray-800 text-white">
+            <div className="container mx-auto px-4 flex flex-col sm:flex-row sm:flex-wrap sm:justify-between items-center">
+                <div className="container mx-auto px-4 mt-8 w-1/3">
                     <img
                         src="najib.jpeg"
                         alt="Najib Image"
-                        className="rounded-full w-24 h-24 md:w-32 md:h-32 mx-auto md:mx-0"
+                        className="rounded-full w-24 h-24 md:w-32 md:h-32 mr-4"
                     />
-                    <div className="text-center md:text-left">
-                        <h4 className="text-white text-lg md:text-xl font-bold mb-2">
+                    <div>
+                        <h4 className="text-white md:text-xl font-bold mb-2  ">
                             Najibullah Jafari
                         </h4>
-                        <p className="text-gray-300">
+                        <p className="text-gray-300 text-sm md:text-base">
                             Najibullah is born in Bamyan, Afghanistan. Now he
                             lives in Kabul. He dreamt of becoming a developer
                             since childhood and worked hard to achieve his goal.
@@ -25,19 +24,17 @@ const Footer = () => {
                         </p>
                     </div>
                 </div>
-
-                {/* Second Person - M Bassir Payenda */}
-                <div className="">
+                <div className="container mx-auto px-4 mt-8 w-1/3">
                     <img
                         src="bassir.jpeg"
                         alt="Bassir Image"
-                        className="rounded-full w-24 h-24 md:w-32 md:h-32 mx-auto md:mx-0"
+                        className="rounded-full w-24 h-24 md:w-32 md:h-32 mr-4"
                     />
-                    <div className="text-center md:text-left">
-                        <h4 className="text-white text-lg md:text-xl font-bold mb-2">
+                    <div>
+                        <h4 className="text-white md:text-xl font-bold mb-2">
                             M Bassir Payenda
                         </h4>
-                        <p className="text-gray-300">
+                        <p className="text-gray-300 text-sm md:text-base">
                             M Bassir is born in Ghor, Afghanistan. He finished
                             school in Ghor province and then attended Kabul
                             University as a computer science student. He is
@@ -46,16 +43,19 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Communication Links */}
-                <div className="mt-8">
-                    <h2 className="text-white">Contact us</h2>
+                <div className="container mx-auto px-4 mt-8 w-1/3">
+                    <h2 className="text-white mb-4 text-lg md:text-xl">
+                        Contact us
+                    </h2>
                     <div className="mb-2">
                         <a
-                            href="mailto:najib2020202020@gmail.com"
+                            href="mailto:afghanportal@gmail.af"
                             className="flex items-center text-white"
                         >
-                            <Tag icon="pi pi-envelope" className="mr-2"></Tag>
-                            <span>afghanportal@gmail.af</span>
+                            <i className="pi pi-envelope mr-2"></i>
+                            <span className="text-sm md:text-base">
+                                afghanportal@gmail.af
+                            </span>
                         </a>
                     </div>
                     <div className="mb-2">
@@ -65,8 +65,10 @@ const Footer = () => {
                             rel="noopener noreferrer"
                             className="flex items-center text-white"
                         >
-                            <Tag icon="pi pi-whatsapp" className="mr-2"></Tag>
-                            <span>(+93)798573634</span>
+                            <i className="pi pi-whatsapp mr-2"></i>
+                            <span className="text-sm md:text-base">
+                                (+93)798573634
+                            </span>
                         </a>
                     </div>
                     <div className="mb-2">
@@ -76,8 +78,10 @@ const Footer = () => {
                             rel="noopener noreferrer"
                             className="flex items-center text-white"
                         >
-                            <Tag icon="pi pi-facebook" className="mr-2"></Tag>
-                            <span>Afghan Tourism Portal</span>
+                            <i className="pi pi-facebook mr-2"></i>
+                            <span className="text-sm md:text-base">
+                                Afghan Tourism Portal
+                            </span>
                         </a>
                     </div>
                     <div>
@@ -87,13 +91,15 @@ const Footer = () => {
                             rel="noopener noreferrer"
                             className="flex items-center text-white"
                         >
-                            <Tag icon="pi pi-instagram" className="mr-2"></Tag>
-                            <span>Afghan Tourism Portal</span>
+                            <i className="pi pi-instagram mr-2"></i>
+                            <span className="text-sm md:text-base">
+                                Afghan Tourism Portal
+                            </span>
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
+        </footer>
     );
 };
 

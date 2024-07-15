@@ -12,12 +12,11 @@ const Navbar = ({ children }) => {
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
-
     return (
         <nav className="sticky top-0 z-10 bg-white py-2 w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="flex items-center">
+                <div className="container mx-auto py-4 flex justify-between items-center">
+                    <div>
                         <Link to="/" className="flex-shrink-0">
                             <img
                                 className="h-8 w-auto"
@@ -25,64 +24,46 @@ const Navbar = ({ children }) => {
                                 alt="Tourism Portal"
                             />
                         </Link>
+                    </div>
+                    <div>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
                                 <Link
                                     href={route("welcome.sightSeeing")}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium ${
-                                        activeLink === "sightSeeing"
-                                            ? "bg-gray-900 text-white"
-                                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                                    }`}
-                                    onClick={() =>
-                                        handleLinkClick("sightSeeing")
-                                    }
+                                    className="px-3 py-2 rounded-md text-sm font-medium bg-gray-900 text-white"
                                 >
                                     Sight Seeing
                                 </Link>
                                 <Link
                                     href={route("welcome.hotel")}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium ${
-                                        activeLink === "hotel"
-                                            ? "bg-gray-900 text-white"
-                                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                                    }`}
-                                    onClick={() => handleLinkClick("hotel")}
+                                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                                 >
                                     Hotel
                                 </Link>
                                 <Link
                                     href={route("welcome.tourGuide")}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium ${
-                                        activeLink === "tourGuide"
-                                            ? "bg-gray-900 text-white"
-                                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                                    }`}
-                                    onClick={() => handleLinkClick("tourGuide")}
+                                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                                 >
                                     Tour Guide
                                 </Link>
                                 <Link
                                     to="/about"
-                                    className={`px-3 py-2 rounded-md text-sm font-medium ${
-                                        activeLink === "transport"
-                                            ? "bg-gray-900 text-white"
-                                            : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                                    }`}
-                                    onClick={() => handleLinkClick("transport")}
+                                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                                 >
                                     Transport
                                 </Link>
-                                <Button
-                                    onClick={() => {
-                                        router.get("login");
-                                    }}
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Login
-                                </Button>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <Button
+                            onClick={() => {
+                                router.get("login");
+                            }}
+                            className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                        >
+                            Login
+                        </Button>
                     </div>
                     <div className="-mr-2 flex md:hidden">
                         <button
