@@ -6,7 +6,8 @@ import { Dialog } from "primereact/dialog";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
 import { router } from "@inertiajs/react";
-import styled from "styled-components";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 const requestedCars = () => {
     const { data } = usePage().props;
@@ -51,12 +52,47 @@ const requestedCars = () => {
         });
     };
 
-    const Tdstyled = styled.td`
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        max-width: 200px;
-    `;
+    const imageBodyTemplate = (rowData) => {
+        return (
+            <img
+                src={rowData.image}
+                alt="Car"
+                height={100}
+                width={100}
+                className="border object-cover rounded"
+            />
+        );
+    };
+
+    const viewButtonTemplate = (rowData) => {
+        return (
+            <Button
+                icon="pi pi-eye"
+                className="p-button-rounded p-button-text"
+                onClick={() => {
+                    setSelectedCar(rowData);
+                    setVisible(true);
+                }}
+            />
+        );
+    };
+
+    const actionButtonTemplate = (rowData) => {
+        return (
+            <div className="flex gap-2">
+                <Button
+                    icon="pi pi-check"
+                    className="p-button-rounded p-button-success p-button-text"
+                    onClick={() => confirmAction(rowData.id, acceptCar)}
+                />
+                <Button
+                    icon="pi pi-times"
+                    className="p-button-rounded p-button-danger p-button-text"
+                    onClick={() => confirmAction(rowData.id, rejectCar)}
+                />
+            </div>
+        );
+    };
 
     if (!data) {
         return <div className="fa fa-user">Loading...</div>;
@@ -64,87 +100,27 @@ const requestedCars = () => {
 
     return (
         <Layout>
-            <div className="card p-2 border-round w-full ">
+            <div className="shadow-md rounded-xl">
                 <Toast ref={toast} />
                 <ConfirmDialog />
                 <div className="flex justify-content-between items-center m-3">
-                    <h1 className="text-xl w-full font-bold text-gray-800 dark:text-gray-100">
-                        The Requested Transportation services (Cars)
-                    </h1>
+                    <h2>The Requested Transportation services (Cars)</h2>
                 </div>
 
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-x-auto">
-                    <thead className="text-xs text-white uppercase bg-gray-800 dark:bg-gray-700">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                ID
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Name
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Image
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                View
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item) => (
-                            <tr
-                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900"
-                                key={item.id}
-                            >
-                                <td className="px-6 py-4">{item.id}</td>
-                                <td className="px-6 py-4 font-medium">
-                                    {item.name}
-                                </td>
-                                <td className="px-6 py-4">
-                                    <img
-                                        src={item.image}
-                                        alt="Image"
-                                        height={100}
-                                        width={100}
-                                        className=" border  object-cover rounded"
-                                    />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <Button
-                                        icon="pi pi-eye"
-                                        severity="success"
-                                        onClick={() => {
-                                            setSelectedCar(item);
-                                            setVisible(true);
-                                        }}
-                                        className="px-2 py-1 rounded"
-                                    ></Button>
-                                </td>
-                                <Tdstyled className="px-6 py-4 ">
-                                    <Button
-                                        label="Accept"
-                                        icon="pi pi-check"
-                                        className="p-button-success"
-                                        onClick={() =>
-                                            confirmAction(item.id, acceptCar)
-                                        }
-                                    />
-                                    <Button
-                                        label="Reject"
-                                        icon="pi pi-times"
-                                        className="p-button-danger"
-                                        onClick={() =>
-                                            confirmAction(item.id, rejectCar)
-                                        }
-                                    />
-                                </Tdstyled>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <DataTable
+                    value={data}
+                    paginator
+                    rows={10}
+                    className="p-datatable-gridlines"
+                    emptyMessage="No cars found."
+                >
+                    <Column field="id" header="ID" />
+                    <Column field="name" header="Name" />
+                    <Column field="phone" header="Phone" />
+                    <Column body={imageBodyTemplate} header="Image" />
+                    <Column body={viewButtonTemplate} header="View" />
+                    <Column body={actionButtonTemplate} header="Action" />
+                </DataTable>
 
                 {selectedCar && (
                     <Dialog
@@ -152,13 +128,8 @@ const requestedCars = () => {
                         modal
                         onHide={() => setVisible(false)}
                     >
-                        <div
-                            style={{
-                                borderRadius: "12px",
-                                backgroundColor: "var(--secondary-400)",
-                            }}
-                        >
-                            <div className="flex flex-column px-8 py-5 gap-4">
+                        <div>
+                            <div className="px-8 py-5">
                                 <h2>Name: {selectedCar.name}</h2>
                                 <p>Driver Phone: {selectedCar.phone}</p>
                                 <p>Address: {selectedCar.location}</p>
@@ -183,21 +154,21 @@ const requestedCars = () => {
                                     />
                                 </div>
                                 <Button
-                                    label="Accept"
                                     icon="pi pi-check"
-                                    className="p-button-success"
+                                    className="bg-slate-400 p-button-rounded p-button-success p-button-text"
                                     onClick={() =>
                                         confirmAction(selectedCar.id, acceptCar)
                                     }
                                 />
+                                Accept
                                 <Button
-                                    label="Reject"
                                     icon="pi pi-times"
-                                    className="p-button-danger"
+                                    className="p-button-rounded p-button-danger p-button-text"
                                     onClick={() =>
                                         confirmAction(selectedCar.id, rejectCar)
                                     }
                                 />
+                                Reject
                             </div>
                         </div>
                     </Dialog>

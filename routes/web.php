@@ -39,7 +39,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })
     ->name('dashboard');
-//    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -47,11 +46,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // transportation part
-    Route::group(['middleware' => ['role:super-admin|transport-admin']], function () {
+    Route::group(['middleware' => ['role:super-admin']], function () {
         Route::post('car/requests', [TransportationController::class, 'store'])->name('transportation.requests');
         Route::delete('car/requests/{id}', [TransportationController::class, 'destroy'])->name('transportation.destroy');
         Route::post('car/requests/', [TransportationController::class, 'store'])->name('transportation.requests');
         Route::post('car/accepted/{id}', [TransportationController::class, 'acceptCar']);
+        Route::post('car/requests/{id}', [TransportationController::class, 'update']);
+
         Route::get('/car/last-transportation-id', [TransportationController::class, 'lastTransportationId']);
         Route::post('car/rejected/{id}', [TransportationController::class, 'rejectCar']);
         Route::get('/cars', [TransportationController::class, 'index'])->name('cars');
@@ -59,33 +60,29 @@ Route::middleware('auth')->group(function () {
         Route::get('/cars/requests', function () {
             return Inertia::render('Transportation/CarRequests');
         })->name('cars.requests');
-    });
-
-    // Hotel Routes
-    Route::group(['middleware' => ['role:super-admin|hotel-admin']], function () {
-
         Route::get('/hotelList', [HotelController::class, 'index'])->name('hotelList');
         Route::get('/hotelListView/{id}', [HotelController::class, 'show'])->name('hotelView');
         Route::get('/addHotel', [HotelController::class, 'create'])->name('addHotel');
         Route::post('/addHotel', [HotelController::class, 'store'])->name('hotel.store');
         Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
-        Route::get('/HotelDashboard/{id}', [HotelController::class, 'viewHotel'])->name('hotel.dashboard');
         Route::put('/hotelUpdate/{id}', [HotelController::class, 'update'])->name('hotelUpdate');
-        Route::get('/addFootCategory', [HotelController::class, 'createFootCategory'])->name('addFootCategory');
-        Route::post('/addFootCategory', [HotelController::class, 'storeFootCategory'])->name('footCategory.store');
-        Route::get('/footCategory', [HotelController::class, 'indexFootCategory'])->name('footCategories');
-        Route::delete('/foodCategory/{id}', [HotelController::class, 'deleteFoodCategory'])->name('foodCategory.delete');
-        Route::get('/addFood', [HotelController::class, 'createAddFood'])->name('addFood.create');
-        Route::post('/addFood', [HotelController::class, 'AddFood'])->name('food.store');
-        Route::get('/addRoom', [HotelController::class, 'createRoom'])->name(('room.create'));
-        Route::post('/addRoom', [HotelController::class, 'storeRoom'])->name(('room.store'));
     });
 
-    // Hotel Request
+
+
+    // Hotel Routes
     Route::get('/hotelRequest', [HotelRequestController::class, 'index'])->name('hotelRequest');
     Route::delete('/hotelRequest/{id}', [HotelRequestController::class, 'destroy'])->name('hotelRequest.destroy');
     Route::post("/hotelRequest/{id}", [HotelRequestController::class, 'update'])->name('hotelRequest.update');
-
+    Route::get('/addFood', [HotelController::class, 'createAddFood'])->name('addFood.create');
+    Route::post('/addFood', [HotelController::class, 'AddFood'])->name('food.store');
+    Route::get('/addRoom', [HotelController::class, 'createRoom'])->name(('room.create'));
+    Route::post('/addRoom', [HotelController::class, 'storeRoom'])->name(('room.store'));
+    Route::get('/addFootCategory', [HotelController::class, 'createFootCategory'])->name('addFootCategory');
+    Route::post('/addFootCategory', [HotelController::class, 'storeFootCategory'])->name('footCategory.store');
+    Route::get('/footCategory', [HotelController::class, 'indexFootCategory'])->name('footCategories');
+    Route::delete('/foodCategory/{id}', [HotelController::class, 'deleteFoodCategory'])->name('foodCategory.delete');
+    Route::get('/HotelDashboard/{id}', [HotelController::class, 'viewHotel'])->name('hotel.dashboard');
 
     // for setting 
     Route::get('/settings', [SettingsController::class, ''])->name('');
@@ -117,14 +114,13 @@ Route::middleware('auth')->group(function () {
     // for permission
     Route::group(['middleware' => ['role:super-admin']], function () {
 
+        // for role and permission
         Route::resource('permissions', App\Http\Controllers\PermissionController::class);
         Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy']);
-
         Route::resource('roles', App\Http\Controllers\RoleController::class);
         Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy']);
         Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole']);
         Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole']);
-
         Route::resource('users', App\Http\Controllers\UserController::class);
         Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
         // User
@@ -136,6 +132,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/userProfile/{id}', [tourguideController::class, 'edit'])->name('user.edit');
         Route::get('/userProfile/{id}', [tourguideController::class, 'edit'])->name('user.edit');
         Route::get('/userProfile/update', [tourguideController::class, 'update'])->name('user.update');
+        Route::put('/userProfile/update/{id}', [tourguideController::class, 'update']);
+
         // requested users
         Route::get('userRequest', [tourguideRequestController::class, 'index'])->name('userRequest.index');
         Route::delete('userRequest/{id}', [tourguideRequestController::class, 'destroy'])->name("tourguideRequest.destroy");

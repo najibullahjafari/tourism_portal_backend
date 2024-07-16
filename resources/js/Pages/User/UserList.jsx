@@ -7,7 +7,7 @@ import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Dialog } from "primereact/dialog";
-const TourGuideList = () => {
+const UserList = () => {
     const { data } = usePage().props;
     const [q, setQ] = useState("");
     const [category, setCategory] = useState("");
@@ -129,7 +129,7 @@ const TourGuideList = () => {
                                 User Type
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Visit
+                                Edit
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Action
@@ -177,33 +177,35 @@ const TourGuideList = () => {
                                             key={item.id}
                                             className="p-button-success"
                                         >
-                                            Visit
+                                            Edit
                                         </Button>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="px-10 py-1">
-                                        <Button
-                                            onClick={() =>
-                                                confirmAction(
-                                                    item.id,
-                                                    handleDelete
-                                                )
-                                            }
-                                            icon="pi pi-times"
-                                            className="p-button-danger"
-                                        ></Button>
-                                    </div>
-                                    <div class="px-10 py-1">
-                                        <Button
-                                            icon="pi pi-eye"
-                                            severity="success"
-                                            onClick={() => {
-                                                setSelectedTourGuide(item);
-                                                setVisible(true);
-                                            }}
-                                            className="px-2 py-1 rounded"
-                                        ></Button>
+                                    <div className="mx-3 grid grid-cols-2 gap-1">
+                                        <div class="">
+                                            <Button
+                                                onClick={() =>
+                                                    confirmAction(
+                                                        item.id,
+                                                        handleDelete
+                                                    )
+                                                }
+                                                icon="pi pi-trash"
+                                                className="p-button-danger"
+                                            ></Button>
+                                        </div>
+                                        <div class="">
+                                            <Button
+                                                icon="pi pi-eye"
+                                                severity="success"
+                                                onClick={() => {
+                                                    setSelectedTourGuide(item);
+                                                    setVisible(true);
+                                                }}
+                                                className=""
+                                            ></Button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -261,4 +263,4 @@ const TourGuideList = () => {
     );
 };
 
-export default TourGuideList;
+export default UserList;

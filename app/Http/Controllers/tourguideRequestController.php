@@ -25,10 +25,10 @@ class tourguideRequestController extends Controller
 
         foreach ($data as $item) {
             $item->image = asset($item->image);
-            $item->passpord = asset($item->passpord);
+            $item->passport = asset($item->passport);
 
         }
-        return Inertia::render('TourGuide/TourGuideRequest', ['data' => $data]);
+        return Inertia::render('User/UserRequest', ['data' => $data]);
     }
 
     /**
@@ -37,7 +37,7 @@ class tourguideRequestController extends Controller
     public function create()
     {
 
-        return Inertia::render('TourGuide/AddTourGuide');
+        return Inertia::render('User/AddUser');
     }
 
     /**
@@ -75,7 +75,7 @@ class tourguideRequestController extends Controller
         $tourguide = User::find($id);
         $tourguide->status = 'active';
         $tourguide->save();
-        return redirect()->route('user');
+        return back()->with('success', 'User added successfully');
     }
 
     /**
@@ -85,6 +85,6 @@ class tourguideRequestController extends Controller
     {
         $tourguide = User::find($id);
         $tourguide->delete();
-        return redirect()->route('userRequest.index');
+        return back()->with('success', 'User deleted  successfully');
     }
 }

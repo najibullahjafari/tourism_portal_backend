@@ -1,7 +1,7 @@
 import { router, usePage } from "@inertiajs/react";
 import { Button } from "primereact/button";
 import React from "react";
-const TourGuideDetial = () => {
+const UserDetails = () => {
     const { data } = usePage().props;
     return (
         <div
@@ -20,7 +20,7 @@ const TourGuideDetial = () => {
                         <div className="px-6 py-2">
                             <img
                                 src={data[0].image}
-                                alt="TourGuide Image"
+                                alt="User Image"
                                 style={{
                                     height: "45vh",
                                     width: "100%",
@@ -65,4 +65,4 @@ const TourGuideDetial = () => {
     );
 };
 
-export default TourGuideDetial;
+export default UserDetails;
