@@ -8,7 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Models\Hotel;
-use App\Models\tourguide;
+use App\Models\User;
 
 class Welcome extends Controller
 {
@@ -61,7 +61,7 @@ class Welcome extends Controller
 
     public function tourGuide(Request $request)
     {
-        $data = tourguide::where('status', 'active')->where('userType', 'tourGuide');
+        $data = User::where('status', 'active')->where('userType', 'tourguide');
         if ($request->has('q')) {
             $search = $request->q;
             $data = $data->where('name', 'like', '%' . $search . '%')->orwhere('bio', 'like', '%' . $search . '%');

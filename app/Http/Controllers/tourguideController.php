@@ -196,7 +196,7 @@ class tourguideController extends Controller
     }
     public function viewDetial($id)
     {
-        $data = tourguide::where('id', $id)->get();
+        $data = User::where('id', $id)->get();
 
         foreach ($data as $item) {
             $item->image = asset($item->image);
