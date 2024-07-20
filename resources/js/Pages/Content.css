@@ -25,6 +25,14 @@
     background-attachment: scroll;
     filter: blur(0.8px);
 }
+.hotel {
+    background-image: url("r2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: scroll;
+    filter: blur(0.8px);
+}
 /*
 .main-tour-guide {
     background-image: url("bg-tourGuide.jpg");
