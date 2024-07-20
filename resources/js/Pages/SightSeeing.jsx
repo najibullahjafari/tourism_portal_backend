@@ -129,7 +129,7 @@ const SightSeeing = () => {
                     </div>
                 </div>
             </nav>
-            <div className="sightSeeing w-full h-screen blur-lg flex flex-col items-center justify-center">
+            <div className="sightSeeing w-full h-screen flex flex-col items-center justify-center">
                 <h4 className="text-gray-100">Nature Nook Afghanistan</h4>
                 <div className="flex p-1 max-w-max pl-7 ">
                     <form>

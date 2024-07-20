@@ -35,12 +35,6 @@ const SightSeeingDetial = () => {
                     >
                         <span className="ml-2">{data[0].liked}</span>
                     </Button>
-                    <button
-                        className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
-                        // disable={roomStatus}
-                    >
-                        Comment
-                    </button>
                     <Button
                         className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
                         icon="pi pi-arrow-left"

@@ -31,16 +31,16 @@
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: scroll;
-    filter: blur(0.8px);
 }
-/*
-.main-tour-guide {
-    background-image: url("bg-tourGuide.jpg");
+
+.tour-guide {
+    background-image: url("t4.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: scroll;
 }
+/*
 div img {
     height: 100vh;
 }

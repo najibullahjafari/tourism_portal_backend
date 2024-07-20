@@ -8,15 +8,15 @@ import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useRef } from "react";
-const HotelList = () => {
+const Booked = () => {
     const { data } = usePage().props;
     const [q, setQ] = useState("");
     const [category, setCategory] = useState("");
-    const [selectedHotel, setSelectedHotel] = useState(null);
+    const [selectedbooking, setSelectedbooking] = useState(null);
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
     const handleDelete = (id) => {
-        router.delete(`/hotels/${id}`);
+        router.delete(`/booked/delete/${id}`);
         toast.current.show({
             severity: "danger",
             summary: "Delete",
@@ -48,28 +48,6 @@ const HotelList = () => {
         <Layout>
             <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
                 <div className="flex items-center justify-between">
-                    <div>
-                        <Button
-                            icon="pi pi-plus"
-                            severity="success"
-                            onClick={() => {
-                                router.get(`/addFood`);
-                            }}
-                            className="px-2 py-2 rounded m-3"
-                        >
-                            <span className="mx-2">Food</span>
-                        </Button>
-                        <Button
-                            icon="pi pi-plus"
-                            severity="success"
-                            onClick={() => {
-                                router.get(`/addRoom`);
-                            }}
-                            className="px-2 py-2 rounded m-3"
-                        >
-                            <span className="mx-2">Room</span>
-                        </Button>
-                    </div>
                     <form className="box-content shadow-sm bg-white my-5">
                         <select
                             name="category"
@@ -81,8 +59,8 @@ const HotelList = () => {
                         >
                             <legend>Option</legend>
                             <option value="id">ID</option>
-                            <option value="name">Name</option>
-                            <option value="province">Province</option>
+                            <option value="obj_type">type</option>
+                            <option value="start_date">Date</option>
                         </select>
                         <input
                             type="search"
@@ -113,22 +91,14 @@ const HotelList = () => {
                                 ID
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Name
+                                Type
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Address
+                                Date
                             </th>
+
                             <th scope="col" class="px-6 py-3">
-                                Province
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Image
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Visit
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Action Hotel
+                                Action Booking
                             </th>
                         </tr>
                     </thead>
@@ -139,32 +109,9 @@ const HotelList = () => {
                                 key={item.id}
                             >
                                 <td class="px-6 py-4">{item.id}</td>
-                                <td class="px-6 py-4">{item.name}</td>
-                                <td class="px-6 py-4">{item.address}</td>
-                                <td class="px-6 py-4">{item.province}</td>
-                                <td class="px-6 py-4">
-                                    {" "}
-                                    <img
-                                        src={item.photoAddress}
-                                        alt="Image"
-                                        class="w-20 object-cover rounded"
-                                    />
-                                </td>
-                                <td>
-                                    <div class="px-10 py-1">
-                                        <Button
-                                            onClick={() =>
-                                                router.get(
-                                                    `/HotelDashboard/${item.id}`
-                                                )
-                                            }
-                                            key={item.id}
-                                            className="p-button-success"
-                                        >
-                                            Visit
-                                        </Button>
-                                    </div>
-                                </td>
+                                <td class="px-6 py-4">{item.obj_type}</td>
+                                <td class="px-6 py-4">{item.start_date}</td>
+
                                 <td>
                                     <div class="px-10 py-1">
                                         <Button
@@ -183,7 +130,7 @@ const HotelList = () => {
                                             icon="pi pi-eye"
                                             severity="success"
                                             onClick={() => {
-                                                setSelectedHotel(item);
+                                                setSelectedbooking(item);
                                                 setVisible(true);
                                             }}
                                             className="px-2 py-1 rounded"
@@ -194,7 +141,7 @@ const HotelList = () => {
                         ))}
                     </tbody>
                 </table>
-                {selectedHotel && (
+                {selectedbooking && (
                     <Dialog
                         visible={visible}
                         modal
@@ -207,39 +154,8 @@ const HotelList = () => {
                             }}
                         >
                             <div className="flex flex-column px-8 py-5 gap-4">
-                                <h2>Name: {selectedHotel.name}</h2>
-                                <p>Address: {selectedHotel.address}</p>
-                                <p>Province: {selectedHotel.province}</p>
-                                <div>
-                                    <p>Hotel:</p>
-                                    <img
-                                        src={selectedHotel.photoAddress}
-                                        width={400}
-                                        height={50}
-                                        alt="Hotel"
-                                        className="rounded border p-2"
-                                    />
-                                </div>
-
-                                {/* <Button
-                                    label="Accept"
-                                    icon="pi pi-check"
-                                    className="p-button-success"
-                                    onClick={() =>
-                                        confirmAction(
-                                            selectedHotel.id,
-                                            acceptCar
-                                        )
-                                    }
-                                /> */}
-                                {/* <Button
-                                    label="Reject"
-                                    icon="pi pi-times"
-                                    className="p-button-danger"
-                                    onClick={() =>
-                                        confirmAction(selectedCar.id, rejectCar)
-                                    }
-                                /> */}
+                                <h2>Type: {selectedbooking.obj_type}</h2>
+                                <p>ID: {selectedbooking.obj_id}</p>
                             </div>
                         </div>
                     </Dialog>
@@ -249,4 +165,4 @@ const HotelList = () => {
     );
 };
 
-export default HotelList;
+export default Booked;

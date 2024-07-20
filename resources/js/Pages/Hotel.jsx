@@ -130,7 +130,7 @@ const Hotel = () => {
                     </div>
                 </div>
             </nav>
-            <div className="hotel w-full h-screen blur-lg flex flex-col items-center justify-center">
+            <div className="hotel w-full h-screen flex flex-col items-center justify-center">
                 <h4 className="text-white">
                     The Best Place Is Chosen By The Best One!
                 </h4>
@@ -173,6 +173,16 @@ const Hotel = () => {
                                 }
                                 icon="pi pi-eye"
                             ></Button>
+                            <Button
+                                className="mx-3 my-3 w-ful bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                                onClick={() =>
+                                    router.get(
+                                        `/booking/obj/${item.id}?type=hotel`
+                                    )
+                                }
+                            >
+                                Book
+                            </Button>
                         </div>
                     </div>
                 ))}
