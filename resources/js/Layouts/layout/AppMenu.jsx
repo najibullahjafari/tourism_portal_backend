@@ -173,6 +173,22 @@ const AppMenu = () => {
                         },
                     ],
                 },
+                {
+                    label: "Booking",
+                    icon: "pi pi-fw pi-user",
+                    items: [
+                        {
+                            label: "Booked",
+                            icon: "pi pi-fw pi-users",
+                            to: route("booked"),
+                        },
+                        {
+                            label: "booking",
+                            icon: "pi pi-fw pi-question",
+                            to: route("booking"),
+                        },
+                    ],
+                },
             ],
         },
     ];

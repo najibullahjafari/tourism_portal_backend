@@ -147,10 +147,10 @@ const SightSeeing = () => {
                 </div>
             </div>
 
-            <div class="sight-seeing-list my-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 gap-5 m-2">
+            <div class="sight-seeing-list my-8 mx-5 flex flex-row justify-center items-center  flex-wrap m-2">
                 {data.map((item) => (
                     <div
-                        class="max-w-sm m-2 bg-white overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
+                        class="flex items-center justify-center flex-col my-5 mx-5 max-w-sm m-2 bg-white overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
                         key={item.id}
                     >
                         <img
@@ -163,13 +163,13 @@ const SightSeeing = () => {
                         </div>
 
                         <div>
-                            <button
-                                className="mx-3 my-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            <Button
+                                className="mx-3 my-3 w-ful bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
                                 onClick={() =>
                                     router.get(`/SightSeeingDetial/${item.id}`)
                                 }
-                                icon="pi pi-plus"
-                            ></button>
+                                icon="pi pi-eye"
+                            ></Button>
                         </div>
                     </div>
                 ))}

@@ -130,44 +130,63 @@ const Hotel = () => {
                     </div>
                 </div>
             </nav>
-            <div className="main-hotel w-full h-screen"></div>
-
-            <div className="flex items-center justify-between w-1/2 bg-white rounded-lg px-6 py-6 mt-6">
-                <form>
-                    <input
-                        type="search"
-                        placeholder="Search Hotel"
-                        className="search"
-                        name="q"
-                    />
-                    <Button
-                        icon="pi pi-search"
-                        className="px-5 py-2 mx-3"
-                    ></Button>
-                </form>
-            </div>
-            <div className="split"></div>
-            {data.map((item) => (
-                <div
-                    className="card flex flex-row w-1/2 bg-white items-center my-4 py-0 h-max rounded-lg shadow-lg"
-                    key={item.id}
-                >
-                    <img
-                        src={item.photoAddress}
-                        alt="image"
-                        className="h-full w-1/3 rounded-lg"
-                    />
-                    <span className="my-1 mx-2">
-                        <h4>{item.name}</h4>
-                        <p>{item.province}</p>
-                    </span>
-                    <Button
-                        icon="pi pi-info-circle"
-                        className="button h-full w-0.5 mr-0 py-1 px-3"
-                    ></Button>
+            <div className="hotel w-full h-screen flex flex-col items-center justify-center">
+                <h4 className="text-white">
+                    The Best Place Is Chosen By The Best One!
+                </h4>
+                <div className="flex p-1 max-w-max pl-7 ">
+                    <form>
+                        <input
+                            type="search"
+                            placeholder="Search Hotel"
+                            className="search rounded-lg px-5 py-2 mx-3 white"
+                            name="q"
+                        />
+                        <Button
+                            icon="pi pi-search"
+                            className="px-5 py-2 mx-3"
+                        ></Button>
+                    </form>
                 </div>
-            ))}
-            <Footer />
+            </div>
+
+            <div class="my-8 mx-5 flex flex-row justify-center items-center  flex-wrap m-2">
+                {data.map((item) => (
+                    <div
+                        class="flex items-center justify-center flex-col my-5 mx-5 max-w-sm m-2 bg-white overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
+                        key={item.id}
+                    >
+                        <img
+                            class="w-full h-48 object-cover border-2 border-white rounded-lg"
+                            src={item.photoAddress}
+                        />
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold mb-2">{item.name}</h3>
+                            <p class="text-gray-600">{item.province}</p>
+                        </div>
+
+                        <div>
+                            <Button
+                                className="mx-3 my-3 w-ful bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                                onClick={() =>
+                                    router.get(`/HotelDetial/${item.id}`)
+                                }
+                                icon="pi pi-eye"
+                            ></Button>
+                            <Button
+                                className="mx-3 my-3 w-ful bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                                onClick={() =>
+                                    router.get(
+                                        `/booking/obj/${item.id}?type=hotel`
+                                    )
+                                }
+                            >
+                                Book
+                            </Button>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\bookingController;
+use App\Http\Controllers\newsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\sight_seeingController;
@@ -111,6 +113,17 @@ Route::middleware('auth')->group(function () {
     // Like 
     Route::get('/like/{id}', [HotelController::class, 'like'])->name('hotel.like');
 
+    // Booking tourguidebooking.store
+    Route::get('/booking/obj/{id}', [bookingController::class, 'create'])->name('booking.create');
+    Route::post('/booking/obj', [bookingController::class, 'store'])->name('booking.store');
+    Route::get('/booking', [bookingController::class, 'showBooking'])->name('booking');
+    Route::get('/booked', [bookingController::class, 'showBooked'])->name('booked');
+    Route::delete('/booking/delete/{id}', [bookingController::class, 'deleteBooking'])->name('booking.delete');
+    Route::delete('/booked/delete/{id}', [bookingController::class, 'deleteBooked'])->name('booked.delete');
+
+    // Sight Seeing News
+    Route::get('/sightSeeingNews/{id}', [newsController::class, 'create'])->name('news.create');
+    Route::post('/sightSeeingNews', [newsController::class, 'store'])->name('news.store');
     // for permission
     Route::group(['middleware' => ['role:super-admin']], function () {
 

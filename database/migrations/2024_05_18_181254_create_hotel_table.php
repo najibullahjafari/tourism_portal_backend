@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->timestamps();
             $table->string('name');
             $table->string('address');
-            $table->string('province');
+            $table->text('province');
             $table->string('photoAddress');
             $table->string('status');
 

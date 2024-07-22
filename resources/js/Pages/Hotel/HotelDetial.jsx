@@ -7,178 +7,139 @@ const HotelDetial = () => {
     const { hotel, rooms, foods } = usePage().props;
     return (
         <div>
-            <div className="bg-gray-80 flex content-center justify-center ">
-                <div className="bg-gray-50 py-6 w-5">
-                    <div className="max-w-screen-lg mx-auto">
-                        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                            <div className="px-6 pt-8">
-                                <div className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                                    Information Of {hotel[0].name}
-                                </div>
-                            </div>
-                            <div className="px-6 py-2">
-                                <h5>Province</h5>
-                                <p>{hotel[0].province}</p>
-                                <h5>Address</h5>
-                                <p>{hotel[0].address}</p>
-                            </div>
-                            <div className="px-6 py-2">
-                                <img
-                                    src={hotel[0].photoAddress}
-                                    alt="Hotel Image"
-                                    className=""
-                                ></img>
-                            </div>
-                            <div className="px-6 py-2">
-                                <Button
-                                    className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    icon="pi pi-thumbs-up"
-                                    onClick={() => {
-                                        router.get(
-                                            `/like/${hotel[0].id}?type=hotel&page=hotelDetial`
-                                        );
-                                    }}
-                                >
-                                    <span className="ml-2">
-                                        {hotel[0].hotelLiked}
-                                    </span>
-                                </Button>
-                                <button
-                                    className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    // disable={roomStatus}
-                                >
-                                    Comment
-                                </button>
-                                <button
-                                    className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    onClick={() => router.get("/hotel/view")}
-                                >
-                                    Go back
-                                </button>
-                            </div>
-                        </div>
+            <div class="bg-gray-100 flex justify-center items-center py-20 rounded-lg shadow-lg h-2/3">
+                <div class="bg-white shadow-lg rounded-lg mx-auto sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/3 sm:mx-4px md:mx-5">
+                    <img
+                        src={hotel[0].photoAddress}
+                        alt="Sight Seeing Image"
+                        class="w-full h-64 object-cover rounded-lg shadow-md xl:mb-6 lg:mb-5 md:mb-5 sm:mb-5"
+                    />
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">
+                            Information of {hotel[0].name}
+                        </h2>
+                        <p class="text-gray-600 px-5">
+                            {hotel[0].province}.{hotel[0].name} is located in{" "}
+                            {hotel[0].address}.
+                        </p>
+                    </div>
+                    <div className="flex flex-row items-center justify-center">
+                        <Button
+                            className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                            icon="pi pi-thumbs-up"
+                            onClick={() => {
+                                router.get(
+                                    `/like/${hotel[0].id}?type=hotel&page=hotelDetial`
+                                );
+                            }}
+                        >
+                            <span className="ml-2">{hotel[0].hotelLiked}</span>
+                        </Button>
+                        <Button
+                            className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                            // disable={roomStatus}
+                            onClick={() =>
+                                router.get(
+                                    `/booking/obj/${hotel[0].id}?type=hotel`
+                                )
+                            }
+                        >
+                            Booking
+                        </Button>
+                        <Button
+                            className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                            icon="pi pi-arrow-left"
+                            onClick={() => router.get("/about-hotel")} // /sightSeeing/view
+                        ></Button>
                     </div>
                 </div>
             </div>
             {foods.map((item) => (
                 <div
-                    className="bg-gray-80 flex content-center justify-center "
+                    class="bg-gray-100 flex justify-center items-center py-20 rounded-lg shadow-lg h-2/3 mt-10"
                     key={item.id}
                 >
-                    <div className="bg-gray-50 py-4 w-5">
-                        <div className="max-w-screen-lg mx-auto">
-                            <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                                <div className="px-6 pt-8">
-                                    <div className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                                        Food Of {item.name}
-                                    </div>
-                                </div>
-                                <div className="px-6 py-2">
-                                    <h5>Cost</h5>
-                                    <p>{item.cost}</p>
-                                    <h5>Description</h5>
-                                    <p>{item.description}</p>
-                                </div>
-                                <div className="px-6 py-2">
-                                    <img
-                                        src={item.image}
-                                        alt="Hotel Image"
-                                        className=""
-                                        style={{
-                                            height: "45vh",
-                                            width: "100%",
-                                        }}
-                                    ></img>
-                                </div>
-                                <div className="px-6 py-2">
-                                    <Button
-                                        className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                        icon="pi pi-thumbs-up"
-                                        onClick={() => {
-                                            router.get(
-                                                `/like/${item.id}?type=food&page=hotelDetial`
-                                            );
-                                        }}
-                                    >
-                                        <span className="ml-2">
-                                            {item.foodsLiked}
-                                        </span>
-                                    </Button>
-                                    <button
-                                        className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                        // disable={roomStatus}
-                                    >
-                                        Comment
-                                    </button>
-                                    <button
-                                        className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                        onClick={() =>
-                                            router.get("/hotel/view")
-                                        }
-                                    >
-                                        Go back
-                                    </button>
-                                </div>
-                            </div>
+                    <div class="bg-white shadow-lg rounded-lg mx-auto sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/3 sm:mx-4px md:mx-5">
+                        <img
+                            src={item.image}
+                            alt="Image"
+                            class="w-full h-64 object-cover rounded-lg shadow-md xl:mb-6 lg:mb-5 md:mb-5 sm:mb-5"
+                        />
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-2">
+                                Information of {item.name}
+                            </h2>
+                            <p class="text-gray-600 px-5">
+                                {item.description}.{item.name} is cost{" "}
+                                {item.cost}.{hotel[0].address}.
+                            </p>
+                        </div>
+                        <div className="flex flex-row items-center justify-center">
+                            <Button
+                                className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                                icon="pi pi-thumbs-up"
+                                onClick={() => {
+                                    router.get(
+                                        `/like/${item.id}?type=food&page=hotelDetial`
+                                    );
+                                }}
+                            >
+                                <span className="ml-2">{item.foodsLiked}</span>
+                            </Button>
+                            <button
+                                className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                                // disable={roomStatus}
+                            >
+                                Comment
+                            </button>
+                            <Button
+                                className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                                icon="pi pi-arrow-left"
+                                onClick={() => router.get("/about-hotel")} // /sightSeeing/view
+                            ></Button>
                         </div>
                     </div>
                 </div>
             ))}
             {rooms.map((item) => (
                 <div
-                    className="bg-gray-80 flex content-center justify-center "
+                    class="bg-gray-100 flex justify-center items-center py-20 rounded-lg shadow-lg h-2/3 mt-10"
                     key={item.id}
                 >
-                    <div className="bg-gray-50 w-5">
-                        <div className="max-w-screen-lg mx-auto">
-                            <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                                <div className="px-6 pt-8">
-                                    <div className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                                        Room Of {item.name}
-                                    </div>
-                                </div>
-                                <div className="px-6 py-2">
-                                    <h5>Cost</h5>
-                                    <p>{item.cost}</p>
-                                </div>
-                                <div className="px-6 py-2">
-                                    <h5>Room Number</h5>
-                                    <p>{item.room_number}</p>
-                                </div>
-                                <div className="px-6 py-2">
-                                    <h5>Capacity</h5>
-                                    <p>{item.capacity}</p>
-                                </div>
-                                <div className="px-6 py-2">
-                                    <Button
-                                        className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                        icon="pi pi-thumbs-up"
-                                        onClick={() => {
-                                            router.get(
-                                                `/like/${item.id}?type=room&page=hotelDetial`
-                                            );
-                                        }}
-                                    >
-                                        <span className="ml-2">
-                                            {item.roomsLiked}
-                                        </span>
-                                    </Button>
-                                    <button
-                                        className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                        // disable={roomStatus}
-                                    >
-                                        Comment
-                                    </button>
-                                    <button
-                                        className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                        onClick={() =>
-                                            router.get("/hotel/view")
-                                        }
-                                    >
-                                        Go back
-                                    </button>
-                                </div>
-                            </div>
+                    <div class="bg-white shadow-lg rounded-lg mx-auto sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/3 sm:mx-4px md:mx-5">
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-2">
+                                Information of {hotel[0].name}
+                            </h2>
+                            <p class="text-gray-600 px-5">
+                                This room has the capacity of {item.capacity}.
+                                It is cost about {item.cost}. It is number is{" "}
+                                {item.room_number}.
+                            </p>
+                        </div>
+                        <div className="flex flex-row items-center justify-center">
+                            <Button
+                                className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                                icon="pi pi-thumbs-up"
+                                onClick={() => {
+                                    router.get(
+                                        `/like/${item.id}?type=room&page=hotelDetial`
+                                    );
+                                }}
+                            >
+                                <span className="ml-2">{item.roomsLiked}</span>
+                            </Button>
+                            <button
+                                className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                                // disable={roomStatus}
+                            >
+                                Comment
+                            </button>
+                            <Button
+                                className="mx-3 my-3 text-blue-600 hover:text-blue-700 bg-white font-bold py-1 px-2 rounded border-white hover:shadow-lg hover:border-blue-500 "
+                                icon="pi pi-arrow-left"
+                                onClick={() => router.get("/about-hotel")} // /sightSeeing/view
+                            ></Button>
                         </div>
                     </div>
                 </div>
