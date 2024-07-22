@@ -403,4 +403,16 @@ class HotelController extends Controller
         }
 
     }
+
+    public function numberOfAllHotels()
+    {
+        $data = Hotel::all()->count();
+        return $data;
+    }
+
+    public function numberOfAcceptedHotels()
+    {
+        $data = Hotel::where('status', 'active')->get()->count();
+        return $data;
+    }
 }
