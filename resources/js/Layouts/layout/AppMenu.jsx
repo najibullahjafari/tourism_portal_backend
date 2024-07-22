@@ -35,14 +35,13 @@ const AppMenu = () => {
                             roles: ["super-admin"],
                         },
                         {
-                            label: "Requests",
+                            label: "Pending Hotels",
                             icon: "pi pi-fw pi-request",
                             to: route("hotelRequest"),
-                            icon: "pi pi-fw pi-question",
                             roles: ["super-admin"],
                         },
                         {
-                            label: "Add Hotel",
+                            label: "Add New Hotel",
                             icon: "pi pi-fw pi-plus",
                             to: route("addHotel"),
                             roles: ["super-admin"],
@@ -65,13 +64,13 @@ const AppMenu = () => {
                             to: route("cars"),
                         },
                         {
-                            label: "Requests",
+                            label: "Pending Cars",
                             icon: "pi pi-fw pi-question",
                             to: route("cars.requested.cars"),
                             roles: ["super-admin"],
                         },
                         {
-                            label: "Add",
+                            label: "Add New car",
                             icon: "pi pi-fw pi-plus",
                             to: route("cars.requests"),
                             roles: ["super-admin"],
@@ -90,7 +89,7 @@ const AppMenu = () => {
                             to: route("sightSeeing.index"),
                         },
                         {
-                            label: "Request",
+                            label: "Approve Sight Seeing",
                             icon: "pi pi-fw pi-question",
                             to: route("userRequest"),
                         },
@@ -150,13 +149,13 @@ const AppMenu = () => {
                             to: route("user"),
                         },
                         {
-                            label: "Request",
+                            label: "Pending Users",
                             icon: "pi pi-fw pi-question",
                             to: route("userRequest.index"),
                         },
                         {
                             label: "Profile",
-                            icon: "pi pi-fw pi-setting",
+                            icon: "pi pi-fw pi-user",
                             to: route("profile.edit"),
                         },
                     ],
