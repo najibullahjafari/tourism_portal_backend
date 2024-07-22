@@ -244,4 +244,16 @@ class TransportationController extends Controller
     $car = Transportation::latest()->first();
     return $car->id;
   }
+  // to get the number of cars
+  public function getNumberOfCars()
+  {
+    $cars = Transportation::where('status', 'accepted')->get();
+    return count($cars);
+  }
+
+  public function allCars()
+  {
+    $cars = Transportation::all();
+    return count($cars);
+  }
 }
