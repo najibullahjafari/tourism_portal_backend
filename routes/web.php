@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\bookingController;
+use App\Http\Controllers\newsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\sight_seeingController;
@@ -123,6 +124,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/booking/delete/{id}', [bookingController::class, 'deleteBooking'])->name('booking.delete');
     Route::delete('/booked/delete/{id}', [bookingController::class, 'deleteBooked'])->name('booked.delete');
 
+    // Sight Seeing News
+    Route::get('/sightSeeingNews/{id}', [newsController::class, 'create'])->name('news.create');
+    Route::post('/sightSeeingNews', [newsController::class, 'store'])->name('news.store');
     // for permission
     Route::group(['middleware' => ['role:super-admin']], function () {
 

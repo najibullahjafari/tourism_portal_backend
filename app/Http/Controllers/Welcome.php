@@ -50,10 +50,7 @@ class Welcome extends Controller
         }
         return Inertia::render('SightSeeing', [
             'data' => $data,
-            // 'canLogin' => Route::has('login'),
-            // 'canRegister' => Route::has('register'),
-            // 'laravelVersion' => Application::VERSION,
-            // 'phpVersion' => PHP_VERSION,
+          
         ]);
 
 

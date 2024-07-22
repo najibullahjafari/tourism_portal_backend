@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\like;
+use App\Models\news;
 use App\Models\sight_seeing;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -140,29 +141,11 @@ class sight_seeingController extends Controller
     public function updateSightSeeing($id, Request $request)
     {
         if ($request->has('name') && $request->has('address') && $request->has('province') && $request->has('open_time') && $request->has('close_time') && $request->has('ticket_cost') && $request->has('description')) {
-            // $SightSeeingPath = null;
-            // if ($request->hasFile('image')) {
-            //     try {
-            //         $file = $request->file('image');
-            //         $destinationPath = public_path('storage/SightSeeingUpdate');
-            //         $fileName = time() . '.' . $file->getClientOriginalExtension();
-            //         $file->move($destinationPath, $fileName);
-            //         if (!file_exists($destinationPath . '/' . $fileName)) {
-            //             $found = true;
-            //         }
-            //         $SightSeeingPath = 'storage/SightSeeingUpdate/' . $fileName;
-            //     } catch (\Exception $e) {
-            //         return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
-            //     }
-            // } else {
-            //     return Redirect::back()->with('error', 'No passport file found in the request.');
-            // }
 
             $sightSeeing = sight_seeing::find($id);
             $sightSeeing->name = $request->name;
             $sightSeeing->address = $request->address;
             $sightSeeing->province = $request->province;
-            // $sightSeeing->image = $SightSeeingPath;
             $sightSeeing->open_time = $request->open_time;
             $sightSeeing->close_time = $request->close_time;
             $sightSeeing->ticket_cost = $request->ticket_cost;
@@ -174,10 +157,6 @@ class sight_seeingController extends Controller
         } else {
 
             $data = sight_seeing::find($id);
-            // foreach ($data as $item) {
-            //     $item->image = asset($item->image);
-
-            // }
             return Inertia::render('SightSeeing/SightSeeingUpdate', ['data' => $data]);
         }
     }
@@ -197,7 +176,12 @@ class sight_seeingController extends Controller
     public function viewDetial($id)
     {
         $data = sight_seeing::where('id', $id)->get();
+        $news = news::where('sightSeeing_id', $id)->get();
+        foreach ($news as $item) {
+            $item->image = asset($item->image);
+            $item->liked = like::where('type', "sightSeeingNews")->where('obj_id', $item->id)->get()->count();
 
+        }
         foreach ($data as $item) {
             $item->image = asset($item->image);
             $item->liked = like::where('type', "sight_seeing")->where('obj_id', $item->id)->get()->count();
@@ -205,6 +189,7 @@ class sight_seeingController extends Controller
         }
         return Inertia::render('SightSeeing/SightSeeingDetial', [
             'data' => $data,
+            'news' => $news
         ]);
     }
 }

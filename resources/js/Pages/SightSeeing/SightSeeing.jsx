@@ -125,7 +125,7 @@ const SightSeeing = () => {
                                 Visit
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Action 
+                                Action
                             </th>
                         </tr>
                     </thead>
@@ -161,6 +161,19 @@ const SightSeeing = () => {
                                             className="p-button-success"
                                         >
                                             Visit
+                                        </Button>
+                                    </div>
+                                    <div class="px-10 py-1">
+                                        <Button
+                                            onClick={() =>
+                                                router.get(
+                                                    `/sightSeeingNews/${item.id}`
+                                                )
+                                            }
+                                            key={item.id}
+                                            className="p-button-success"
+                                        >
+                                            News
                                         </Button>
                                     </div>
                                 </td>

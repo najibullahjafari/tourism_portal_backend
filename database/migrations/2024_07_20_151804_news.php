@@ -15,6 +15,7 @@ return new class extends Migration {
                 $table->id();
                 $table->timestamps();
                 $table->string('image');
+                $table->string('title');
                 $table->string('description');
                 $table->string('sightSeeing_id');
             });
