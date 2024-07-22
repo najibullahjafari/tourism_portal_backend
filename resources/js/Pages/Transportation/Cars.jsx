@@ -178,15 +178,17 @@ const Cars = () => {
                         globalFilter={globalFilter}
                         emptyMessage="No cars found."
                         className="p-datatable-gridlines"
+                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        tableStyle={{ minWidth: "50rem" }}
                     >
-                        <Column field="id" header="ID" />
-                        <Column field="name" header="Name" />
+                        <Column field="id" header="ID" sortable />
+                        <Column field="name" header="Name" sortable />
                         <Column
                             body={passportBodyTemplate}
                             header="Licence Scan"
                         />
                         <Column body={imageBodyTemplate} header="Car Image" />
-                        <Column field="phone" header="Driver Phone" />
+                        <Column field="phone" header="Driver Phone" sortable />
                         <Column field="location" header="Location" />
                         <Column body={actionButtonTemplate} header="Action" />
                     </DataTable>

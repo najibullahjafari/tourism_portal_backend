@@ -6,7 +6,8 @@ import { LayoutContext } from "@/Layouts/layout/context/layoutcontext";
 import Layout from "@/Layouts/layout/layout.jsx";
 import DashboardInfoCard from "@/Components/DashboardInfoCard.jsx";
 import { router } from "@inertiajs/react";
-
+import { Inertia } from "@inertiajs/inertia";
+import MapReact from "../map/MapReact.jsx";
 const lineData = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
@@ -29,11 +30,18 @@ const lineData = {
     ],
 };
 
-const Dashboard = () => {
+const SuperAdminDashboard = () => {
     const menu1 = useRef(null);
     const [lineOptions, setLineOptions] = useState({});
     const { layoutConfig } = useContext(LayoutContext);
-    const [lastTransportationId, setLastTransportationId] = useState(null);
+    const [numberOfCars, setNumberOfCars] = useState(0);
+    const [numberOfAllCars, setnumberOfAllCars] = useState(0);
+    const [numberOfHotels, setNumberOfHotels] = useState(0);
+    const [numberOfHotelsAccepted, setNumberOfHotelsAccepted] = useState(0);
+    const [numberOfUsers, setNumberOfUsers] = useState(0);
+    const [numberOfUsersAccepted, setNumberOfUsersAccepted] = useState(0);
+    const [pendingCar, setPendingCar] = useState(0);
+    const [pendingHotel, setPendingHotel] = useState(0);
 
     const applyLightTheme = () => {
         const lineOptions = {
@@ -99,10 +107,6 @@ const Dashboard = () => {
         setLineOptions(lineOptions);
     };
 
-    const getLastTransportationId = () => {
-        router.get("/car/last-transportation-id");
-    };
-
     useEffect(() => {
         if (layoutConfig.colorScheme === "light") {
             applyLightTheme();
@@ -111,29 +115,109 @@ const Dashboard = () => {
         }
     }, [layoutConfig.colorScheme]);
 
+    // a function to get the number of cars form the database
+
+    useEffect(() => {
+        // function to fetch the data
+        const fetchNumberOfCars = async () => {
+            try {
+                const response = await fetch("/car/numbers");
+                const data = await response.json();
+                setNumberOfCars(data);
+            } catch (error) {
+                console.error("Error fetching number of cars:", error);
+            }
+        };
+
+        const fetchAllCars = async () => {
+            try {
+                const response = await fetch("car/allnumbers");
+                const data = await response.json();
+                setnumberOfAllCars(data);
+            } catch (error) {
+                console.error("Error fetching number of cars:", error);
+            }
+        };
+
+        const fetchNumberOfHotels = async () => {
+            try {
+                const response = await fetch("/numberOFHotels");
+                const data = await response.json();
+                setNumberOfHotels(data);
+            } catch (error) {
+                console.error("Error fetching number of hotels:", error);
+            }
+        };
+        const fetchNumberOfHotelsAccepted = async () => {
+            try {
+                const response = await fetch("/numberOFHotelsAccepted");
+                const data = await response.json();
+                setNumberOfHotelsAccepted(data);
+            } catch (error) {
+                console.error("Error fetching number of hotels:", error);
+            }
+        };
+
+        const fetchNumberOfUsers = async () => {
+            try {
+                const response = await fetch("numberOfUsers");
+                const data = await response.json();
+                setNumberOfUsers(data);
+            } catch (error) {
+                console.error("Error fetching number of users:", error);
+            }
+        };
+        const fetchNumberOfUserAccepted = async () => {
+            try {
+                const response = await fetch("numberOfUsersAccepted");
+                const data = await response.json();
+                setNumberOfUsersAccepted(data);
+            } catch (error) {
+                console.error("Error fetching number of users:", error);
+            }
+        };
+
+        fetchAllCars();
+        fetchNumberOfCars();
+        fetchNumberOfHotels();
+        fetchNumberOfHotelsAccepted();
+        fetchNumberOfUsers();
+        fetchNumberOfUserAccepted();
+    }, []);
+    useEffect(() => {
+        const carDiff = numberOfAllCars - numberOfCars;
+        setPendingCar(carDiff);
+    }, [numberOfAllCars, numberOfCars]);
+
+    // useEffect hook for calculating Diff
+    useEffect(() => {
+        const HotelDiff = numberOfHotels - numberOfHotelsAccepted;
+        setPendingHotel(HotelDiff);
+    }, [numberOfHotels, numberOfHotelsAccepted]);
+
     return (
         <Layout>
             <div className="grid">
                 <DashboardInfoCard
-                    title="Requested Cars"
-                    value="25"
+                    title="Number of Cars"
+                    value={numberOfCars}
                     icon="map-marker"
                     iconColor="blue"
-                    descriptionValue="24 new"
-                    descriptionText="since established"
+                    descriptionValue={pendingCar}
+                    descriptionText="Pending cars"
                 ></DashboardInfoCard>
                 <DashboardInfoCard
-                    title="Revenue"
-                    value="AF 2.100"
+                    title="Hotels"
+                    value={numberOfHotelsAccepted}
                     icon="map-marker"
                     iconColor="orange"
-                    descriptionValue="%52+"
-                    descriptionText="since last week"
+                    descriptionValue={pendingHotel}
+                    descriptionText="Pending hotels"
                 ></DashboardInfoCard>
                 <DashboardInfoCard
                     title="Users"
-                    value="28441"
-                    descriptionValue="520"
+                    value={numberOfUsers}
+                    descriptionValue={numberOfUsersAccepted}
                     icon="inbox"
                     iconColor="cyan"
                     descriptionText="since last week"
@@ -265,10 +349,10 @@ const Dashboard = () => {
                             <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                                 <div>
                                     <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Jalalabad
+                                        Kabul
                                     </span>
                                     <div className="mt-1 text-600">
-                                        Dare Noor
+                                        Darul Aman Palace
                                     </div>
                                 </div>
                                 <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
@@ -277,11 +361,11 @@ const Dashboard = () => {
                                         style={{ height: "8px" }}
                                     >
                                         <div
-                                            className="bg-green-500 h-full"
+                                            className="bg-blue-500 h-full"
                                             style={{ width: "35%" }}
                                         />
                                     </div>
-                                    <span className="text-green-500 ml-3 font-medium">
+                                    <span className="text-blue-500 ml-3 font-medium">
                                         %35
                                     </span>
                                 </div>
@@ -294,4 +378,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default SuperAdminDashboard;

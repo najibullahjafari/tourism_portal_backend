@@ -1,19 +1,21 @@
 import Layout from "@/Layouts/layout/layout";
-import React from "react";
+import React, { useState, useRef } from "react";
 import { router, usePage } from "@inertiajs/react";
-import { useState } from "react";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import { useRef } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Dialog } from "primereact/dialog";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+
 const UserList = () => {
     const { data } = usePage().props;
     const [q, setQ] = useState("");
     const [category, setCategory] = useState("");
-    const [selectedTourGuide, setSelectedTourGuide] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
+
     const handleDelete = (id) => {
         router.delete(`/user/${id}`);
         toast.current.show({
@@ -23,6 +25,7 @@ const UserList = () => {
             life: 3000,
         });
     };
+
     const confirmAction = (id, action) => {
         confirmDialog({
             message: "Are you sure you want to proceed?",
@@ -39,204 +42,155 @@ const UserList = () => {
             },
         });
     };
+
+    const imageBodyTemplate = (rowData, field) => {
+        return (
+            <img
+                src={rowData[field]}
+                className="w-20 object-cover rounded"
+                alt="Image"
+            />
+        );
+    };
+
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <div className="mx-3 grid grid-cols-2 gap-1">
+                <Button
+                    icon="pi pi-trash"
+                    className="p-button-danger"
+                    onClick={() => confirmAction(rowData.id, handleDelete)}
+                />
+                <Button
+                    icon="pi pi-eye"
+                    severity="success"
+                    onClick={() => {
+                        setSelectedUser(rowData);
+                        setVisible(true);
+                    }}
+                />
+            </div>
+        );
+    };
+
+    const dialogFooter = (
+        <div className="flex justify-end">
+            <Button
+                label="Close"
+                icon="pi pi-times"
+                onClick={() => setVisible(false)}
+            />
+        </div>
+    );
+
     if (!data) {
         return <div className="fa fa-user">Loading...</div>;
     }
+
     return (
         <Layout>
-            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
-                <div className="flex items-center justify-between">
-                    <div>
+            <div className="card">
+                <div className="relative overflow-x-auto shadow-x sm:rounded-lg  ">
+                    <div className="flex items-center justify-between">
                         <Button
                             icon="pi pi-plus"
                             severity="success"
-                            onClick={() => {
-                                router.get("/addUser");
-                            }}
+                            onClick={() => router.get("/addUser")}
                             className="px-2 py-2 rounded m-3"
                         >
                             <span className="mx-2">User</span>
                         </Button>
-                    </div>
-                    <form className="box-content shadow-sm bg-white my-5">
-                        <select
-                            name="category"
-                            value={category}
-                            onChange={(e) => {
-                                setCategory(e.target.value);
-                            }}
-                            className="mx-2 my-2 w-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                            <legend>Option</legend>
-                            <option value="id">ID</option>
-                            <option value="name">Name</option>
-                            <option value="phone">Phone</option>
-                            <option value="userType">User Type</option>
-                        </select>
-                        <input
-                            type="search"
-                            required
-                            name="q"
-                            value={q}
-                            onChange={(e) => {
-                                setQ(e.target.value);
-                            }}
-                            className="w-4 mx-2 my-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        ></input>
-                        <button
-                            type="submit"
-                            className=" mx-2 my-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                        >
-                            Search
-                        </button>
-                    </form>
-                </div>
-                <Toast ref={toast} />
-                <ConfirmDialog />
-            </div>
-            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-white-50 uppercase bg-black-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                ID
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Name
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Father Name
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Photo
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Passport
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                ID Card
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Location
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Bio
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Phone
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                User Type
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Edit
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item) => (
-                            <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                key={item.id}
+                        <form className="box-content   my-5">
+                            <select
+                                name="category"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                                className="mx-2 my-2 w-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             >
-                                <td class="px-6 py-4">{item.id}</td>
-                                <td class="px-6 py-4">{item.name}</td>
-                                <td class="px-6 py-4">{item.father_name}</td>
-                                <td class="px-6 py-4">
-                                    {""}
-                                    <img
-                                        src={item.image}
-                                        class="w-20 object-cover rounded"
-                                        alt="Profile Image"
-                                    />
-                                </td>
-                                <td class="px-6 py-4">
-                                    {""}
-                                    <img
-                                        src={item.passport}
-                                        class="w-20 object-cover rounded"
-                                        alt="Passport Image"
-                                    />
-                                </td>
-                                <td class="px-6 py-4">{item.id_card}</td>
-                                <td class="px-6 py-4">{item.location}</td>
-                                <td class="px-6 py-4">{item.bio}</td>
-                                <td class="px-6 py-4">{item.phone}</td>
-                                <td class="px-6 py-4">{item.userType}</td>
-                                <td class="px-6 py-4">
-                                    <div class="px-10 py-1">
-                                        <Button
-                                            onClick={() =>
-                                                router.post(
-                                                    `/userProfile/${item.id}`
-                                                )
-                                            }
-                                            key={item.id}
-                                            className="p-button-success"
-                                        >
-                                            Edit
-                                        </Button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="mx-3 grid grid-cols-2 gap-1">
-                                        <div class="">
-                                            <Button
-                                                onClick={() =>
-                                                    confirmAction(
-                                                        item.id,
-                                                        handleDelete
-                                                    )
-                                                }
-                                                icon="pi pi-trash"
-                                                className="p-button-danger"
-                                            ></Button>
-                                        </div>
-                                        <div class="">
-                                            <Button
-                                                icon="pi pi-eye"
-                                                severity="success"
-                                                onClick={() => {
-                                                    setSelectedTourGuide(item);
-                                                    setVisible(true);
-                                                }}
-                                                className=""
-                                            ></Button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {selectedTourGuide && (
-                    <Dialog
-                        visible={visible}
-                        modal
-                        onHide={() => setVisible(false)}
+                                <option value="id">ID</option>
+                                <option value="name">Name</option>
+                                <option value="phone">Phone</option>
+                                <option value="userType">User Type</option>
+                            </select>
+                            <input
+                                type="search"
+                                required
+                                name="q"
+                                value={q}
+                                onChange={(e) => setQ(e.target.value)}
+                                className="w-4 mx-2 my-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <button
+                                type="submit"
+                                className="mx-2 my-2 px-4 py-2 bg-primary rounded-md"
+                            >
+                                Search
+                            </button>
+                        </form>
+                    </div>
+                    <Toast ref={toast} />
+                    <ConfirmDialog />
+                </div>
+                <div className="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
+                    <DataTable
+                        value={data}
+                        responsiveLayout="scroll"
+                        paginator
+                        rows={5}
+                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        tableStyle={{ minWidth: "50rem" }}
                     >
-                        <div
-                            style={{
-                                borderRadius: "12px",
-                                backgroundColor: "var(--secondary-400)",
-                            }}
+                        <Column field="id" header="ID" sortable />
+                        <Column field="name" header="Name" sortable />
+                        <Column field="father_name" header="Father Name" />
+                        <Column
+                            body={(rowData) =>
+                                imageBodyTemplate(rowData, "image")
+                            }
+                            header="Photo"
+                        />
+                        <Column
+                            body={(rowData) =>
+                                imageBodyTemplate(rowData, "passport")
+                            }
+                            header="Passport"
+                        />
+                        <Column field="userType" header="User Type" />
+                        <Column
+                            body={(rowData) => (
+                                <Button
+                                    label="Edit"
+                                    className="p-button-success"
+                                    onClick={() =>
+                                        router.post(
+                                            `/userProfile/${rowData.id}`
+                                        )
+                                    }
+                                />
+                            )}
+                            header="Edit"
+                        />
+                        <Column body={actionBodyTemplate} header="Action" />
+                    </DataTable>
+                    {selectedUser && (
+                        <Dialog
+                            visible={visible}
+                            modal
+                            onHide={() => setVisible(false)}
+                            footer={dialogFooter}
+                            header="User Details"
                         >
                             <div className="flex flex-column px-8 py-5 gap-4">
-                                <h2>Name: {selectedTourGuide.name}</h2>
-                                <p>
-                                    Father Name: {selectedTourGuide.father_name}
-                                </p>
-                                <p>ID Card: {selectedTourGuide.id_card}</p>
-                                <p>Location: {selectedTourGuide.location}</p>
-                                <p>Phone No: {selectedTourGuide.phone}</p>
-                                <p>User Type: {selectedTourGuide.userType}</p>
+                                <h2>Name: {selectedUser.name}</h2>
+                                <p>Father Name: {selectedUser.father_name}</p>
+                                <p>ID Card: {selectedUser.id_card}</p>
+                                <p>Location: {selectedUser.location}</p>
+                                <p>Phone No: {selectedUser.phone}</p>
+                                <p>User Type: {selectedUser.userType}</p>
                                 <div>
-                                    <p>{selectedTourGuide.name}:</p>
+                                    <p>{selectedUser.name}:</p>
                                     <img
-                                        src={selectedTourGuide.image}
+                                        src={selectedUser.image}
                                         width={400}
                                         height={50}
                                         alt="Profile"
@@ -246,18 +200,18 @@ const UserList = () => {
                                 <div>
                                     <p>Passport:</p>
                                     <img
-                                        src={selectedTourGuide.passport}
+                                        src={selectedUser.passport}
                                         width={400}
                                         height={50}
                                         alt="passport"
                                         className="rounded border p-2"
                                     />
                                 </div>
-                                <p> {selectedTourGuide.bio}</p>
+                                <p>{selectedUser.bio}</p>
                             </div>
-                        </div>
-                    </Dialog>
-                )}
+                        </Dialog>
+                    )}
+                </div>
             </div>
         </Layout>
     );

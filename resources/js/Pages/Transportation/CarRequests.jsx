@@ -214,10 +214,10 @@ export default function Transportation() {
                             <InputError message={errors.description} />
                         </div>
 
-                        <div className="flex justify-center items-center w-full mt-3">
+                        <div className="flex   w-full mt-3">
                             <Button
                                 label="Submit"
-                                className="p-button btn primary btn-primary "
+                                className="p-button-success m-3 "
                                 disabled={processing}
                                 type="submit"
                             />
