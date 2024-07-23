@@ -2,7 +2,7 @@ import Layout from "@/Layouts/layout/layout";
 import { router, usePage } from "@inertiajs/react";
 import { Button } from "primereact/button";
 import React from "react";
-const TourGuides = () => {
+const Users = () => {
     const { data } = usePage().props;
     return (
         <Layout>
@@ -54,7 +54,7 @@ const TourGuides = () => {
                                         className="mx-3 my-3 bg-gray-700 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                         onClick={() =>
                                             router.get(
-                                                `/tourGuideDetial/${item.id}`
+                                                `/UserDetails/${item.id}`
                                             )
                                         }
                                     >
@@ -70,4 +70,4 @@ const TourGuides = () => {
     );
 };
 
-export default TourGuides;
+export default Users;

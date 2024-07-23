@@ -32,17 +32,20 @@ const AppMenu = () => {
                             label: "Hotel List",
                             icon: "pi pi-fw pi-list",
                             to: route("hotelList"),
+                            roles: ["super-admin"],
                         },
                         {
                             label: "Requests",
                             icon: "pi pi-fw pi-request",
                             to: route("hotelRequest"),
                             icon: "pi pi-fw pi-question",
+                            roles: ["super-admin"],
                         },
                         {
                             label: "Add Hotel",
                             icon: "pi pi-fw pi-plus",
                             to: route("addHotel"),
+                            roles: ["super-admin"],
                         },
                         {
                             label: "Food categories",
@@ -65,9 +68,16 @@ const AppMenu = () => {
                             label: "Requests",
                             icon: "pi pi-fw pi-question",
                             to: route("cars.requested.cars"),
+                            roles: ["super-admin"],
+                        },
+                        {
+                            label: "Add",
+                            icon: "pi pi-fw pi-plus",
+                            to: route("cars.requests"),
+                            roles: ["super-admin"],
                         },
                     ],
-                    roles: ["super-admin", "transport-admin"],
+                    roles: ["super-admin"],
                 },
 
                 {
@@ -128,21 +138,6 @@ const AppMenu = () => {
                             icon: "pi pi-fw pi-user",
                             to: route("hotelsMessage"),
                         },
-                        // {
-                        //     label: "Sight Seeing",
-                        //     icon: "pi pi-fw pi-user",
-                        //     to: route("sightSeeingsMessage"),
-                        // },
-                        // {
-                        //     label: "Tour Guide",
-                        //     icon: "pi pi-fw pi-user",
-                        //     to: route("tourGuidesMessage"),
-                        // },
-                        // {
-                        //     label: "Tourist",
-                        //     icon: "pi pi-fw pi-user",
-                        //     to: route("touristsMessage"),
-                        // },
                     ],
                 },
                 {
@@ -166,6 +161,17 @@ const AppMenu = () => {
                         },
                     ],
                     roles: ["super-admin"],
+                },
+                {
+                    label: "Profile",
+                    icon: "pi pi-fw pi-user",
+                    items: [
+                        {
+                            label: "Profile",
+                            icon: "pi pi-fw pi-user",
+                            to: route("profile.edit"),
+                        },
+                    ],
                 },
                 {
                     label: "Booking",

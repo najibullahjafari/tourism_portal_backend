@@ -1,7 +1,7 @@
 import { router, usePage } from "@inertiajs/react";
 import { Button } from "primereact/button";
 import React from "react";
-const TourGuideDetial = () => {
+const UserDetails = () => {
     const { data } = usePage().props;
     console.log("What the fact!", data);
     return (
@@ -55,4 +55,4 @@ const TourGuideDetial = () => {
     );
 };
 
-export default TourGuideDetial;
+export default UserDetails;

@@ -93,9 +93,102 @@ class TransportationController extends Controller
     return redirect('/cars')->with('message', 'Car added successfully.');
   }
 
-
-  public function destroy($id)
+  // to edit the car
+  public function edit($id)
   {
+    $car = Transportation::find($id);
+    if (!$car) {
+      return Redirect::back()->with('error', 'Car not found.');
+    }
+    return Inertia::render('Transportation/EditCar', ['car' => $car]);
+  }
+
+  public function update(Request $request, $id)
+  {
+    // Find the car by ID
+    $car = Transportation::find($id);
+    if (!$car) {
+      return Redirect::back()->with('error', 'Car not found.');
+    }
+    $r = $request;
+
+    // Validate the incoming request
+    $request->validate([
+      'name' => 'required|string|max:255',
+      'location' => 'required|string|max:255',
+      'passport' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+      'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    // Update the car fields
+    $car->name = $request->name;
+    $car->tazkira_no = $request->tazkira_no;
+    $car->father_name = $request->father_name;
+    $car->phone = $request->phone;
+    $car->location = $request->location;
+    $car->discription = $request->discription;
+
+    // Check if a new passport file is uploaded
+    if ($request->hasFile('passport')) {
+      try {
+        // Delete the old passport image file
+        if ($car->passport) {
+          $file = public_path($car->passport);
+          if (file_exists($file)) {
+            unlink($file);
+          }
+        }
+
+        // Store the new passport file
+        $file = $request->file('passport');
+        $destinationPath = public_path('storage/passports');
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        $file->move($destinationPath, $fileName);
+        if (!file_exists($destinationPath . '/' . $fileName)) {
+          return Redirect::back()->with('error', 'Failed to save passport. Please try again.');
+        }
+        $car->passport = 'storage/passports/' . $fileName;
+      } catch (\Exception $e) {
+        return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+      }
+    }
+
+    // Check if a new image file is uploaded
+    if ($request->hasFile('image')) {
+      try {
+        // Delete the old image file
+        if ($car->image) {
+          $file = public_path($car->image);
+          if (file_exists($file)) {
+            unlink($file);
+          }
+        }
+
+        // Store the new image file
+        $file = $request->file('image');
+        $destinationPath = public_path('storage/images');
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        $file->move($destinationPath, $fileName);
+        if (!file_exists($destinationPath . '/' . $fileName)) {
+          return Redirect::back()->with('error', 'Failed to save image. Please try again.');
+        }
+        $car->image = 'storage/images/' . $fileName;
+      } catch (\Exception $e) {
+        return Redirect::back()->with('error', 'An error occurred while uploading the image: ' . $e->getMessage());
+      }
+    }
+
+    // Save the updated car
+    $car->save();
+
+    return Redirect::to('/cars')->with('message', 'Car updated successfully.');
+  }
+
+
+
+  public function destroy(
+    $id
+  ) {
     $car = Transportation::find($id);
     if (!$car) {
       return Redirect::back()->with('error', 'Car not found.');

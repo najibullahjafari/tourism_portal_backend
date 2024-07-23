@@ -26,7 +26,7 @@ class tourguideController extends Controller
                 $item->passport = asset($item->passport);
 
             }
-            return Inertia::render('TourGuide/TourGuideList', [
+            return Inertia::render('User/UserList', [
                 'data' => $data
             ]);
         } else {
@@ -37,7 +37,7 @@ class tourguideController extends Controller
                 $item->passport = asset($item->passport);
 
             }
-            return Inertia::render('TourGuide/TourGuideList', [
+            return Inertia::render('User/UserList', [
                 'data' => $data
             ]);
         }
@@ -48,7 +48,7 @@ class tourguideController extends Controller
      */
     public function create()
     {
-        return Inertia::render('TourGuide/AddTourGuide');
+        return Inertia::render('User/AddUser');
     }
 
     /**
@@ -156,7 +156,7 @@ class tourguideController extends Controller
             $item->image = asset($item->image);
             $item->passport = asset($item->passport);
         }
-        return Inertia::render('TourGuide/TourGuideProfile', [
+        return Inertia::render('User/UserProfile', [
             'tour' => $user
         ]);
     }
@@ -166,7 +166,87 @@ class tourguideController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return Inertia::render('TourGuide/AddTourGuide');
+        // Log the request data
+
+
+        // Validation rules
+        // $request = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'father_name' => 'required|string|max:255',
+        //     'id_card' => 'required|string|max:255',
+        //     'location' => 'required|string|max:255',
+        //     'phone' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255',
+        //     'password' => 'nullable|string|min:8',
+        //     'bio' => 'required|string',
+        //     'userType' => 'required|string',
+        //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //     'passport' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
+
+        // Find the user by ID
+        $user = User::find($request->user()->id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Update user details
+        $user->name = $request['name'];
+        $user->father_name = $request['father_name'];
+        $user->id_card = $request['id_card'];
+        $user->location = $request['location'];
+        $user->phone = $request['phone'];
+        $user->email = $request['email'];
+        if (!empty($request['password'])) {
+            $user->password = bcrypt($request['password']);
+        }
+        $user->bio = $request['bio'];
+        $user->userType = $request['userType'];
+
+        if ($request->hasFile('image')) {
+            try {
+                $file = $request->file('image');
+                $destinationPath = public_path('storage/tourGuideImage');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileName);
+                if (!file_exists($destinationPath . '/' . $fileName)) {
+                    $previousImagePath = true;
+                }
+                $imagePath = 'storage/tourGuideImage/' . $fileName;
+            } catch (\Exception $e) {
+                return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+            }
+        } else {
+            return Redirect::back()->with('error', 'No passport file found in the request.');
+        }
+
+        if ($request->hasFile('passport')) {
+            try {
+                $file = $request->file('passport');
+                $destinationPath = public_path('storage/passport');
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileName);
+                if (!file_exists($destinationPath . '/' . $fileName)) {
+                    $previousPath = true;
+                }
+                $passportPath = 'storage/passport/' . $fileName;
+            } catch (\Exception $e) {
+                return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
+            }
+        } else {
+            return Redirect::back()->with('error', 'No passport file found in the request.');
+        }
+
+        if ($request->filled('password')) {
+            $request['password'] = bcrypt($request->password);
+        } else {
+            unset($request['password']);
+        }
+
+        $user->save();
+
+        return redirect()->route('user.edit', $user->id)->with('success', 'User updated successfully');
     }
 
     /**
@@ -177,9 +257,8 @@ class tourguideController extends Controller
         $hotel = User::find($id);
         $hotel->delete();
         $data = User::where('status', 'active')->get();
-        return Inertia::render('TourGuide/TourGuideList', [
-            'data' => $data
-        ]);
+        return redirect()->back()->with('success', 'Tour guide deleted successfully.');
+
     }
     public function view()
     {
@@ -190,7 +269,7 @@ class tourguideController extends Controller
             $item->liked = like::where('type', "tourGuide")->where('obj_id', $item->id)->get()->count();
 
         }
-        return Inertia::render('TourGuide/TourGuides', [
+        return Inertia::render('User/Users', [
             'data' => $data,
         ]);
     }
@@ -203,7 +282,7 @@ class tourguideController extends Controller
             $item->liked = like::where('type', "tourGuide")->where('obj_id', $item->id)->get()->count();
 
         }
-        return Inertia::render('TourGuide/TourGuideDetial', [
+        return Inertia::render('User/UserDetails', [
             'data' => $data,
         ]);
     }
@@ -218,7 +297,7 @@ class tourguideController extends Controller
             $item->liked = like::where('type', "tourist")->where('obj_id', $item->id)->get()->count();
 
         }
-        return Inertia::render('TourGuide/Tourists', [
+        return Inertia::render('User/Tourists', [
             'data' => $data,
         ]);
     }
@@ -231,7 +310,7 @@ class tourguideController extends Controller
             $item->liked = like::where('type', "tourist")->where('obj_id', $item->id)->get()->count();
 
         }
-        return Inertia::render('TourGuide/TouristDetial', [
+        return Inertia::render('User/TouristDetial', [
             'data' => $data,
         ]);
     }
