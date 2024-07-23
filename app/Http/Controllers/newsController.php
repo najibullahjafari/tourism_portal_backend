@@ -9,7 +9,33 @@ use Redirect;
 
 class newsController extends Controller
 {
-    //
+    public function index(Request $request)
+    {
+        if ($request->has("category") && $request->has("q")) {
+            $col = $request->category;
+            $val = $request->q;
+            $data = news::where($col, 'like', '%' . $val . '%')->get();
+            foreach ($data as $item) {
+                $item->image = asset($item->image);
+
+            }
+            return Inertia::render('News/News', [
+                'data' => $data,
+            ]);
+
+        } else {
+
+
+            $data = news::get();
+            foreach ($data as $item) {
+                $item->image = asset($item->image);
+
+            }
+            return Inertia::render('News/News', [
+                'data' => $data,
+            ]);
+        }
+    }
     public function create($id)
     {
         return Inertia::render('News/AddNews', ['id' => $id]);
@@ -50,5 +76,12 @@ class newsController extends Controller
         $news->save();
 
         return redirect::back()->with('message', 'News request has been sent successfully');
+    }
+
+    public function delete($id)
+    {
+        $data = news::find($id);
+        $data->delete();
+        return redirect()->route('news');
     }
 }

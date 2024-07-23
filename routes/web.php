@@ -129,6 +129,8 @@ Route::middleware('auth')->group(function () {
     // Sight Seeing News
     Route::get('/sightSeeingNews/{id}', [newsController::class, 'create'])->name('news.create');
     Route::post('/sightSeeingNews', [newsController::class, 'store'])->name('news.store');
+    Route::get('/news', [newsController::class, 'index'])->name('news');
+    Route::delete(`/news/delete/{id}`, [newsController::class, 'delete'])->name('news.delete');
     // for permission
     Route::group(['middleware' => ['role:super-admin']], function () {
 

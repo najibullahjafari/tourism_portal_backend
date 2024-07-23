@@ -188,6 +188,17 @@ const AppMenu = () => {
                         },
                     ],
                 },
+                {
+                    label: "News",
+                    icon: "pi pi-fw pi-user",
+                    items: [
+                        {
+                            label: "News",
+                            icon: "pi pi-fw pi-users",
+                            to: route("news"),
+                        },
+                    ],
+                },
             ],
         },
     ];
