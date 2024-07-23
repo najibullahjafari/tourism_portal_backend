@@ -113,10 +113,12 @@ const requestedCars = () => {
                     rows={10}
                     className="p-datatable-gridlines"
                     emptyMessage="No cars found."
+                    rowsPerPageOptions={[5, 10, 25, 50]}
+                    tableStyle={{ minWidth: "50rem" }}
                 >
-                    <Column field="id" header="ID" />
-                    <Column field="name" header="Name" />
-                    <Column field="phone" header="Phone" />
+                    <Column field="id" header="ID" sortable />
+                    <Column field="name" header="Name" sortable />
+                    <Column field="phone" header="Phone" sortable />
                     <Column body={imageBodyTemplate} header="Image" />
                     <Column body={viewButtonTemplate} header="View" />
                     <Column body={actionButtonTemplate} header="Action" />

@@ -314,4 +314,16 @@ class tourguideController extends Controller
             'data' => $data,
         ]);
     }
+
+    public function numberOfActiveUser()
+    {
+        $data = User::all();
+        return count($data);
+    }
+
+    public function numberOfActiveUserAccepted()
+    {
+        $data = User::where('status', 'active')->get();
+        return count($data);
+    }
 }

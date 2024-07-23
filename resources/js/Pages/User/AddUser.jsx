@@ -47,7 +47,7 @@ const AddTourGuide = () => {
     const userTypes = [
         { label: "Tour Guide", value: "tourguide" },
         { label: "Tourist", value: "tourist" },
-        { label: "Super Admin", value: "super-admin" },
+        { label: "Super Admin", value: "superadmin" },
         { label: "User", value: "user" },
         { label: "Hotel Admin", value: "hoteladmin" },
         { label: "Transportation Admin", value: "transportadmin" },
@@ -216,7 +216,7 @@ const AddTourGuide = () => {
                             <Button
                                 type="submit"
                                 label="Save"
-                                className="mt-6"
+                                className="mt-6 bg-primary"
                                 disabled={processing}
                             />
                         </div>

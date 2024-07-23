@@ -38,7 +38,7 @@ Route::get(
 )->name('welcome.hotel');
 Route::get('/about-tourGuide', [Welcome::class, 'tourGuide'])->name('welcome.tourGuide');
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard/GeneralDashboard');
 })
     ->name('dashboard');
 
@@ -54,6 +54,9 @@ Route::middleware('auth')->group(function () {
         Route::post('car/requests/', [TransportationController::class, 'store'])->name('transportation.requests');
         Route::post('car/accepted/{id}', [TransportationController::class, 'acceptCar']);
         Route::post('car/requests/{id}', [TransportationController::class, 'update']);
+        Route::get('car/numbers', [TransportationController::class, 'getNumberOfCars']);
+        Route::get('car/allnumbers', [TransportationController::class, 'allCars']);
+
 
         Route::get('/car/last-transportation-id', [TransportationController::class, 'lastTransportationId']);
         Route::post('car/rejected/{id}', [TransportationController::class, 'rejectCar']);
@@ -68,6 +71,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/addHotel', [HotelController::class, 'store'])->name('hotel.store');
         Route::delete('/hotels/{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
         Route::put('/hotelUpdate/{id}', [HotelController::class, 'update'])->name('hotelUpdate');
+        Route::get('/numberOFHotels', [HotelController::class, 'numberOfAllHotels']);
+        Route::get('/numberOFHotelsAccepted', [HotelController::class, 'numberOfAcceptedHotels']);
     });
 
 
@@ -146,6 +151,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/userProfile/{id}', [tourguideController::class, 'edit'])->name('user.edit');
         Route::get('/userProfile/update', [tourguideController::class, 'update'])->name('user.update');
         Route::put('/userProfile/update/{id}', [tourguideController::class, 'update']);
+        Route::get('/numberOfUsers', [tourguideController::class, 'numberOfActiveUser']);
+        Route::get('/numberOfUsersAccepted', [tourguideController::class, 'numberOfActiveUserAccepted']);
 
         // requested users
         Route::get('userRequest', [tourguideRequestController::class, 'index'])->name('userRequest.index');
