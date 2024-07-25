@@ -36,7 +36,7 @@ const AppMenu = () => {
                         },
                         {
                             label: "Requests",
-                            icon: "pi pi-fw pi-request",
+                            // icon: "pi pi-fw pi-request",
                             to: route("hotelRequest"),
                             icon: "pi pi-fw pi-question",
                             roles: ["super-admin"],

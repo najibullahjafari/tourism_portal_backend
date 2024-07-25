@@ -42,6 +42,11 @@ Route::get('/dashboard', function () {
 })
     ->name('dashboard');
 
+Route::get('/HotelDetial/{id}', [HotelController::class, 'showDetial'])->name('hotel.showDetial');
+Route::get('/SightSeeingDetial/{id}', [sight_seeingController::class, 'viewDetial'])->name('SightSeeingDetial');
+Route::get('/tourGuideDetial/{id}', [tourGuideController::class, 'viewDetial'])->name('TourGuideDetial');
+Route::get('/touristDetial/{id}', [tourGuideController::class, 'touristDetial'])->name('touristDetial');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -102,11 +107,11 @@ Route::middleware('auth')->group(function () {
     // Views
     Route::get('/hotel/view', [HotelController::class, 'view'])->name("hotels");
     // Route::get('/hotel/comment', [HotelController::class, 'comment'])->name('hotelComment');
-    Route::get('/HotelDetial/{id}', [HotelController::class, 'showDetial'])->name('hotel.showDetial');
+    // Route::get('/HotelDetial/{id}', [HotelController::class, 'showDetial'])->name('hotel.showDetial');
     Route::get('/sightSeeing/view', [sight_seeingController::class, 'view'])->name('sightSeeings');
-    Route::get('/SightSeeingDetial/{id}', [sight_seeingController::class, 'viewDetial'])->name('SightSeeingDetial');
+    // Route::get('/SightSeeingDetial/{id}', [sight_seeingController::class, 'viewDetial'])->name('SightSeeingDetial');
     Route::get('/tourGuide/view', [tourguideController::class, 'view'])->name('tourGuides');
-    Route::get('/tourGuideDetial/{id}', [tourGuideController::class, 'viewDetial'])->name('TourGuideDetial');
+    // Route::get('/tourGuideDetial/{id}', [tourGuideController::class, 'viewDetial'])->name('TourGuideDetial');
     Route::get('/tourist/view', [tourguideController::class, 'viewTourist'])->name('tourists');
     Route::get('/touristDetial/{id}', [tourGuideController::class, 'touristDetial'])->name('touristDetial');
 
