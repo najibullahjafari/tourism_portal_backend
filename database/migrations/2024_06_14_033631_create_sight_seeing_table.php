@@ -19,8 +19,10 @@ return new class extends Migration {
             $table->text('description');
             $table->date('close_time');
             $table->date('open_time');
+            $table->text('image');
             $table->string('ticket_cost');
-            $table->string('image');
+            $table->unsignedBigInteger('hotel_id');
+            $table->foreign('province_id')->references('id')->on('provinces')->onDelete('cascade')->nullable();
             $table->string('status');
         });
     }

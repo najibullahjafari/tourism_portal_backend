@@ -18,7 +18,8 @@ return new class extends Migration {
             $table->text('province');
             $table->string('photoAddress');
             $table->string('status');
-
+            $table->unsignedBigInteger('sightseeing_id')->nullable();
+            $table->foreign('sight_seeing_id')->references('id')->on('sight_seeing');
         });
     }
 

@@ -16,7 +16,8 @@ return new class extends Migration {
                 $table->timestamps();
                 $table->string('obj_type');
                 $table->string('obj_id');
-                $table->string('booker_id');
+                $table->unsignedBigInteger('user_id');
+                $table->foreign('user_id')->references('id')->on('users')->nullable()->onDelete('cascade');
                 $table->dateTime('start_date');
 
             });
