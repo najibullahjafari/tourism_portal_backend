@@ -1,7 +1,7 @@
 import Layout from "@/Layouts/layout/layout";
 import React, { useState, useRef } from "react";
 import { useForm, usePage } from "@inertiajs/react";
-import { router } from "@inertiajs/react";
+import { Inertia } from "@inertiajs/inertia";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
@@ -69,6 +69,13 @@ const SightSeeing = () => {
                 }}
                 className="p-button-info"
             />
+            <Button
+                onClick={() => router.get(`/sightSeeingNews/${rowData.id}`)}
+                key={rowData.id}
+                className="p-button-success"
+            >
+                News
+            </Button>
         </div>
     );
 
