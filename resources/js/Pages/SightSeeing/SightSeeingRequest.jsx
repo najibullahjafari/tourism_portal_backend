@@ -1,13 +1,13 @@
 import Layout from "@/Layouts/layout/layout";
-import React from "react";
-import { useForm, usePage } from "@inertiajs/react";
-import { router } from "@inertiajs/react";
-import { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useForm, usePage, router } from "@inertiajs/react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { useRef } from "react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+
 const SightSeeingRequest = () => {
     const { data } = usePage().props;
     const [q, setQ] = useState("");
@@ -15,6 +15,7 @@ const SightSeeingRequest = () => {
     const [selectedSightSeeing, setSelectedSeeing] = useState(null);
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
+
     const handleDelete = (id) => {
         router.delete(`/sightSeeing/${id}`);
         toast.current.show({
@@ -26,7 +27,7 @@ const SightSeeingRequest = () => {
     };
 
     const handleReject = (id) => {
-        router.post(`/sightSeeingRequest/${id}`);
+        router.delete(`/sightSeeingRequestDelete/${id}`);
     };
     const handleAccept = (id) => {
         router.post(`/sightSeeingRequest/${id}`);
@@ -52,214 +53,185 @@ const SightSeeingRequest = () => {
     }
     return (
         <Layout>
-            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <Button
-                            icon="pi pi-plus"
-                            severity="success"
-                            onClick={() => {
-                                router.get("/addSightSeeing");
-                            }}
-                            className="px-2 py-2 rounded m-3"
-                        >
-                            <span className="mx-2">Sight Seeing</span>
-                        </Button>
-                    </div>
-                    <form className="box-content shadow-sm bg-white my-5">
-                        <select
-                            name="category"
-                            value={category}
-                            onChange={(e) => {
-                                setCategory(e.target.value);
-                            }}
-                            className="mx-2 my-2 w-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                            <legend>Option</legend>
-                            <option value="id">ID</option>
-                            <option value="name">Name</option>
-                            <option value="province">Province</option>
-                        </select>
-                        <input
-                            type="search"
-                            required
-                            name="q"
-                            value={q}
-                            onChange={(e) => {
-                                setQ(e.target.value);
-                            }}
-                            className="w-4 mx-2 my-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        ></input>
-                        <button
-                            type="submit"
-                            className=" mx-2 my-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                        >
-                            Search
-                        </button>
-                    </form>
-                </div>
-                <Toast ref={toast} />
-                <ConfirmDialog />
-            </div>
-            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-white-50 uppercase bg-black-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                ID
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Name
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Address
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Province
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Open Time
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Close Time
-                            </th>
-
-                            <th scope="col" class="px-6 py-3">
-                                Image
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Visit
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item) => (
-                            <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                key={item.id}
+            <div className="card">
+                <div className="relative overflow-x-auto shadow-x sm:rounded-lg ">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <Button
+                                icon="pi pi-plus"
+                                severity="success"
+                                onClick={() => {
+                                    router.get("/addSightSeeing");
+                                }}
+                                className="px-2 py-2 rounded m-3"
                             >
-                                <td class="px-6 py-4">{item.id}</td>
-                                <td class="px-6 py-4">{item.name}</td>
-                                <td class="px-6 py-4">{item.address}</td>
-                                <td class="px-6 py-4">{item.province}</td>
-                                <td class="px-6 py-4">{item.close_time}</td>
-                                <td class="px-6 py-4">{item.open_time}</td>
-                                <td class="px-6 py-4">
-                                    {" "}
+                                <span className="mx-2">Sight Seeing</span>
+                            </Button>
+                        </div>
+                        <form className="box-content shadow-sm bg-white my-5">
+                            <select
+                                name="category"
+                                value={category}
+                                onChange={(e) => {
+                                    setCategory(e.target.value);
+                                }}
+                                className="mx-2 my-2 w-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                                <legend>Option</legend>
+                                <option value="id">ID</option>
+                                <option value="name">Name</option>
+                                <option value="province">Province</option>
+                            </select>
+                            <input
+                                type="search"
+                                required
+                                name="q"
+                                value={q}
+                                onChange={(e) => {
+                                    setQ(e.target.value);
+                                }}
+                                className="w-4 mx-2 my-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            ></input>
+                            <button
+                                type="submit"
+                                className=" mx-2 my-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                            >
+                                Search
+                            </button>
+                        </form>
+                    </div>
+                    <Toast ref={toast} />
+                    <ConfirmDialog />
+                </div>
+                <div className="  shadow-x sm:rounded-lg  mt-5">
+                    <DataTable
+                        value={data}
+                        paginator
+                        rows={10}
+                        selectionMode="single"
+                        onSelectionChange={(e) => setSelectedSeeing(e.value)}
+                    >
+                        <Column field="id" header="ID" />
+                        <Column field="name" header="Name" />
+                        <Column field="address" header="Address" />
+                        <Column field="province" header="Province" />
+                        <Column field="open_time" header="Open Time" />
+                        <Column field="close_time" header="Close Time" />
+                        <Column
+                            field="image"
+                            header="Image"
+                            body={(rowData) =>
+                                rowData.image.map((img, index) => (
                                     <img
-                                        src={item.image}
+                                        key={index}
+                                        src={img}
                                         alt="Image"
-                                        class="w-20 object-cover rounded"
+                                        className="w-20 object-cover rounded"
                                     />
-                                </td>
-                                <td>
-                                    <div class="px-10 py-1">
-                                        <Button
-                                            onClick={() =>
-                                                router.post(
-                                                    `/sightSeeingDashboard/${item.id}`
-                                                )
-                                            }
-                                            key={item.id}
-                                            className="p-button-success"
-                                        >
-                                            Visit
-                                        </Button>
-                                    </div>
-                                    
-                                </td>
+                                ))
+                            }
+                        />
 
-                                <td class="px-6 py-4">
-                                    <button
-                                        onClick={() =>
-                                            confirmAction(item.id, handleReject)
-                                        }
-                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
-                                    >
-                                        Reject
-                                    </button>
-
-                                    <div className="my-2">
-                                        <Button
-                                            icon="pi pi-eye"
-                                            severity="success"
-                                            onClick={() => {
-                                                setSelectedSeeing(item);
-                                                setVisible(true);
-                                            }}
-                                            className="px-2 py-1 rounded"
-                                        >
-                                            View
-                                        </Button>
-                                    </div>
+                        <Column
+                            header="Action"
+                            body={(rowData) => (
+                                <div className="flex flex-col sm:flex-row gap-2">
                                     <Button
                                         onClick={() =>
-                                            confirmAction(item.id, handleAccept)
+                                            confirmAction(
+                                                rowData.id,
+                                                handleReject
+                                            )
                                         }
-                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:none"
+                                        className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                    >
+                                        Reject
+                                    </Button>
+                                    <Button
+                                        icon="pi pi-eye"
+                                        severity="success"
+                                        onClick={() => {
+                                            setSelectedSeeing(rowData);
+                                            setVisible(true);
+                                        }}
+                                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                    ></Button>
+                                    <Button
+                                        onClick={() =>
+                                            confirmAction(
+                                                rowData.id,
+                                                handleAccept
+                                            )
+                                        }
+                                        className="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                     >
                                         Accept
                                     </Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {selectedSightSeeing && (
-                    <Dialog
-                        visible={visible}
-                        modal
-                        onHide={() => setVisible(false)}
-                    >
-                        <div
-                            style={{
-                                borderRadius: "12px",
-                                backgroundColor: "var(--secondary-400)",
-                            }}
+                                    <Button
+                                        icon="pi pi-pencil"
+                                        onClick={() =>
+                                            router.get(
+                                                `/sightSeeingDashboard/${rowData.id}`
+                                            )
+                                        }
+                                        className="bg-yellow-600 hover:bg-yellow-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                    ></Button>
+                                </div>
+                            )}
+                        />
+                    </DataTable>
+                    {selectedSightSeeing && (
+                        <Dialog
+                            visible={visible}
+                            modal
+                            onHide={() => setVisible(false)}
                         >
-                            <div className="flex flex-column px-8 py-5 gap-4">
-                                <div>
-                                    <h2>SightSeeing:</h2>
-                                    <img
-                                        src={selectedSightSeeing.image}
-                                        width={400}
-                                        height={50}
-                                        alt=""
-                                        className="rounded border p-2"
-                                    />
-                                </div>
-                                <div>
-                                    <h2>Name</h2>
-                                    <p>{selectedSightSeeing.name}</p>
-                                </div>
-                                <div>
-                                    <h2>Address</h2>
-                                    <p> {selectedSightSeeing.address}</p>
-                                </div>
-                                <div>
-                                    <h2>Province</h2>
-                                    <p>{selectedSightSeeing.province}</p>
-                                </div>
-                                <div>
-                                    <h2>Close Time</h2>
-                                    <p>{selectedSightSeeing.close_time}</p>
-                                </div>
-                                <div>
-                                    <h2>Open Time</h2>
-                                    <p>{selectedSightSeeing.open_time}</p>
-                                </div>
-                                <div>
-                                    {" "}
-                                    <h2>Description</h2>
-                                    <p>{selectedSightSeeing.description}</p>
+                            <div
+                                style={{
+                                    borderRadius: "12px",
+                                    backgroundColor: "var(--secondary-400)",
+                                }}
+                            >
+                                <div className="flex flex-column px-8 py-5 gap-4">
+                                    <div>
+                                        <h2>SightSeeing:</h2>
+                                        <img
+                                            src={selectedSightSeeing.image}
+                                            width={400}
+                                            height={50}
+                                            alt=""
+                                            className="rounded border p-2"
+                                        />
+                                    </div>
+                                    <div>
+                                        <h2>Name</h2>
+                                        <p>{selectedSightSeeing.name}</p>
+                                    </div>
+                                    <div>
+                                        <h2>Address</h2>
+                                        <p>{selectedSightSeeing.address}</p>
+                                    </div>
+                                    <div>
+                                        <h2>Province</h2>
+                                        <p>{selectedSightSeeing.province}</p>
+                                    </div>
+                                    <div>
+                                        <h2>Close Time</h2>
+                                        <p>{selectedSightSeeing.close_time}</p>
+                                    </div>
+                                    <div>
+                                        <h2>Open Time</h2>
+                                        <p>{selectedSightSeeing.open_time}</p>
+                                    </div>
+                                    <div>
+                                        <h2>Description</h2>
+                                        <p>{selectedSightSeeing.description}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Dialog>
-                )}
+                        </Dialog>
+                    )}
+                </div>
             </div>
         </Layout>
     );

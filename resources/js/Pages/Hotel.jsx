@@ -1,193 +1,121 @@
 import { Link, router, usePage } from "@inertiajs/react";
 import { Button } from "primereact/button";
 import React, { useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./content.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import Vission from "./Vission";
+
 const Hotel = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
     const { data } = usePage().props;
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
+
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
     };
 
+    const filteredData = data.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
-        <div className="flex flex-col items-center justify-center">
-            <nav className="sticky top-0 z-10 bg-white py-2 w-full">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="container mx-auto py-4 flex justify-between items-center">
-                        <div>
-                            <Link to="/" className="flex-shrink-0">
-                                <img
-                                    className="h-8 w-auto"
-                                    src="images\logo\logo.png"
-                                    alt="Tourism Portal"
-                                />
-                            </Link>
-                        </div>
-                        <div>
-                            <div className="hidden md:block">
-                                <div className="ml-10 flex items-baseline space-x-4">
-                                    <Link
-                                        href={route("welcome.sightSeeing")}
-                                        className="px-3 py-2 rounded-md text-sm font-medium  text-gray-300 hover:bg-gray-700 hover:text-white"
-                                    >
-                                        Sight Seeing
-                                    </Link>
-                                    <Link
-                                        href={route("welcome.hotel")}
-                                        className="px-3 py-2 rounded-md text-sm font-medium bg-gray-900 text-white"
-                                    >
-                                        Hotel
-                                    </Link>
-                                    <Link
-                                        href={route("welcome.tourGuide")}
-                                        className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                                    >
-                                        Tour Guide
-                                    </Link>
-                                    <Link
-                                        to="/about"
-                                        className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                                    >
-                                        Transport
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <Button
-                                onClick={() => {
-                                    router.get("login");
-                                }}
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Login
-                            </Button>
-                        </div>
-                        <div className="-mr-2 flex md:hidden">
-                            <button
-                                type="button"
-                                className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                                onClick={toggleMenu}
-                                aria-controls="mobile-menu"
-                                aria-expanded={isOpen}
-                            >
-                                <span className="sr-only">Open main menu</span>
-                                <svg
-                                    className="block h-6 w-6"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    className={`md:hidden ${isOpen ? "block" : "hidden"}`}
-                    id="mobile-menu"
-                >
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <Link
-                            href={route("welcome.sightSeeing")}
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                        >
-                            Sight Seeing
-                        </Link>
-                        <Link
-                            href={route("welcome.tourGuide")}
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                        >
-                            Tour Guide
-                        </Link>
-                        <Link
-                            href={route("welcome.hotel")}
-                            className="block px-3 py-2 rounded-md text-base font-medium bg-gray-900 text-white "
-                        >
-                            Hotel
-                        </Link>
-                        <Link
-                            to="/about"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                        >
-                            Transport
-                        </Link>
-                        <Link
-                            to="/contact"
-                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                        >
-                            Contact
-                        </Link>
-                    </div>
-                </div>
-            </nav>
-            <div className="hotel w-full h-screen flex flex-col items-center justify-center">
-                <h4 className="text-white">
-                    The Best Place Is Chosen By The Best One!
-                </h4>
-                <div className="flex p-1 max-w-max pl-7 ">
-                    <form>
+        <>
+            <Navbar />
+
+            <div className="hotel-bg grid grid-cols-2 gap-4 justify-center">
+                <div className="hotel w-full h-screen flex flex-col items-center justify-center">
+                    <h4 className="text-white">
+                        The Best Place Is Chosen By The Best One!
+                    </h4>
+                    <div className="flex p-1 max-w-max">
                         <input
                             type="search"
                             placeholder="Search Hotel"
-                            className="search rounded-lg px-5 py-2 mx-3 white"
-                            name="q"
+                            className="search text-black rounded-lg px-5 py-2 mx-3"
+                            value={searchQuery}
+                            onChange={handleSearchChange}
                         />
                         <Button
                             icon="pi pi-search"
                             className="px-5 py-2 mx-3"
                         ></Button>
-                    </form>
+                    </div>
+                </div>
+
+                <div className="hotel-list caret-indigo-400 items-center grid grid-cols-3 gap-3 justify-center">
+                    {filteredData.map((item) => (
+                        <div
+                            className="relative grid grid-cols-2 gap-4 items-center justify-start flex-col my-5 mx-5 max-w-sm m-2 bg-white overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
+                            key={item.id}
+                        >
+                            <div className="relative w-full grid bg-neutral-400 grid-cols-2 gap-4">
+                                {item.photoAddress.length > 0 ? (
+                                    <Carousel
+                                        showThumbs={false}
+                                        infiniteLoop
+                                        useKeyboardArrows
+                                    >
+                                        {item.photoAddress
+                                            .split(",")
+                                            .map((image, index) => (
+                                                <div key={index}>
+                                                    <img
+                                                        src={image}
+                                                        alt={`Image ${
+                                                            index + 1
+                                                        }`}
+                                                        className="hotel_image hover:filter-none w-full h-96 object-cover rounded"
+                                                    />
+                                                </div>
+                                            ))}
+                                    </Carousel>
+                                ) : (
+                                    <img
+                                        src={item.photoAddress}
+                                        alt="Hotel"
+                                        className="w-full hotel_image object-cover rounded"
+                                    />
+                                )}
+
+                                <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4">
+                                    <h3 className="text-lg text-gray-300 font-bold mb-2">
+                                        {item.name}
+                                    </h3>
+                                    <p className="text-gray-300">
+                                        {item.province}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="">
+                                <Button
+                                    className="mx-3 my-3 font-bold p-1 text-sm rounded-tl-full rounded-bl-full focus:outline-none focus:shadow-outline"
+                                    onClick={() =>
+                                        router.get(`/HotelDetial/${item.id}`)
+                                    }
+                                >
+                                    See more
+                                </Button>
+                                <Button
+                                    className="mx-3 my-3 font-bold p-1 text-sm rounded-tr-full rounded-br-full focus:outline-none focus:shadow-outline"
+                                    onClick={() =>
+                                        router.get(
+                                            `/booking/obj/${item.id}?type=hotel`
+                                        )
+                                    }
+                                >
+                                    Book
+                                </Button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            <div class="my-8 mx-5 flex flex-row justify-center items-center  flex-wrap m-2">
-                {data.map((item) => (
-                    <div
-                        class="flex items-center justify-center flex-col my-5 mx-5 max-w-sm m-2 bg-white overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
-                        key={item.id}
-                    >
-                        <img
-                            class="w-full h-48 object-cover border-2 border-white rounded-lg"
-                            src={item.photoAddress}
-                        />
-                        <div class="p-4">
-                            <h3 class="text-lg font-bold mb-2">{item.name}</h3>
-                            <p class="text-gray-600">{item.province}</p>
-                        </div>
-
-                        <div>
-                            <Button
-                                className="mx-3 my-3 w-ful bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-                                onClick={() =>
-                                    router.get(`/HotelDetial/${item.id}`)
-                                }
-                                icon="pi pi-eye"
-                            ></Button>
-                            <Button
-                                className="mx-3 my-3 w-ful bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-                                onClick={() =>
-                                    router.get(
-                                        `/booking/obj/${item.id}?type=hotel`
-                                    )
-                                }
-                            >
-                                Book
-                            </Button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+            <Vission />
+            <Footer />
+        </>
     );
 };
 

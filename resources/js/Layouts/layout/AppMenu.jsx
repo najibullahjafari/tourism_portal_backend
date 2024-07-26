@@ -138,6 +138,24 @@ const AppMenu = () => {
                             to: route("hotelsMessage"),
                         },
                     ],
+                    roles: ["super-admin"],
+                },
+                {
+                    label: "Provinces",
+                    icon: "pi pi-fw pi-envelope",
+                    items: [
+                        {
+                            label: "Add Province",
+                            icon: "pi pi-fw pi-plus",
+                            to: route("provinces"),
+                        },
+                        {
+                            label: "Show Provinces",
+                            icon: "pi pi-fw pi-eye",
+                            to: route("showProvinces"),
+                        },
+                    ],
+                    roles: ["super-admin"],
                 },
                 {
                     label: "User",

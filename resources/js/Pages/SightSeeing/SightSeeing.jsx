@@ -1,25 +1,27 @@
 import Layout from "@/Layouts/layout/layout";
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useForm, usePage } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
-import { useState, useRef } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { useReactToPrint } from "react-to-print";
 
 const SightSeeing = () => {
     const { data } = usePage().props;
+    console.log(data);
     const [q, setQ] = useState("");
     const [category, setCategory] = useState("");
     const [selectedSightSeeing, setSelectedSeeing] = useState(null);
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
+    const printRef = useRef();
 
     const handleDelete = (id) => {
-        router.delete(`/sightSeeing/${id}`);
+        router.delete(`/sightSeeingRequestDelete/${id}`);
         toast.current.show({
             severity: "danger",
             summary: "Delete",
@@ -51,13 +53,12 @@ const SightSeeing = () => {
                 onClick={() =>
                     router.get(`/sightSeeingDashboard/${rowData.id}`)
                 }
+                icon="pi pi-pencil"
                 className="p-button-success"
-            >
-                Visit
-            </Button>
+            ></Button>
             <Button
                 onClick={() => confirmAction(rowData.id, handleDelete)}
-                icon="pi pi-times"
+                icon="pi pi-trash"
                 className="p-button-danger"
             />
             <Button
@@ -71,13 +72,28 @@ const SightSeeing = () => {
         </div>
     );
 
-    const imageTemplate = (rowData) => (
-        <img
-            src={rowData.image}
-            alt="Image"
-            className="w-20 object-cover rounded"
-        />
-    );
+    const imageTemplate = (rowData) => {
+        const imagesArray =
+            rowData.image && typeof rowData.image === "string"
+                ? rowData.image.split(",")
+                : [];
+        const firstImage =
+            imagesArray.length > 0 ? imagesArray[0] : rowData.image;
+
+        return (
+            <div className="flex">
+                <img
+                    src={firstImage}
+                    alt="Image"
+                    className="w-20 object-cover rounded mr-2"
+                />
+            </div>
+        );
+    };
+
+    const handlePrint = useReactToPrint({
+        content: () => printRef.current,
+    });
 
     return (
         <Layout>
@@ -119,60 +135,63 @@ const SightSeeing = () => {
                         </Button>
                     </form>
                 </div>
-
                 <Toast ref={toast} />
                 <ConfirmDialog />
-
-                <DataTable value={data} className="p-datatable-gridlines">
-                    <Column field="id" header="ID" sortable />
-                    <Column field="name" header="Name" sortable />
-                    <Column field="address" header="Address" sortable />
-                    <Column field="province" header="Province" sortable />
-                    <Column field="open_time" header="Open Time" sortable />
-                    <Column field="close_time" header="Close Time" sortable />
-                    <Column body={imageTemplate} header="Image" />
-                    <Column body={actionTemplate} header="Actions" />
-                </DataTable>
-
+                <div ref={printRef}>
+                    <DataTable value={data} className="p-datatable-gridlines">
+                        <Column field="id" header="ID" sortable />
+                        <Column field="name" header="Name" sortable />
+                        <Column field="address" header="Address" sortable />
+                        <Column field="province" header="Province" sortable />
+                        <Column field="open_time" header="Open Time" sortable />
+                        <Column
+                            field="close_time"
+                            header="Close Time"
+                            sortable
+                        />
+                        <Column body={imageTemplate} header="Image" />
+                        <Column body={actionTemplate} header="Actions" />
+                    </DataTable>
+                </div>
+                <Button
+                    onClick={handlePrint}
+                    className="mt-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2"
+                >
+                    Print as PDF
+                </Button>
                 {selectedSightSeeing && (
                     <Dialog
                         visible={visible}
                         modal
                         onHide={() => setVisible(false)}
                         header="Sight Seeing Details"
+                        className="instagram-post-dialog"
                     >
-                        <div className="flex flex-column px-8 py-5 gap-4">
-                            <div>
-                                <h2>Sight Seeing:</h2>
+                        <div className="flex flex-row px-8 py-5 gap-4 bg-white">
+                            <div className="w-5 overflow-hidden rounded-lg">
                                 <img
                                     src={selectedSightSeeing.image}
                                     alt=""
-                                    className="rounded border p-2"
+                                    className="w-full h-auto object-cover"
                                 />
                             </div>
-                            <div>
-                                <h2>Name</h2>
-                                <p>{selectedSightSeeing.name}</p>
-                            </div>
-                            <div>
-                                <h2>Address</h2>
-                                <p>{selectedSightSeeing.address}</p>
-                            </div>
-                            <div>
-                                <h2>Province</h2>
-                                <p>{selectedSightSeeing.province}</p>
-                            </div>
-                            <div>
-                                <h2>Close Time</h2>
-                                <p>{selectedSightSeeing.close_time}</p>
-                            </div>
-                            <div>
-                                <h2>Open Time</h2>
-                                <p>{selectedSightSeeing.open_time}</p>
-                            </div>
-                            <div>
-                                <h2>Description</h2>
-                                <p>{selectedSightSeeing.description}</p>
+                            <div className="p-4">
+                                <h2 className="text-2xl font-bold mb-2">
+                                    {selectedSightSeeing.name}
+                                </h2>
+                                <p className="text-lg mb-2">
+                                    {selectedSightSeeing.address}
+                                </p>
+                                <p className="text-lg mb-2">
+                                    {selectedSightSeeing.province}
+                                </p>
+                                <p className="text-lg mb-2">
+                                    Open: {selectedSightSeeing.open_time} -
+                                    Close: {selectedSightSeeing.close_time}
+                                </p>
+                                <p className="text-lg text-gray-700">
+                                    {selectedSightSeeing.description}
+                                </p>
                             </div>
                         </div>
                     </Dialog>

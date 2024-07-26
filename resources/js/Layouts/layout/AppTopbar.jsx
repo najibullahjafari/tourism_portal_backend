@@ -10,6 +10,8 @@ import React, {
 import { LayoutContext } from "./context/layoutcontext";
 import { Link } from "@inertiajs/react";
 import AppConfig from "./AppConfig";
+import Config from "@/Pages/Config";
+import { Button } from "primereact/button";
 
 const AppTopbar = forwardRef((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
@@ -28,8 +30,8 @@ const AppTopbar = forwardRef((props, ref) => {
         <div className="layout-topbar">
             <Link href="/" className="layout-topbar-logo">
                 <img
-                    src={`/images/logo/logo.png`}
-                    width="80.22px"
+                    src={`/images/logo/TourismDark.png`}
+                    width="35.22px"
                     height={"35px"}
                     alt="logo"
                 />
@@ -76,7 +78,9 @@ const AppTopbar = forwardRef((props, ref) => {
                     <i className="pi pi-lock"></i>
                     <span>Logout</span>
                 </Link>
-                <AppConfig />
+                <span className="p-1 m-3 rounded  flex gap-2">
+                    <Config />
+                </span>
             </div>
         </div>
     );

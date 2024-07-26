@@ -1,70 +1,73 @@
-import { Link, router } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { Button } from "primereact/button";
 import React, { useState } from "react";
+import NavLink from "@/Components/NavLink";
+import Config from "./Config";
 
 const Navbar = ({ children }) => {
-    const [activeLink, setActiveLink] = useState("sightSeeing");
     const [isOpen, setIsOpen] = useState(false);
-
-    const handleLinkClick = (link) => {
-        setActiveLink(link);
-    };
+    const { data } = usePage().props;
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
     return (
-        <nav className="sticky top-0 z-10 bg-white py-2 w-full">
+        <nav className="sticky top-0  shadow-sm  text-white  z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="container mx-auto py-4 flex justify-between items-center">
-                    <div>
-                        <Link to="/" className="flex-shrink-0">
-                            <img
-                                className="h-8 w-auto"
-                                src="images\logo\logo.png"
-                                alt="Tourism Portal"
-                            />
-                        </Link>
-                    </div>
-                    <div>
-                        <div className="hidden md:block">
-                            <div className="ml-10 flex items-baseline space-x-4">
-                                <Link
-                                    href={route("welcome.sightSeeing")}
-                                    className="px-3 py-2 rounded-md text-sm font-medium bg-gray-900 text-white"
-                                >
-                                    Sight Seeing
-                                </Link>
-                                <Link
-                                    href={route("welcome.hotel")}
-                                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                                >
-                                    Hotel
-                                </Link>
-                                <Link
-                                    href={route("welcome.tourGuide")}
-                                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                                >
-                                    Tour Guide
-                                </Link>
-                                <Link
-                                    to="/about"
-                                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                                >
-                                    Transport
-                                </Link>
-                            </div>
+                <div className="container top-1 mx-auto py-4 flex justify-between items-center">
+                    <Link to="/dashboard" className="flex-shrink-0">
+                        <img
+                            src="/images/logo/TourismDark.png"
+                            className="w-2 rotate-on-hover"
+                            alt=""
+                        />
+                    </Link>
+
+                    <div className="hidden md:block">
+                        <div className="ml-10 flex items-baseline space-x-4">
+                            <NavLink
+                                href={route("welcome.sightSeeing")}
+                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                            >
+                                Sight Seeing
+                            </NavLink>
+                            <NavLink
+                                href={route("welcome.hotel")}
+                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                            >
+                                Hotel
+                            </NavLink>
+                            <NavLink
+                                href={route("welcome.tourGuide")}
+                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                            >
+                                Tour Guide
+                            </NavLink>
+                            <NavLink
+                                href={route("welcome.transport")}
+                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                            >
+                                Transport
+                            </NavLink>
+                            <NavLink
+                                href={route("apidocumentation")}
+                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                            >
+                                Api Docs
+                            </NavLink>
+
+                            <span
+                                onClick={() => {
+                                    router.get("login");
+                                }}
+                                className="hover:bg-gray-700 bg-primary  text-primary hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                            >
+                                Login
+                            </span>
                         </div>
+                        <Config />
                     </div>
-                    <div>
-                        <Button
-                            onClick={() => {
-                                router.get("login");
-                            }}
-                            className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                        >
-                            Login
-                        </Button>
-                    </div>
+
                     <div className="-mr-2 flex md:hidden">
                         <button
                             type="button"
@@ -102,61 +105,36 @@ const Navbar = ({ children }) => {
                 id="mobile-menu"
             >
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <Link
-                        to="/"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            activeLink === "sightSeeing"
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                        }`}
-                        onClick={() => handleLinkClick("sightSeeing")}
+                    <NavLink
+                        href={route("welcome.sightSeeing")}
+                        className="block px-3 py-2 rounded-md text-base font-medium bg-gray-900 text-white"
                     >
                         Sight Seeing
-                    </Link>
-                    <Link
-                        to="/destinations"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            activeLink === "tourGuide"
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                        }`}
-                        onClick={() => handleLinkClick("tourGuide")}
+                    </NavLink>
+                    <NavLink
+                        href={route("welcome.tourGuide")}
+                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
                     >
                         Tour Guide
-                    </Link>
-                    <Link
-                        to="/packages"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            activeLink === "hotel"
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                        }`}
-                        onClick={() => handleLinkClick("hotel")}
+                    </NavLink>
+                    <NavLink
+                        href={route("welcome.hotel")}
+                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
                     >
                         Hotel
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
                         to="/about"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            activeLink === "transport"
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                        }`}
-                        onClick={() => handleLinkClick("transport")}
+                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
                     >
                         Transport
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
                         to="/contact"
-                        className={`block px-3 py-2 rounded-md text-base font-medium ${
-                            activeLink === "contact"
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                        }`}
-                        onClick={() => handleLinkClick("contact")}
+                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
                     >
                         Contact
-                    </Link>
+                    </NavLink>
                 </div>
             </div>
         </nav>

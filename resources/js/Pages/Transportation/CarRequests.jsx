@@ -15,7 +15,7 @@ export default function Transportation() {
         father_name: "",
         passport: "",
         phone: "",
-        description: "",
+        discription: "",
         image: "",
         location: "",
     });
@@ -200,18 +200,18 @@ export default function Transportation() {
                         <div className="w-full mt-3 px-3 mb-6 md:mb-0">
                             <FloatLabel>
                                 <InputTextarea
-                                    id="description"
-                                    value={data.description}
+                                    id="discription"
+                                    value={data.discription}
                                     onChange={(e) =>
-                                        setData("description", e.target.value)
+                                        setData("discription", e.target.value)
                                     }
                                     rows={5}
                                     cols={30}
                                     className="w-full"
                                 />
-                                <label htmlFor="description">Description</label>
+                                <label htmlFor="discription">Discription</label>
                             </FloatLabel>
-                            <InputError message={errors.description} />
+                            <InputError message={errors.discription} />
                         </div>
 
                         <div className="flex   w-full mt-3">

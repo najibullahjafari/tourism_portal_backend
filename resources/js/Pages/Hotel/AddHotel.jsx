@@ -1,8 +1,13 @@
 import Layout from "@/Layouts/layout/layout";
-import { useForm } from "@inertiajs/react";
-import { data } from "autoprefixer";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import { router, useForm, usePage } from "@inertiajs/react";
+import React, { useState, useEffect } from "react";
+import { InputText } from "primereact/inputtext";
+import { FileUpload } from "primereact/fileupload";
+import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
+import { classNames } from "primereact/utils";
+import { Dropdown } from "primereact/dropdown";
+
 const AddHotel = (props) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
@@ -10,118 +15,187 @@ const AddHotel = (props) => {
         province: "",
         photoAddress: "",
         status: "deactive",
+        sight_seeing_id: null,
     });
-    function handleSubmit(e) {
-        e.preventDefault();
-        post(route("hotel.store"));
-    }
-    const [photoAddress, setphotoAddress] = useState(null);
+
+    const [photoAddress, setPhotoAddress] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
+    const [sightseeingOptions, setSightseeingOptions] = useState([]);
+    const toast = React.useRef(null);
 
     useEffect(() => {
+        fetchSightseeingOptions();
         return () => {
             reset("photoAddress", "password_confirmation");
         };
     }, []);
 
+    const fetchSightseeingOptions = async () => {
+        try {
+            const response = await fetch("getSightSeeing");
+            const data = await response.json();
+            const formattedOptions = data.data.map((item) => ({
+                label: item.name,
+                value: item.id,
+            }));
+            setSightseeingOptions(formattedOptions);
+        } catch (error) {
+            console.error("Error fetching sightseeing options:", error);
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        post(route("hotel.store"), {
+            onSuccess: () => {
+                setSubmitted(true);
+                toast.current.show({
+                    severity: "success",
+                    summary: "Success",
+                    detail: "Hotel added successfully",
+                    life: 3000,
+                });
+                reset();
+            },
+        });
+    };
+
     const handleFileUpload = (event) => {
-        const file = event.target.files[0];
+        const file = event.files[0];
         setData("photoAddress", file);
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setphotoAddress(reader.result);
+                setPhotoAddress(reader.result);
             };
             reader.readAsDataURL(file);
         }
     };
+
     return (
         <Layout>
-            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
-                <h3 class="max-w-md mx-auto mt-5">ADD NEW HOTEL</h3>
-                <form class="max-w-md mx-auto" onSubmit={handleSubmit}>
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input
-                            type="input"
-                            name="Name"
-                            id="Admin_Hotel_Name"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                            value={data.name}
-                            onChange={(e) => setData("name", e.target.value)}
-                        />
-                        <label
-                            for="Admin_Hotel_Name"
-                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Name
-                        </label>
+            <Toast ref={toast} />
+            <div className="  sm:rounded-lg card">
+                <h3 className="max-w-md mb-5 mx-auto mt-5">ADD NEW HOTEL</h3>
+                <form className="" onSubmit={handleSubmit}>
+                    <div className="w-full row-auto justify-center text-center grid grid-cols-2 gap-4">
+                        <div className="field col-span-3">
+                            <span className="p-float-label">
+                                <Dropdown
+                                    id="Admin_Sightseeing_Select"
+                                    value={data.sight_seeing_id}
+                                    options={sightseeingOptions}
+                                    onChange={(e) =>
+                                        setData("sight_seeing_id", e.value)
+                                    }
+                                    optionLabel="label"
+                                    optionValue="value"
+                                    placeholder="Select a Sightseeing"
+                                    className={classNames({
+                                        "p-invalid": errors.sight_seeing_id,
+                                    })}
+                                />
+                                <label htmlFor="Admin_Sightseeing_Select">
+                                    Sightseeing
+                                </label>
+                            </span>
+                            {errors.sight_seeing_id && (
+                                <small className="p-error">
+                                    {errors.sight_seeing_id}
+                                </small>
+                            )}
+                        </div>
+                        <div className="field col-span-1">
+                            <span className="p-float-label">
+                                <InputText
+                                    id="Admin_Hotel_Name"
+                                    value={data.name}
+                                    onChange={(e) =>
+                                        setData("name", e.target.value)
+                                    }
+                                    className={classNames({
+                                        "p-invalid": errors.name,
+                                    })}
+                                />
+                                <label htmlFor="Admin_Hotel_Name">Name</label>
+                            </span>
+                            {errors.name && (
+                                <small className="p-error">{errors.name}</small>
+                            )}
+                        </div>
+                        <div className="field col-span-1">
+                            <span className="p-float-label">
+                                <InputText
+                                    id="Admin_Hotel_Address"
+                                    value={data.address}
+                                    onChange={(e) =>
+                                        setData("address", e.target.value)
+                                    }
+                                    className={classNames({
+                                        "p-invalid": errors.address,
+                                    })}
+                                />
+                                <label htmlFor="Admin_Hotel_Address">
+                                    Address
+                                </label>
+                            </span>
+                            {errors.address && (
+                                <small className="p-error">
+                                    {errors.address}
+                                </small>
+                            )}
+                        </div>
+                        <div className="field col-span-1">
+                            <span className="p-float-label">
+                                <InputText
+                                    id="Admin_Hotel_Province"
+                                    value={data.province}
+                                    onChange={(e) =>
+                                        setData("province", e.target.value)
+                                    }
+                                    className={classNames({
+                                        "p-invalid": errors.province,
+                                    })}
+                                />
+                                <label htmlFor="Admin_Hotel_Province">
+                                    Province
+                                </label>
+                            </span>
+                            {errors.province && (
+                                <small className="p-error">
+                                    {errors.province}
+                                </small>
+                            )}
+                        </div>
                     </div>
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input
-                            type="Input"
-                            name="Address"
-                            id="Admin_Hotel_Address"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                            value={data.address}
-                            onChange={(e) => setData("address", e.target.value)}
-                        />
-                        <label
-                            for="Admin_Hotel_Address"
-                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Address
-                        </label>
+                    <div className="flex flex-col">
+                        <div className="field col-span-2">
+                            <FileUpload
+                                name="photoAddress"
+                                customUpload
+                                uploadHandler={handleFileUpload}
+                                auto
+                                chooseLabel="Choose an image"
+                                className={classNames({
+                                    "p-invalid": errors.photoAddress,
+                                })}
+                            />
+                            {errors.photoAddress && (
+                                <small className="p-error">
+                                    {errors.photoAddress}
+                                </small>
+                            )}
+                        </div>
+                        <div className="col-span-1 flex justify-center items-center">
+                            <Button
+                                type="submit"
+                                label="Save"
+                                icon="pi pi-check"
+                                className="p-button-success"
+                                disabled={processing}
+                            />
+                        </div>
                     </div>
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input
-                            type="input"
-                            name="province"
-                            id="Admin_Hotel_Province"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                            value={data.province}
-                            onChange={(e) =>
-                                setData("province", e.target.value)
-                            }
-                        />
-                        <label
-                            for="Admin_Hotel_Province"
-                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Province
-                        </label>
-                    </div>
-
-                    <div class="relative z-0 w-full mb-5 group">
-                        <input
-                            type="file"
-                            name="photoAddress"
-                            id="Admin_Hotel_Province"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                            onChange={handleFileUpload}
-                        />
-                        <label
-                            for="Admin_Hotel_Province"
-                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Choose a image
-                        </label>
-                    </div>
-                    <span>
-                        <button
-                            type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-5"
-                            disabled={processing}
-                        >
-                            Save
-                        </button>
-                    </span>
                 </form>
             </div>
         </Layout>

@@ -42,7 +42,6 @@ const TransportDashboard = () => {
     const [numberOfUsersAccepted, setNumberOfUsersAccepted] = useState(0);
     const [pendingCar, setPendingCar] = useState(0);
     const [pendingHotel, setPendingHotel] = useState(0);
-
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
 
@@ -197,22 +196,21 @@ const TransportDashboard = () => {
         const HotelDiff = numberOfHotels - numberOfHotelsAccepted;
         setPendingHotel(HotelDiff);
     }, [numberOfHotels, numberOfHotelsAccepted]);
+
     // useEffect for circle chart
     useEffect(() => {
         const documentStyle = getComputedStyle(document.documentElement);
         const data = {
-            labels: ["Done", "Pending", "Booked"],
+            labels: ["Pending", "Approved"],
             datasets: [
                 {
-                    data: [540, 325, 702],
+                    data: [325, 702],
                     backgroundColor: [
                         documentStyle.getPropertyValue("--blue-500"),
-                        documentStyle.getPropertyValue("--yellow-500"),
                         documentStyle.getPropertyValue("--green-500"),
                     ],
                     hoverBackgroundColor: [
                         documentStyle.getPropertyValue("--blue-400"),
-                        documentStyle.getPropertyValue("--yellow-400"),
                         documentStyle.getPropertyValue("--green-400"),
                     ],
                 },
@@ -235,7 +233,7 @@ const TransportDashboard = () => {
     return (
         <Layout>
             <div className="grid">
-                <DashboardInfoCard
+                {/* <DashboardInfoCard
                     title="Number of Cars"
                     value={numberOfCars}
                     icon="map-marker"
@@ -266,7 +264,7 @@ const TransportDashboard = () => {
                     icon="comment"
                     iconColor="purple"
                     descriptionText="responded"
-                ></DashboardInfoCard>
+                ></DashboardInfoCard> */}
 
                 <div className="card col-12 xl:col-6">
                     <Chart

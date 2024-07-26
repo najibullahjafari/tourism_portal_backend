@@ -42,6 +42,7 @@ const SuperAdminDashboard = () => {
     const [numberOfUsersAccepted, setNumberOfUsersAccepted] = useState(0);
     const [pendingCar, setPendingCar] = useState(0);
     const [pendingHotel, setPendingHotel] = useState(0);
+    const [pendingUsers, setPendingUsers] = useState(0);
 
     const applyLightTheme = () => {
         const lineOptions = {
@@ -194,6 +195,10 @@ const SuperAdminDashboard = () => {
         const HotelDiff = numberOfHotels - numberOfHotelsAccepted;
         setPendingHotel(HotelDiff);
     }, [numberOfHotels, numberOfHotelsAccepted]);
+    useEffect(() => {
+        const PendingUsers = numberOfUsers - numberOfUsersAccepted;
+        setPendingUsers(PendingUsers);
+    }, [numberOfUsers, numberOfUsersAccepted]);
 
     return (
         <Layout>
@@ -215,12 +220,12 @@ const SuperAdminDashboard = () => {
                     descriptionText="Pending hotels"
                 ></DashboardInfoCard>
                 <DashboardInfoCard
-                    title="Users"
+                    title="All Users"
                     value={numberOfUsers}
-                    descriptionValue={numberOfUsersAccepted}
+                    descriptionValue={pendingUsers}
                     icon="inbox"
                     iconColor="cyan"
-                    descriptionText="since last week"
+                    descriptionText="Pening Users"
                 ></DashboardInfoCard>
                 <DashboardInfoCard
                     title="Comments"

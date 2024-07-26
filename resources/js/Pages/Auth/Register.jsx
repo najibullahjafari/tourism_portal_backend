@@ -30,27 +30,25 @@ export default function Register() {
     };
 
     return (
-        <GuestLayout>
-            <Head title="Register" />
-
-            <div className="flex align-items-center justify-content-center flex-column">
+        <div className="login-page-div w-screen h-screen justify-center text-center z-0">
+            <div className="flex align-items-center justify-content-center flex-column text-center z-50 p-5">
                 <img
-                    src="/images/logo/logo.png"
+                    src="/images/logo/TourismDark.png"
                     alt="hyper"
                     height={50}
-                    width={400}
-                    className="mb-3"
+                    width={50}
+                    className="m-3 logo-register"
                 />
 
-                <div className="surface-card p-6 sm:p-4 shadow-2 border-round w-full ">
+                <div className="surface-card p-6 sm:p-4 shadow-2 border-round w-auto ">
                     <div className="text-center mb-5">
-                        <div className="text-900 text-3xl font-medium mb-3">
+                        <div className="text-900 text-3xl font-medium m-3">
                             Register
                         </div>
                     </div>
                     <form onSubmit={submit}>
-                        <div>
-                            <div className="mb-3">
+                        <div className="grid grid-cols-2">
+                            <div className="m-3">
                                 <label
                                     htmlFor="name"
                                     className="block text-900 font-medium mb-2"
@@ -73,7 +71,7 @@ export default function Register() {
                                 />
                             </div>
 
-                            <div className="mb-3">
+                            <div className="m-3">
                                 <label
                                     htmlFor="email"
                                     className="block text-900 font-medium mb-2"
@@ -95,7 +93,7 @@ export default function Register() {
                                     className=""
                                 />
                             </div>
-                            <div className="mb-3">
+                            <div className="m-3">
                                 <label
                                     htmlFor="password"
                                     className="block text-900 font-medium mb-2"
@@ -117,7 +115,7 @@ export default function Register() {
                                     className=""
                                 />
                             </div>
-                            <div className="mb-3">
+                            <div className="m-3">
                                 <label
                                     htmlFor="password_confirmation"
                                     className="block text-900 font-medium mb-2"
@@ -151,13 +149,13 @@ export default function Register() {
 
                             <PrimaryButton
                                 label="Register"
-                                className="w-full"
+                                className="bg-primary text-primary"
                                 disabled={processing}
                             />
                         </div>
                     </form>
                 </div>
             </div>
-        </GuestLayout>
+        </div>
     );
 }

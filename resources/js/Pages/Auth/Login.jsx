@@ -8,6 +8,8 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
+import "../Content.css";
+import { CheckBox } from "@mui/icons-material";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -24,16 +26,20 @@ export default function Login({ status, canResetPassword }) {
 
     const submit = (e) => {
         e.preventDefault();
-
         post(route("login"));
     };
 
-    function setChecked(checked) {
-        return undefined;
-    }
+    const handleCheckboxChange = (e) => {
+        setData({ ...data, remember: e.checked });
+    };
+
+    const handleEmailChange = (e) => {
+        const cleanedEmail = e.target.value.trim().toLowerCase();
+        setData("email", cleanedEmail);
+    };
 
     return (
-        <GuestLayout>
+        <div className="login-page-div w-screen h-screen justify-center text-center z-0">
             <Head title="Log in" />
 
             {status && (
@@ -42,15 +48,8 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
-            <div className="flex align-items-center justify-content-center flex-column">
-                <img
-                    src="/images/logo/logo.png"
-                    alt="hyper"
-                    height={50}
-                    width={500}
-                    className="mb-3"
-                />
-                <div className="surface-card p-6 sm:p-4 shadow-2 border-round w-full ">
+            <div className="login-form flex align-items-center justify-content-center flex-column text-center z-50 p-5">
+                <div className="surface-card p-23 p-6 sm:p-4 shadow-2 border-round justify-center text-center ">
                     <div className="text-center mb-5">
                         <div className="text-900 text-3xl font-medium mb-3">
                             Welcome Back
@@ -78,11 +77,9 @@ export default function Login({ status, canResetPassword }) {
                                     id="email"
                                     type="text"
                                     placeholder="Email address"
-                                    className="w-full"
+                                    className="w-full text-primary"
                                     value={data.email}
-                                    onChange={(e) =>
-                                        setData("email", e.target.value)
-                                    }
+                                    onChange={handleEmailChange}
                                 />
                                 <InputError
                                     message={errors.email}
@@ -100,7 +97,7 @@ export default function Login({ status, canResetPassword }) {
                                     id="password"
                                     type="password"
                                     placeholder="Password"
-                                    className="w-full"
+                                    className="w-full text-primary"
                                     value={data.password}
                                     onChange={(e) =>
                                         setData("password", e.target.value)
@@ -114,14 +111,9 @@ export default function Login({ status, canResetPassword }) {
 
                             <div className="flex align-items-center justify-content-between mb-6">
                                 <div className="flex align-items-center">
-                                    <Checkbox
+                                    <CheckBox
                                         inputId="rememberme-login"
-                                        onChange={(e) =>
-                                            setData(
-                                                "remember",
-                                                e.target.checked
-                                            )
-                                        }
+                                        onChange={handleCheckboxChange}
                                         checked={data.remember}
                                         className="mr-2"
                                     />
@@ -129,7 +121,6 @@ export default function Login({ status, canResetPassword }) {
                                         Remember me
                                     </label>
                                 </div>
-
                                 {canResetPassword && (
                                     <Link
                                         href={route("password.request")}
@@ -149,6 +140,6 @@ export default function Login({ status, canResetPassword }) {
                     </form>
                 </div>
             </div>
-        </GuestLayout>
+        </div>
     );
 }

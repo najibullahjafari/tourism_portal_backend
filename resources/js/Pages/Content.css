@@ -1,73 +1,82 @@
-/* form {
-    width: 100%;
-}
-.search {
-    width: 60%;
-    border: 2px solid lightblue;
-    border-radius: 3px;
-}
-.split {
-    width: 50%;
-    border: 1px solid black;
-}
-.main-hotel {
-    background-image: url("ghol.jpg");
+.hotel-bg {
+    background-image: url("r1.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
-}*/
+    background-attachment: scroll;
+}
+.car-view {
+    background-image: url("/images/bg-car.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: scroll;
+}
+
+@keyframes imageLoop {
+    0% {
+        background-image: url("sightSeeingBG.jpg");
+    }
+    20% {
+        background-image: url("Bamyan.jpg");
+    }
+    40% {
+        background-image: url("Bandamir.jpg");
+    }
+    60% {
+        background-image: url("hendokosh.jpg");
+    }
+    80% {
+        background-image: url("a5.jpg");
+    }
+    100% {
+        background-image: url("rainbow.jpg");
+    }
+}
+
 .sightSeeing {
-    background-image: url("sightSeeingBG.jpg");
+    position: relative;
+    background-image: url("hendokosh.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: scroll;
-    filter: blur(0.8px);
+    animation: imageLoop 20s cubic-bezier(0.4, 0, 1, 1) infinite;
 }
-.hotel {
-    background-image: url("r2.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: scroll;
+
+.sightSeeing::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(
+        0,
+        0,
+        0,
+        0.5
+    ); /* Adjust the opacity to make it darker or lighter */
+    z-index: 1; /* Ensure the overlay is behind the content */
+}
+.introduction-paragraph {
+    /* Add any other styles you need here */
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.sightSeeing * {
+    position: relative;
+    z-index: 22;
 }
 
 .tour-guide {
-    background-image: url("t4.jpg");
+    background-image: url("rainbow.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: scroll;
 }
-/*
-div img {
-    height: 100vh;
-}
-.card {
-    padding-left: 0%;
-    transition: all 0.3s ease-in-out;
-}
-
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.card:hover .button {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-.button {
-    transition: all 0.3s ease-in-out;
-    transform: translateX(10px);
-    opacity: 0;
-    width: max-content;
-}
-.card span p {
-    color: darkgray;
-} */
 
 nav div ul li .costum-active {
     padding: 8px;
@@ -75,4 +84,119 @@ nav div ul li .costum-active {
     border: 1px solid rgb(71, 71, 71);
     border-radius: 5px;
     color: white;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-in {
+    animation: slideInFromLeft 1s forwards;
+}
+
+.slide-out {
+    animation: slideOutToRight 1s forwards;
+}
+
+.sight_seeing_image {
+    filter: brightness(0.5); /* Adjust the value to make it darker or lighter */
+}
+
+.sight-seeing-list .relative {
+    position: relative;
+}
+
+.sight-seeing-list .relative .absolute {
+    position: absolute;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 1rem;
+    transition: opacity 0.7s ease-in-out;
+    opacity: 0;
+}
+
+.sight-seeing-list .relative:hover .absolute {
+    opacity: 1;
+}
+
+.sight-seeing-list .relative {
+    /* max-width: 20rem; */
+    background: white;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+.sight-seeing-list .relative:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-page-div {
+    background-image: url("hendokosh.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: scroll;
+    z-index: 1;
+}
+
+.login-form {
+    z-index: 13;
+}
+
+/* the config button */
+
+.config-button {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.config-button:hover {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border: solid white;
+    color: rgb(0, 240, 52) !important;
+}
+
+/* for logo */
+
+.rotate-on-hover {
+    transition: transform 2s ease-in-out;
+    animation: step-end;
+}
+
+.rotate-on-hover:hover {
+    transform: rotate(360deg);
+}
+
+/* register logo */
+.logo-register {
+    transition: transform 0.4s ease-in-out;
+    transform: rotate(360deg);
 }

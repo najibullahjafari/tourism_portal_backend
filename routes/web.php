@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\HotelRequestController;
+use App\Http\Controllers\ProvincesController;
 use App\Http\Controllers\tourguideController;
 use App\Http\Controllers\tourguideRequestController;
 
@@ -37,10 +38,19 @@ Route::get(
     [Welcome::class, 'hotel']
 )->name('welcome.hotel');
 Route::get('/about-tourGuide', [Welcome::class, 'tourGuide'])->name('welcome.tourGuide');
+Route::get('/ViewCars', [TransportationController::class, 'seeCar'])->name('welcome.transport');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/GeneralDashboard');
 })
     ->name('dashboard');
+
+
+// an api end point for all global users
+Route::get('/getProvinceApi', [ProvincesController::class, 'getProvincesApi']);
+Route::get('/apidocumentation', function () {
+    return Inertia::render('Provinces/ApiDocumentation');
+})->name('apidocumentation');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -94,12 +104,19 @@ Route::middleware('auth')->group(function () {
     // for setting 
     Route::get('/settings', [SettingsController::class, ''])->name('');
 
+    // province
+    Route::get('/addProvinces', [ProvincesController::class, 'index'])->name('provinces');
+    Route::get('/showProvinces', [ProvincesController::class, 'getProvinces'])->name('showProvinces');
+    Route::post('/addProvinces', [ProvincesController::class, 'store'])->name('provinces');
+    Route::post('/importFromJson', [ProvincesController::class, 'importProvincesFromJson']);
+
     // Sight Seeing Places
     Route::get('/sightSeeing', [sight_seeingController::class, 'index'])->name('sightSeeing.index');
+    Route::get('/getSightSeeing', [sight_seeingController::class, 'getSightSeeing']);
     Route::get('/sightSeeingRequest', [sight_seeingController::class, 'show'])->name('userRequest');
     Route::get('/addSightSeeing', [sight_seeingController::class, 'create'])->name('sightSeeing.create');
     Route::post('/addSightSeeing', [sight_seeingController::class, 'store'])->name('sightSeeing.store');
-    Route::delete('/sightSeeingRequest/{id}', [sight_seeingController::class, 'destroy'])->name('sighgtSeeingRequest.destroy');
+    Route::delete('/sightSeeingRequestDelete/{id}', [sight_seeingController::class, 'destroy'])->name('sighgtSeeingRequest.destroy');
     Route::post('/sightSeeingRequest/{id}', [sight_seeingController::class, 'change'])->name('sightSeeingRequest.update');
     Route::delete('/sightSeeing/{id}', [sight_seeingController::class, 'deleteSightSeeing'])->name('sightSeeing.delete');
     Route::get('/sightSeeingDashboard/{id}', [sight_seeingController::class, 'updateSightSeeing'])->name('sightSeeing.update');
