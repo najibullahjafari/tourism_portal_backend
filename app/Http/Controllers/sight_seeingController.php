@@ -39,37 +39,50 @@ class sight_seeingController extends Controller
             ]);
         }
     }
+
+    public function getSightSeeing()
+    {
+        $data = sight_seeing::where('status', 'active')->get();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
     public function show(Request $request)
     {
         if ($request->has("category") && $request->has("q")) {
             $col = $request->category;
             $val = $request->q;
             $data = sight_seeing::where('status', 'deactive')->where($col, 'like', '%' . $val . '%')->get();
-            foreach ($data as $item) {
-                $item->image = asset($item->image);
-
-            }
-            return Inertia::render('SightSeeing/SightSeeingRequest', [
-                'data' => $data,
-            ]);
-
         } else {
-
-
             $data = sight_seeing::where('status', 'deactive')->get();
-            foreach ($data as $item) {
-                $item->image = asset($item->image);
-
-            }
-            return Inertia::render('SightSeeing/SightSeeingRequest', [
-                'data' => $data,
-            ]);
         }
+
+        foreach ($data as $item) {
+            if (strpos($item->image, ',') !== false) {
+                // The image attribute contains multiple paths, split by commas
+                $imagePaths = explode(',', $item->image);
+                $imageUrls = [];
+                foreach ($imagePaths as $path) {
+                    $imageUrls[] = asset($path); // Generate URL for each path
+                }
+                $item->image = $imageUrls; // Store the array of URLs
+            } else {
+                // Single image path, directly generate its URL
+                $item->image = [asset($item->image)]; // Ensure it's stored as an array for consistency
+            }
+        }
+
+        return Inertia::render('SightSeeing/SightSeeingRequest', [
+            'data' => $data,
+        ]);
     }
     public function create()
     {
         return Inertia::render('SightSeeing/addSightSeeing');
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -80,33 +93,36 @@ class sight_seeingController extends Controller
             'open_time' => 'required|date',
             'description' => 'required|string',
             'ticket_cost' => 'required|string',
-            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // Assuming 'images' is the name for the input field for multiple files
+            // 'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'string',
-
         ]);
-        $SightSeeingPath = null;
-        if ($request->hasFile('image')) {
-            try {
-                $file = $request->file('image');
-                $destinationPath = public_path('storage/SightSeeing');
-                $fileName = time() . '.' . $file->getClientOriginalExtension();
-                $file->move($destinationPath, $fileName);
-                if (!file_exists($destinationPath . '/' . $fileName)) {
-                    return Redirect::back()->with('error', 'Failed to save passport. Please try again.');
+
+        $SightSeeingPaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                try {
+                    $destinationPath = public_path('storage/SightSeeing');
+                    $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($destinationPath, $fileName);
+                    if (!file_exists($destinationPath . '/' . $fileName)) {
+                        return Redirect::back()->with('error', 'Failed to save image. Please try again.');
+                    }
+                    $SightSeeingPaths[] = 'storage/SightSeeing/' . $fileName;
+                } catch (\Exception $e) {
+                    return Redirect::back()->with('error', 'An error occurred while uploading the image: ' . $e->getMessage());
                 }
-                $SightSeeingPath = 'storage/SightSeeing/' . $fileName;
-            } catch (\Exception $e) {
-                return Redirect::back()->with('error', 'An error occurred while uploading the passport: ' . $e->getMessage());
             }
         } else {
-            return Redirect::back()->with('error', 'No passport file found in the request.');
+            return Redirect::back()->with('error', 'No image file found in the request.');
         }
 
         $sightSeeing = new sight_seeing();
         $sightSeeing->name = $request->name;
         $sightSeeing->address = $request->address;
         $sightSeeing->province = $request->province;
-        $sightSeeing->image = $SightSeeingPath;
+        // Convert the array of paths to a string to store in the database, or adjust according to your database design
+        $sightSeeing->image = implode(',', $SightSeeingPaths);
         $sightSeeing->open_time = $request->open_time;
         $sightSeeing->close_time = $request->close_time;
         $sightSeeing->ticket_cost = $request->ticket_cost;
@@ -114,14 +130,19 @@ class sight_seeingController extends Controller
         $sightSeeing->status = $request->status;
         $sightSeeing->save();
         return Inertia::render('Hotel/addHotel');
-        // return redirect::back()->with('message', 'Hotel request has been sent successfully');
-
     }
     public function destroy($id)
     {
         $sight_seeing = sight_seeing::find($id);
         $sight_seeing->delete();
-        return redirect()->route('userRequest');
+        // to delete the image file from the server
+        $imagePaths = explode(',', $sight_seeing->image);
+        foreach ($imagePaths as $path) {
+            if (file_exists(public_path($path))) {
+                unlink(public_path($path));
+            }
+        }
+        return redirect()->route('sightSeeing.index');
     }
     public function change($id, Request $request)
     {

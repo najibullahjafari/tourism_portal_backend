@@ -251,9 +251,38 @@ class TransportationController extends Controller
     return count($cars);
   }
 
-  public function allCars()
+
+  public function seeCar()
   {
-    $cars = Transportation::all();
-    return count($cars);
+    $cars = Transportation::where('status', 'accepted')->get();
+    foreach ($cars as $car) {
+      $car->passport = asset($car->passport);
+      $car->image = asset($car->image);
+    }
+
+    return Inertia::render('Cars', ['cars' => $cars]);
   }
+
+
+  public function addCarToBooking(Request $request)
+  {
+    // Validate the incoming request
+    $request->validate([
+      'obj_type' => 'required|string|max:255',
+      'obj_id' => 'required|string|max:255',
+      'user_id' => 'required|integer',
+      'start_date' => 'required|date',
+    ]);
+
+    // Create a new booking record
+    $booking = new \App\Models\booking();
+    $booking->obj_type = $request->obj_type;
+    $booking->obj_id = $request->obj_id;
+    $booking->user_id = $request->user_id;
+    $booking->start_date = $request->start_date;
+    $booking->save();
+
+    return response()->json(['message' => 'Car added to booking successfully.']);
+  }
+
 }
