@@ -34,8 +34,8 @@ class TransportationController extends Controller
   {
     // Validate the incoming request
     $request->validate([
-      'name' => 'required|string|max:255',
-      'location' => 'required|string|max:255',
+      'name' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
+      'location' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
       'passport' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
       'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
