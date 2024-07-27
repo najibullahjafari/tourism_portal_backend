@@ -214,15 +214,15 @@ class sight_seeingController extends Controller
             'news' => $news
         ]);
     }
-    public function dependedHotel($id)
-    {
-        $data = Hotel::whereHas('sightSeeings', function ($query) use ($id) {
-            $query->where('sight_seeing_id', $id);
-        })->get();
-        return response()->json([
-            'data' => $data,
-        ]);
-    }
+    // public function dependedHotel($id)
+    // {
+    //     $data = Hotel::whereHas('sightSeeings', function ($query) use ($id) {
+    //         $query->where('sight_seeing_id', $id);
+    //     })->get();
+    //     return response()->json([
+    //         'data' => $data,
+    //     ]);
+    // }
 
     public function getBooking()
     {

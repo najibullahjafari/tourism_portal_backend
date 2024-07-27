@@ -51,6 +51,10 @@ class tourguideController extends Controller
     {
         return Inertia::render('User/AddUser');
     }
+    public function sighnUser()
+    {
+        return Inertia::render('User/SighnUser');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -330,7 +334,7 @@ class tourguideController extends Controller
 
     public function userRole()
     {
-        $user = Auth::user();
-        return $user ? $user->role : null;
+        $data = User::all();
+        return $data;
     }
 }
