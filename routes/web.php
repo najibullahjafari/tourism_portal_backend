@@ -53,6 +53,9 @@ Route::get('/apidocumentation', function () {
 
 // bookings
 
+Route::get('/SighnUser', [tourguideController::class, 'SighnUser'])->name('SighnUser');
+Route::post('AddSighnUser', [tourguideController::class, 'AddSighnUser'])->name('AddSighnUser');
+
 
 
 Route::middleware('auth')->group(function () {
@@ -123,7 +126,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/sightSeeingRequest/{id}', [sight_seeingController::class, 'change'])->name('sightSeeingRequest.update');
     Route::delete('/sightSeeing/{id}', [sight_seeingController::class, 'deleteSightSeeing'])->name('sightSeeing.delete');
     Route::get('/sightSeeingDashboard/{id}', [sight_seeingController::class, 'updateSightSeeing'])->name('sightSeeing.update');
-    Route::get('/dependedHotelSightSeeing/{id}', [sight_seeingController::class, 'dependedHotel']);
+    // Route::get('/dependedHotelSightSeeing/{id}', [sight_seeingController::class, 'dependedHotel']);
 
     // Views
     Route::get('/hotel/view', [HotelController::class, 'view'])->name("hotels");
