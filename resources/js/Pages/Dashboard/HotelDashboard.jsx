@@ -198,39 +198,6 @@ const HotelDashboard = () => {
     return (
         <Layout>
             <div className="grid">
-                <DashboardInfoCard
-                    title="Number of Cars"
-                    value={numberOfCars}
-                    icon="map-marker"
-                    iconColor="blue"
-                    descriptionValue={pendingCar}
-                    descriptionText="Pending cars"
-                ></DashboardInfoCard>
-                <DashboardInfoCard
-                    title="Hotels"
-                    value={numberOfHotelsAccepted}
-                    icon="map-marker"
-                    iconColor="orange"
-                    descriptionValue={pendingHotel}
-                    descriptionText="Pending hotels"
-                ></DashboardInfoCard>
-                <DashboardInfoCard
-                    title="Users"
-                    value={numberOfUsers}
-                    descriptionValue={numberOfUsersAccepted}
-                    icon="inbox"
-                    iconColor="cyan"
-                    descriptionText="since last week"
-                ></DashboardInfoCard>
-                <DashboardInfoCard
-                    title="Comments"
-                    value="152 Unread"
-                    descriptionValue="85"
-                    icon="comment"
-                    iconColor="purple"
-                    descriptionText="responded"
-                ></DashboardInfoCard>
-
                 <div className="col-12 xl:col-6">
                     <div className="card">
                         <h5>Overview</h5>
