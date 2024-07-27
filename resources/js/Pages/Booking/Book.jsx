@@ -8,9 +8,18 @@ const Book = ({ id, objType }) => {
         start_date: "",
     });
     const [success, setSuccess] = useState(false);
+    const [error, setError] = useState("");
 
     function handleSubmit(e) {
         e.preventDefault();
+        const currentDateTime = new Date();
+        const selectedDateTime = new Date(data.start_date);
+
+        if (selectedDateTime <= currentDateTime) {
+            setError("The start date and time must be in the future.");
+            return;
+        }
+
         post(route("booking.store"), {
             onSuccess: () => {
                 setSuccess(true);
@@ -25,6 +34,11 @@ const Book = ({ id, objType }) => {
                 {success && (
                     <div className="mb-6 text-green-500 font-bold text-center">
                         Booking successful!
+                    </div>
+                )}
+                {error && (
+                    <div className="mb-6 text-red-500 font-bold text-center">
+                        {error}
                     </div>
                 )}
                 <form onSubmit={handleSubmit}>
