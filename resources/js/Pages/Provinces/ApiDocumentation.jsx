@@ -18,7 +18,10 @@ const ApiDocumentation = () => {
                         Get Provinces API
                     </h2>
                     <p className="mb-2">
-                        <strong>Endpoint:</strong> <code>/getProvinceApi</code>
+                        <strong>Endpoint:</strong>{" "}
+                        <code>
+                            https://afghanistantourimportal/getProvinceApi
+                        </code>
                     </p>
                     <p className="mb-2">
                         <strong>Method:</strong> GET
