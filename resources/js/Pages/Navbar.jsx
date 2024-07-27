@@ -8,7 +8,7 @@ import MyBookings from "./Booking/MyBookings";
 const Navbar = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isBookingsDialogOpen, setIsBookingsDialogOpen] = useState(false);
-    const { data } = usePage().props;
+    const { data, user } = usePage().props;
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
@@ -17,7 +17,7 @@ const Navbar = ({ children }) => {
         <nav className="sticky top-0 shadow-sm text-white z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="container top-1 mx-auto py-4 flex justify-between items-center">
-                    <Link to="/dashboard" className="flex-shrink-0">
+                    <Link href="/dashboard" className="flex-shrink-0">
                         <img
                             src="/images/logo/TourismDark.png"
                             className="w-2 rotate-on-hover"
@@ -31,7 +31,7 @@ const Navbar = ({ children }) => {
                                 href={route("welcome.sightSeeing")}
                                 className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                             >
-                                Sight Seeing
+                                Places
                             </NavLink>
                             <NavLink
                                 href={route("welcome.hotel")}
@@ -40,10 +40,10 @@ const Navbar = ({ children }) => {
                                 Hotel
                             </NavLink>
                             <NavLink
-                                href={route("welcome.tourGuide")}
-                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                href={route("SighnUser")}
+                                className="block px-3 py-2 bg-primary rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
                             >
-                                Tour Guide
+                                Request
                             </NavLink>
                             <NavLink
                                 href={route("welcome.transport")}
@@ -55,23 +55,42 @@ const Navbar = ({ children }) => {
                                 href={route("apidocumentation")}
                                 className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                             >
-                                Api Docs
+                                Api
                             </NavLink>
                             <span
                                 onClick={() => setIsBookingsDialogOpen(true)}
-                                className="cursor-pointer bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                             >
-                                My Bookings
+                                reserved
                             </span>
 
-                            <span
-                                onClick={() => {
-                                    router.get("login");
-                                }}
-                                className="hover:bg-gray-700 bg-primary text-primary hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Login
-                            </span>
+                            {user ? (
+                                <>
+                                    <span
+                                        alt={user.name}
+                                        className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                    >
+                                        {user.name}
+                                    </span>
+                                    <Link
+                                        href={route("logout")}
+                                        method="post"
+                                        as="button"
+                                        className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                    >
+                                        <span>Logout</span>
+                                    </Link>
+                                </>
+                            ) : (
+                                <span
+                                    onClick={() => {
+                                        router.get("login");
+                                    }}
+                                    className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                >
+                                    Login
+                                </span>
+                            )}
                         </div>
                         <Config />
                     </div>
@@ -112,37 +131,65 @@ const Navbar = ({ children }) => {
                 className={`md:hidden ${isOpen ? "block" : "hidden"}`}
                 id="mobile-menu"
             >
-                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <div className="flex flex-col px-2 pt-2 pb-3 space-y-1 gap-2 sm:px-3">
                     <NavLink
                         href={route("welcome.sightSeeing")}
-                        className="block px-3 py-2 rounded-md text-base font-medium bg-gray-900 text-white"
+                        className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                     >
                         Sight Seeing
                     </NavLink>
                     <NavLink
-                        href={route("welcome.tourGuide")}
-                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
+                        href={route("SighnUser")}
+                        className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                     >
-                        Tour Guide
+                        Request as
                     </NavLink>
                     <NavLink
                         href={route("welcome.hotel")}
-                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
+                        className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                     >
                         Hotel
                     </NavLink>
                     <NavLink
-                        to="/about"
-                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
+                        href={route("welcome.transport")}
+                        className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                     >
                         Transport
                     </NavLink>
                     <NavLink
-                        to="/contact"
-                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
+                        href=""
+                        className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                     >
                         Contact
                     </NavLink>
+                    {user ? (
+                        <>
+                            <span
+                                alt={user.name}
+                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                            >
+                                {user.name}
+                            </span>
+                            <Link
+                                href={route("logout")}
+                                method="post"
+                                as="button"
+                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                            >
+                                <i className="pi pi-lock"></i>
+                                <span>Logout</span>
+                            </Link>
+                        </>
+                    ) : (
+                        <span
+                            onClick={() => {
+                                router.get("login");
+                            }}
+                            className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                        >
+                            Login
+                        </span>
+                    )}
                 </div>
             </div>
             <MyBookings
