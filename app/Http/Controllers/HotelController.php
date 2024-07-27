@@ -148,7 +148,7 @@ class HotelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    
+
 
 
     /**
@@ -158,9 +158,9 @@ class HotelController extends Controller
     {
         // Validate and update the hotel data
         $request->validate([
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'province' => 'required|string',
+            'name' => 'required|regex:/^[a-zA-Z\s]+$/i',
+            'address' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'province' => 'required|string|regex:/^[a-zA-Z\s]+$/',
             'photoAddress' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'string',
 
