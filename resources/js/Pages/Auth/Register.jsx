@@ -47,7 +47,7 @@ export default function Register() {
                         </div>
                     </div>
                     <form onSubmit={submit}>
-                        <div className="grid grid-cols-2">
+                        <div className="flex flex-row">
                             <div className="m-3">
                                 <label
                                     htmlFor="name"
@@ -140,7 +140,8 @@ export default function Register() {
                                     className=""
                                 />
                             </div>
-
+                        </div>
+                        <div className="row justify-center ">
                             <div className="flex align-items-center justify-content-end mb-4">
                                 <Link href={route("login")} className="">
                                     Already registered?
