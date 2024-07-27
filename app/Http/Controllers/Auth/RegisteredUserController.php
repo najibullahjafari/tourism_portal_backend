@@ -45,11 +45,11 @@ class RegisteredUserController extends Controller
         ]);
         $user->assignRole('user');
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('welcome.sightSeeing');
     }
 
     public function index()
