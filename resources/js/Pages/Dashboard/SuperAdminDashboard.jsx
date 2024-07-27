@@ -12,16 +12,16 @@ const lineData = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
         {
-            label: "Internal Tourists",
-            data: [65, 59, 80, 81, 56, 55, 40],
+            label: "Cars",
+            data: [1, 2, 3, 4, 5, 6, 7, 8],
             fill: false,
             backgroundColor: "#2f4860",
             borderColor: "#2f4860",
             tension: 0.4,
         },
         {
-            label: "External Tourists",
-            data: [28, 48, 40, 19, 86, 27, 90],
+            label: "Hotels",
+            data: [2, 4, 6, 8, 10, 12, 14],
             fill: false,
             backgroundColor: "#00bb7e",
             borderColor: "#00bb7e",
@@ -71,6 +71,17 @@ const SuperAdminDashboard = () => {
                     },
                 },
             },
+            data: {
+                labels: ["Cars", "Hotels"],
+                datasets: [
+                    {
+                        label: "Number of Cars and Hotels",
+                        data: [numberOfCars, numberOfHotels],
+                        backgroundColor: ["#42A5F5", "#66BB6A"],
+                        hoverBackgroundColor: ["#64B5F6", "#81C784"],
+                    },
+                ],
+            },
         };
 
         setLineOptions(lineOptions);
@@ -102,6 +113,17 @@ const SuperAdminDashboard = () => {
                         color: "rgba(160, 167, 181, .3)",
                     },
                 },
+            },
+            data: {
+                labels: ["Cars", "Hotels"],
+                datasets: [
+                    {
+                        label: "Number of Cars and Hotels",
+                        data: [numberOfCars, numberOfHotels],
+                        backgroundColor: ["#42A5F5", "#66BB6A"],
+                        hoverBackgroundColor: ["#64B5F6", "#81C784"],
+                    },
+                ],
             },
         };
 
@@ -186,7 +208,7 @@ const SuperAdminDashboard = () => {
         fetchNumberOfUserAccepted();
     }, []);
     useEffect(() => {
-        const carDiff = numberOfAllCars - numberOfCars;
+        const carDiff = numberOfCars - numberOfAllCars;
         setPendingCar(carDiff);
     }, [numberOfAllCars, numberOfCars]);
 
@@ -208,8 +230,8 @@ const SuperAdminDashboard = () => {
                     value={numberOfCars}
                     icon="map-marker"
                     iconColor="blue"
-                    descriptionValue={pendingCar}
-                    descriptionText="Pending cars"
+                    descriptionValue={numberOfCars}
+                    descriptionText=" cars in the system"
                 ></DashboardInfoCard>
                 <DashboardInfoCard
                     title="Hotels"
@@ -227,14 +249,6 @@ const SuperAdminDashboard = () => {
                     iconColor="cyan"
                     descriptionText="Pening Users"
                 ></DashboardInfoCard>
-                <DashboardInfoCard
-                    title="Comments"
-                    value="152 Unread"
-                    descriptionValue="85"
-                    icon="comment"
-                    iconColor="purple"
-                    descriptionText="responded"
-                ></DashboardInfoCard>
 
                 <div className="col-12 xl:col-6">
                     <div className="card">
@@ -247,137 +261,7 @@ const SuperAdminDashboard = () => {
                     </div>
                 </div>
 
-                <div className="col-12 xl:col-6">
-                    <div className="card">
-                        <div className="flex justify-content-between align-items-center mb-5">
-                            <h5>Most visited places</h5>
-                            <div>
-                                <Button
-                                    type="button"
-                                    icon="pi pi-ellipsis-v"
-                                    rounded
-                                    text
-                                    className="p-button-plain"
-                                    onClick={(event) =>
-                                        menu1.current?.toggle(event)
-                                    }
-                                />
-                                <Menu
-                                    ref={menu1}
-                                    popup
-                                    model={[
-                                        {
-                                            label: "Add New",
-                                            icon: "pi pi-fw pi-plus",
-                                        },
-                                        {
-                                            label: "Remove",
-                                            icon: "pi pi-fw pi-minus",
-                                        },
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <ul className="list-none p-0 m-0">
-                            <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                                <div>
-                                    <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Bamyan
-                                    </span>
-                                    <div className="mt-1 text-600">
-                                        Band Amir
-                                    </div>
-                                </div>
-                                <div className="mt-2 md:mt-0 flex align-items-center">
-                                    <div
-                                        className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                                        style={{ height: "8px" }}
-                                    >
-                                        <div
-                                            className="bg-orange-500 h-full"
-                                            style={{ width: "50%" }}
-                                        />
-                                    </div>
-                                    <span className="text-orange-500 ml-3 font-medium">
-                                        %50
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                                <div>
-                                    <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Mazar Sharif
-                                    </span>
-                                    <div className="mt-1 text-600">
-                                        Band Qush Tepa
-                                    </div>
-                                </div>
-                                <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                    <div
-                                        className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                                        style={{ height: "8px" }}
-                                    >
-                                        <div
-                                            className="bg-cyan-500 h-full"
-                                            style={{ width: "16%" }}
-                                        />
-                                    </div>
-                                    <span className="text-cyan-500 ml-3 font-medium">
-                                        %16
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                                <div>
-                                    <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Noristan
-                                    </span>
-                                    <div className="mt-1 text-600">
-                                        Band Qala
-                                    </div>
-                                </div>
-                                <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                    <div
-                                        className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                                        style={{ height: "8px" }}
-                                    >
-                                        <div
-                                            className="bg-pink-500 h-full"
-                                            style={{ width: "67%" }}
-                                        />
-                                    </div>
-                                    <span className="text-pink-500 ml-3 font-medium">
-                                        %67
-                                    </span>
-                                </div>
-                            </li>
-                            <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
-                                <div>
-                                    <span className="text-900 font-medium mr-2 mb-1 md:mb-0">
-                                        Kabul
-                                    </span>
-                                    <div className="mt-1 text-600">
-                                        Darul Aman Palace
-                                    </div>
-                                </div>
-                                <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
-                                    <div
-                                        className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
-                                        style={{ height: "8px" }}
-                                    >
-                                        <div
-                                            className="bg-blue-500 h-full"
-                                            style={{ width: "35%" }}
-                                        />
-                                    </div>
-                                    <span className="text-blue-500 ml-3 font-medium">
-                                        %35
-                                    </span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <div className="col-12 xl:col-6"></div>
             </div>
         </Layout>
     );
