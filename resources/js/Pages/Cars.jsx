@@ -6,7 +6,7 @@ import "./content.css";
 import Footer from "./Footer";
 import Vission from "./Vission";
 import Navbar from "./Navbar";
-import Book from "./Booking/Book"; // Import the Book component
+import Book from "./Booking/Book";
 
 const CarView = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -60,8 +60,8 @@ const CarView = () => {
         <>
             <Navbar />
 
-            <div className="car-view w-full h-screen flex flex-col items-center justify-center">
-                <div className="relative w-96 h-96 max-w-2xl bg-white overflow-hidden rounded-lg shadow-lg">
+            <div className="car-view w-full h-screen flex flex-col items-center justify-center bg-cover bg-center">
+                <div className="relative w-120 h-120 max-w-2xl bg-white overflow-hidden rounded-lg shadow-lg">
                     <img
                         src={currentCar.image}
                         alt="Car"
@@ -73,7 +73,7 @@ const CarView = () => {
                             {currentCar.name}
                         </h3>
                         <p className="text-gray-300">
-                            {currentCar.description}
+                            {currentCar.discription}
                         </p>
                     </div>
 
@@ -118,7 +118,7 @@ const CarView = () => {
                     <h3 className="text-lg font-bold mb-2">
                         Phone Number: {currentCar.phone}
                     </h3>
-                    <p className="mb-4">{currentCar.description}</p>
+                    <p className="mb-4">{currentCar.discription}</p>
                     <div className="flex flex-row justify-between">
                         <Button
                             label="Book"
