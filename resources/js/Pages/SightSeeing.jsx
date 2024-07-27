@@ -1,5 +1,6 @@
 import { Link, router, usePage } from "@inertiajs/react";
 import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -11,8 +12,11 @@ import Navbar from "./Navbar";
 const SightSeeing = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedSight, setSelectedSight] = useState(null);
+    const [visible, setVisible] = useState(false);
+    const [travelVisible, setTravelVisible] = useState(false);
+    const [hotels, setHotels] = useState([]); // State to store hotels data
     const { data } = usePage().props;
-    console.log(data);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -20,6 +24,41 @@ const SightSeeing = () => {
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
+    };
+
+    const handleDialogOpen = async (sight) => {
+        setSelectedSight(sight);
+        setVisible(true);
+        // Fetch hotels related to the selected sight-seeing
+        const response = fetch(`dependedHotelSightSeeing/${sight.id}`);
+        const hotelsData = response.json();
+        console.log(hotelsData, "hotels");
+        setHotels(hotelsData.data);
+    };
+
+    const fetchBookings = async () => {
+        try {
+            const response = await fetch("getBooking");
+            const data = await response.json();
+            console.log(data, "bookings");
+            setBookings(data.data); // Adjusted to access the data array
+        } catch (error) {
+            console.error("Error fetching bookings:", error);
+        }
+    };
+
+    const handleDialogClose = () => {
+        setVisible(false);
+        setSelectedSight(null);
+        setHotels([]); // Clear hotels data when dialog is closed
+    };
+
+    const handleTravelDialogOpen = () => {
+        setTravelVisible(true);
+    };
+
+    const handleTravelDialogClose = () => {
+        setTravelVisible(false);
     };
 
     const filteredData = data.filter((item) =>
@@ -92,12 +131,8 @@ const SightSeeing = () => {
                             </div>
                             <div className="">
                                 <Button
-                                    className="mx-3 my-3    font-bold p-1 text-sm rounded-tr-full rounded-br-full focus:outline-none focus:shadow-outline"
-                                    onClick={() =>
-                                        router.get(
-                                            `/SightSeeingDetial/${item.id}`
-                                        )
-                                    }
+                                    className="mx-3 my-3 font-bold p-1 text-sm rounded-tr-full rounded-br-full focus:outline-none focus:shadow-outline"
+                                    onClick={() => handleDialogOpen(item)}
                                 >
                                     See more
                                 </Button>
@@ -106,6 +141,66 @@ const SightSeeing = () => {
                     ))}
                 </div>
             </div>
+
+            {selectedSight && (
+                <Dialog
+                    header="Sight Seeing Details"
+                    visible={visible}
+                    style={{ width: "50vw" }}
+                    modal
+                    onHide={handleDialogClose}
+                >
+                    <div className="sight-seeing-details">
+                        <h3 className="text-lg font-bold mb-2">
+                            Name: {selectedSight.name}
+                        </h3>
+                        <p className="mb-4">
+                            Description: {selectedSight.description}
+                        </p>
+                        <div className="grid grid-cols-3 gap-4">
+                            {selectedSight.image
+                                .split(",")
+                                .map((image, index) => (
+                                    <div key={index} className="">
+                                        <img
+                                            src={image}
+                                            alt={`Image ${index + 1}`}
+                                            className="sight_seeing_image w-48 h-48 object-cover rounded mb-4"
+                                        />
+                                    </div>
+                                ))}
+                        </div>
+
+                        <Button
+                            label="Travel"
+                            className="p-button-success"
+                            onClick={handleTravelDialogOpen}
+                        />
+                    </div>
+                </Dialog>
+            )}
+
+            <Dialog
+                header="Travel Options"
+                visible={travelVisible}
+                style={{ width: "50vw" }}
+                modal
+                onHide={handleTravelDialogClose}
+            >
+                <div className="travel-options">
+                    <h3 className="text-lg font-bold mb-2">Cars</h3>
+                    {/* Add your car options here */}
+                    <p>Car 1</p>
+                    <p>Car 2</p>
+                    <p>Car 3</p>
+
+                    <h3 className="text-lg font-bold mb-2 mt-4">Hotels</h3>
+                    {/* Display hotels fetched from the backend */}
+                    {hotels.map((hotel) => (
+                        <p key={hotel.id}>{hotel.name}</p>
+                    ))}
+                </div>
+            </Dialog>
 
             <Vission />
             <Footer />

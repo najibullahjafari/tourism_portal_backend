@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\like;
 use App\Models\news;
 use App\Models\sight_seeing;
+use App\Models\Hotel; // Add this line to import the 'Hotel' class
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
@@ -211,6 +212,24 @@ class sight_seeingController extends Controller
         return Inertia::render('SightSeeing/SightSeeingDetial', [
             'data' => $data,
             'news' => $news
+        ]);
+    }
+    public function dependedHotel($id)
+    {
+        $data = Hotel::whereHas('sightSeeings', function ($query) use ($id) {
+            $query->where('sight_seeing_id', $id);
+        })->get();
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function getBooking()
+    {
+        $data = booking::all();
+        $user = auth()->user();
+        return response()->json([
+            'data' => $data,
         ]);
     }
 }

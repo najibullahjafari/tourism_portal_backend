@@ -1,28 +1,51 @@
 import Layout from "@/Layouts/layout/layout";
-import React from "react";
-import { useForm, usePage } from "@inertiajs/react";
-import { router } from "@inertiajs/react";
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { usePage, router } from "@inertiajs/react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { useRef } from "react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+
 const Booked = () => {
-    const { data } = usePage().props;
+    const { user } = usePage().props;
+    console.log(user.roles);
+    const [bookings, setBookings] = useState([]);
     const [q, setQ] = useState("");
     const [category, setCategory] = useState("");
     const [selectedbooking, setSelectedbooking] = useState(null);
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
-    const handleDelete = (id) => {
-        router.delete(`/booked/delete/${id}`);
-        toast.current.show({
-            severity: "danger",
-            summary: "Delete",
-            detail: "You have deleted the request",
-            life: 3000,
-        });
+
+    const fetchBookings = async () => {
+        try {
+            const response = await fetch("getBooking");
+            const data = await response.json();
+            console.log(data, "bookings");
+            setBookings(data.data); // Adjusted to access the data array
+        } catch (error) {
+            console.error("Error fetching bookings:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchBookings();
+    }, []);
+
+    const handleDelete = async (id) => {
+        try {
+            await router.delete(`/booked/delete/${id}`);
+            toast.current.show({
+                severity: "danger",
+                summary: "Delete",
+                detail: "You have deleted the request",
+                life: 3000,
+            });
+            fetchBookings(); // Refetch bookings after deletion
+        } catch (error) {
+            console.error("Error deleting booking:", error);
+        }
     };
 
     const confirmAction = (id, action) => {
@@ -41,12 +64,21 @@ const Booked = () => {
             },
         });
     };
-    if (!data) {
-        return <div className="fa fa-user">Loading...</div>;
-    }
+
+    const filteredData = bookings.filter((item) => {
+        if (user.roles.includes("hotel-admin")) {
+            return item.obj_type === "hotel";
+        } else if (user.roles.includes("transport-admin")) {
+            return item.obj_type === "car";
+        }
+        return false;
+    });
+
+    console.log("Filtered Data:", filteredData);
+
     return (
         <Layout>
-            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
+            <div className="relative overflow-x-auto shadow-x sm:rounded-lg bg-white">
                 <div className="flex items-center justify-between">
                     <form className="box-content shadow-sm bg-white my-5">
                         <select
@@ -59,7 +91,7 @@ const Booked = () => {
                         >
                             <legend>Option</legend>
                             <option value="id">ID</option>
-                            <option value="obj_type">type</option>
+                            <option value="obj_type">Type</option>
                             <option value="start_date">Date</option>
                         </select>
                         <input
@@ -83,64 +115,42 @@ const Booked = () => {
                 <Toast ref={toast} />
                 <ConfirmDialog />
             </div>
-            <div class="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-white-50 uppercase bg-black-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                ID
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Type
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Date
-                            </th>
-
-                            <th scope="col" class="px-6 py-3">
-                                Action Booking
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item) => (
-                            <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                key={item.id}
-                            >
-                                <td class="px-6 py-4">{item.id}</td>
-                                <td class="px-6 py-4">{item.obj_type}</td>
-                                <td class="px-6 py-4">{item.start_date}</td>
-
-                                <td>
-                                    <div class="px-10 py-1">
-                                        <Button
-                                            onClick={() =>
-                                                confirmAction(
-                                                    item.id,
-                                                    handleDelete
-                                                )
-                                            }
-                                            icon="pi pi-times"
-                                            className="p-button-danger"
-                                        ></Button>
-                                    </div>
-                                    <div class="px-10 py-1">
-                                        <Button
-                                            icon="pi pi-eye"
-                                            severity="success"
-                                            onClick={() => {
-                                                setSelectedbooking(item);
-                                                setVisible(true);
-                                            }}
-                                            className="px-2 py-1 rounded"
-                                        ></Button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            <div className="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
+                {filteredData.length > 0 ? (
+                    <DataTable value={filteredData} paginator rows={10}>
+                        <Column field="id" header="ID" />
+                        <Column field="obj_type" header="Type" />
+                        <Column field="start_date" header="Date" />
+                        <Column
+                            header="Action Booking"
+                            body={(rowData) => (
+                                <div className="flex flex-col gap-1">
+                                    <Button
+                                        onClick={() =>
+                                            confirmAction(
+                                                rowData.id,
+                                                handleDelete
+                                            )
+                                        }
+                                        icon="pi pi-times"
+                                        className="p-button-danger"
+                                    ></Button>
+                                    <Button
+                                        icon="pi pi-eye"
+                                        severity="success"
+                                        onClick={() => {
+                                            setSelectedbooking(rowData);
+                                            setVisible(true);
+                                        }}
+                                        className="px-2 py-1 rounded"
+                                    ></Button>
+                                </div>
+                            )}
+                        />
+                    </DataTable>
+                ) : (
+                    <div>No data available</div>
+                )}
                 {selectedbooking && (
                     <Dialog
                         visible={visible}

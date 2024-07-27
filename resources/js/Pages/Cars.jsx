@@ -6,10 +6,12 @@ import "./content.css";
 import Footer from "./Footer";
 import Vission from "./Vission";
 import Navbar from "./Navbar";
+import Book from "./Booking/Book"; // Import the Book component
 
 const CarView = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [visible, setVisible] = useState(false);
+    const [bookingVisible, setBookingVisible] = useState(false); // State for booking dialog
     const { cars } = usePage().props;
     console.log(cars);
 
@@ -29,6 +31,14 @@ const CarView = () => {
 
     const handleDialogClose = () => {
         setVisible(false);
+    };
+
+    const handleBookingOpen = () => {
+        setBookingVisible(true);
+    };
+
+    const handleBookingClose = () => {
+        setBookingVisible(false);
     };
 
     if (cars.length === 0) {
@@ -51,7 +61,7 @@ const CarView = () => {
             <Navbar />
 
             <div className="car-view w-full h-screen flex flex-col items-center justify-center">
-                <div className="relative w-full max-w-2xl bg-white overflow-hidden rounded-lg shadow-lg">
+                <div className="relative w-96 h-96 max-w-2xl bg-white overflow-hidden rounded-lg shadow-lg">
                     <img
                         src={currentCar.image}
                         alt="Car"
@@ -70,14 +80,14 @@ const CarView = () => {
                     <div className="absolute top-1/2 left-0 transform -translate-y-1/2">
                         <Button
                             icon="pi pi-chevron-left"
-                            className="p-button-rounded p-button-secondary"
+                            className="p-button-rounded p-button-primary"
                             onClick={handlePrev}
                         />
                     </div>
                     <div className="absolute top-1/2 right-0 transform -translate-y-1/2">
                         <Button
                             icon="pi pi-chevron-right"
-                            className="p-button-rounded p-button-secondary"
+                            className="p-button-rounded p-button-primary"
                             onClick={handleNext}
                         />
                     </div>
@@ -103,19 +113,39 @@ const CarView = () => {
                         className="w-full car_image object-cover rounded mb-4"
                     />
                     <h3 className="text-lg font-bold mb-2">
-                        Name:{(" ", currentCar.name)}
+                        Name: {currentCar.name}
                     </h3>
                     <h3 className="text-lg font-bold mb-2">
                         Phone Number: {currentCar.phone}
                     </h3>
                     <p className="mb-4">{currentCar.description}</p>
                     <div className="flex flex-row justify-between">
-                        <Button label="Book" className="p-button-success" />
-                        <a href={`skype:${currentCar.phone}?call`}>
-                            <i className="pi pi-phone" />
+                        <Button
+                            label="Book"
+                            className="p-button-primary"
+                            onClick={handleBookingOpen}
+                        />
+                        <a
+                            className="justify-center text-center"
+                            href={`skype:${currentCar.phone}?call`}
+                        >
+                            <i
+                                style={{ fontSize: "2rem" }}
+                                className="pi pi-phone w-50 text-center p-2"
+                            />
                         </a>
                     </div>
                 </div>
+            </Dialog>
+
+            <Dialog
+                header="Book Car"
+                visible={bookingVisible}
+                style={{ width: "50vw" }}
+                modal
+                onHide={handleBookingClose}
+            >
+                <Book id={currentCar.id} objType="car" />
             </Dialog>
 
             <Vission />

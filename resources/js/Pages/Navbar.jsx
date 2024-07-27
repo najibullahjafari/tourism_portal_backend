@@ -3,16 +3,18 @@ import { Button } from "primereact/button";
 import React, { useState } from "react";
 import NavLink from "@/Components/NavLink";
 import Config from "./Config";
+import MyBookings from "./Booking/MyBookings";
 
 const Navbar = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isBookingsDialogOpen, setIsBookingsDialogOpen] = useState(false);
     const { data } = usePage().props;
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
 
     return (
-        <nav className="sticky top-0  shadow-sm  text-white  z-50">
+        <nav className="sticky top-0 shadow-sm text-white z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="container top-1 mx-auto py-4 flex justify-between items-center">
                     <Link to="/dashboard" className="flex-shrink-0">
@@ -27,40 +29,46 @@ const Navbar = ({ children }) => {
                         <div className="ml-10 flex items-baseline space-x-4">
                             <NavLink
                                 href={route("welcome.sightSeeing")}
-                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                             >
                                 Sight Seeing
                             </NavLink>
                             <NavLink
                                 href={route("welcome.hotel")}
-                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                             >
                                 Hotel
                             </NavLink>
                             <NavLink
                                 href={route("welcome.tourGuide")}
-                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                             >
                                 Tour Guide
                             </NavLink>
                             <NavLink
                                 href={route("welcome.transport")}
-                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                             >
                                 Transport
                             </NavLink>
                             <NavLink
                                 href={route("apidocumentation")}
-                                className=" bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                                className="bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                             >
                                 Api Docs
                             </NavLink>
+                            <span
+                                onClick={() => setIsBookingsDialogOpen(true)}
+                                className="cursor-pointer bg-primary px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
+                            >
+                                My Bookings
+                            </span>
 
                             <span
                                 onClick={() => {
                                     router.get("login");
                                 }}
-                                className="hover:bg-gray-700 bg-primary  text-primary hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                className="hover:bg-gray-700 bg-primary text-primary hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                             >
                                 Login
                             </span>
@@ -137,6 +145,10 @@ const Navbar = ({ children }) => {
                     </NavLink>
                 </div>
             </div>
+            <MyBookings
+                visible={isBookingsDialogOpen}
+                onHide={() => setIsBookingsDialogOpen(false)}
+            />
         </nav>
     );
 };

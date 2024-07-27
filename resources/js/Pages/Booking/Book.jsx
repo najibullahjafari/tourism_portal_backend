@@ -1,20 +1,32 @@
 import { useForm, usePage } from "@inertiajs/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const Book = () => {
-    const { id, type } = usePage().props;
+const Book = ({ id, objType }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
-        obj_type: type,
+        obj_type: objType,
         obj_id: id,
         start_date: "",
     });
+    const [success, setSuccess] = useState(false);
+
     function handleSubmit(e) {
         e.preventDefault();
-        post(route("booking.store"));
+        post(route("booking.store"), {
+            onSuccess: () => {
+                setSuccess(true);
+                reset();
+            },
+        });
     }
+
     return (
-        <div className="flex justify-center items-center h-screen bg-gray-100">
-            <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md sm:p-12">
+        <div className="flex justify-center items-center  ">
+            <div className="  rounded-lg p-8 w-full max-w-md sm:p-12">
+                {success && (
+                    <div className="mb-6 text-green-500 font-bold text-center">
+                        Booking successful!
+                    </div>
+                )}
                 <form onSubmit={handleSubmit}>
                     <h2 className="text-2xl font-bold mb-6 text-center">
                         Booking
@@ -29,45 +41,11 @@ const Book = () => {
                         <input
                             type="datetime-local"
                             id="datetime"
-                            name="obj_type"
+                            name="start_date"
                             value={data.start_date}
                             onChange={(e) =>
                                 setData("start_date", e.target.value)
                             }
-                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <label
-                            htmlFor="type"
-                            className="block text-gray-700 font-bold mb-2"
-                        >
-                            Type
-                        </label>
-                        <input
-                            type="text"
-                            id="type"
-                            name="obj_type"
-                            value={data.obj_type}
-                            onChange={(e) =>
-                                setData("obj_type", e.target.value)
-                            }
-                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <label
-                            htmlFor="obj_id"
-                            className="block text-gray-700 font-bold mb-2"
-                        >
-                            Booked ID
-                        </label>
-                        <input
-                            type="text"
-                            id="obj_id"
-                            name="obj_id"
-                            value={data.obj_id}
-                            onChange={(e) => setData("obj_id", e.target.value)}
                             className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
                         />
                     </div>

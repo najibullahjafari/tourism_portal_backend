@@ -121,12 +121,7 @@ const AppMenu = () => {
                             to: route("tourists"),
                         },
                     ],
-                    roles: [
-                        "super-admin",
-                        "hotel-admin",
-                        "transport-admin",
-                        "user",
-                    ],
+                    roles: ["super-admin"],
                 },
                 {
                     label: "Message",
@@ -199,12 +194,8 @@ const AppMenu = () => {
                             icon: "pi pi-fw pi-users",
                             to: route("booked"),
                         },
-                        {
-                            label: "booking",
-                            icon: "pi pi-fw pi-question",
-                            to: route("booking"),
-                        },
                     ],
+                    roles: ["hotel-admin", "transport-admin", "tourist"],
                 },
                 {
                     label: "News",
@@ -216,6 +207,7 @@ const AppMenu = () => {
                             to: route("news"),
                         },
                     ],
+                    roles: ["super-admin"],
                 },
             ],
         },

@@ -51,6 +51,9 @@ Route::get('/apidocumentation', function () {
     return Inertia::render('Provinces/ApiDocumentation');
 })->name('apidocumentation');
 
+// bookings
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -120,6 +123,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/sightSeeingRequest/{id}', [sight_seeingController::class, 'change'])->name('sightSeeingRequest.update');
     Route::delete('/sightSeeing/{id}', [sight_seeingController::class, 'deleteSightSeeing'])->name('sightSeeing.delete');
     Route::get('/sightSeeingDashboard/{id}', [sight_seeingController::class, 'updateSightSeeing'])->name('sightSeeing.update');
+    Route::get('/dependedHotelSightSeeing/{id}', [sight_seeingController::class, 'dependedHotel']);
 
     // Views
     Route::get('/hotel/view', [HotelController::class, 'view'])->name("hotels");
@@ -136,13 +140,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/like/{id}', [HotelController::class, 'like'])->name('hotel.like');
 
     // Booking tourguidebooking.store
-    Route::get('/booking/obj/{id}', [bookingController::class, 'create'])->name('booking.create');
-    Route::post('/booking/obj', [bookingController::class, 'store'])->name('booking.store');
-    Route::get('/booking', [bookingController::class, 'showBooking'])->name('booking');
-    Route::get('/booked', [bookingController::class, 'showBooked'])->name('booked');
-    Route::delete('/booking/delete/{id}', [bookingController::class, 'deleteBooking'])->name('booking.delete');
     Route::delete('/booked/delete/{id}', [bookingController::class, 'deleteBooked'])->name('booked.delete');
 
+    Route::get('/booking/obj/{id}', [bookingController::class, 'create'])->name('booking.create');
+    Route::post('/booking/obj', [bookingController::class, 'store'])->name('booking.store');
+    Route::get('/getBooking', [bookingController::class, 'getBooking']);
+    Route::get('/booking', [bookingController::class, 'showBooking'])->name('booking');
+    Route::get('/booked', [bookingController::class, 'showBooked'])->name('booked');
+    Route::delete('/cancelBook/{id}', [bookingController::class, 'cancelBooking']);
     // Sight Seeing News
     Route::get('/sightSeeingNews/{id}', [newsController::class, 'create'])->name('news.create');
     Route::post('/sightSeeingNews', [newsController::class, 'store'])->name('news.store');

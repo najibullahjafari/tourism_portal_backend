@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\like;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class tourguideController extends Controller
 {
@@ -325,5 +326,11 @@ class tourguideController extends Controller
     {
         $data = User::where('status', 'active')->get();
         return count($data);
+    }
+
+    public function userRole()
+    {
+        $user = Auth::user();
+        return $user ? $user->role : null;
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration {
             Schema::create('booking', function (Blueprint $table) {
                 $table->id();
                 $table->timestamps();
-                $table->string('obj_type');
+                $table->enum('obj_type', ['car', 'hotel', 'tourguide']);
                 $table->string('obj_id');
                 $table->unsignedBigInteger('user_id');
                 $table->foreign('user_id')->references('id')->on('users')->nullable()->onDelete('cascade');

@@ -34,13 +34,12 @@ class bookingController extends Controller
     public function showBooked(Request $request)
     {
         $user_id = auth::user()->id;
-        $data = $data = booking::where('booker_id', $user_id);
+        $data = booking::where('booker_id', $user_id);
+
         if ($request->has("category") && $request->has("q")) {
             $col = $request->category;
             $val = $request->q;
             $data = $data->where($col, 'like', '%' . $val . '%');
-
-
         }
 
         $data = $data->get();
@@ -77,6 +76,22 @@ class bookingController extends Controller
         $data = booking::find($id);
         $data->delete();
         return redirect()->route('booking');
+    }
+
+
+    public function getBooking()
+    {
+        $data = booking::all();
+        $user = auth()->user();
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function cancelBooking($id)
+    {
+        $data = booking::find($id);
+        $data->delete();
     }
 
 }
