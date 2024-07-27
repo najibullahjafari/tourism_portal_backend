@@ -12,17 +12,28 @@ const TourGuide = () => {
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    // Filter data to show only people with the role "tourist"
+    const tourists = data.filter((item) => item.role === "tourist");
+
     return (
         <>
             <Navbar />
             <div className="flex flex-col items-center justify-center">
-                <div className="tour-guide w-full h-screen flex flex-col items-center justify-center">
-                    <h4 className="text-white">Afghanistan</h4>
-                    <h4 className="text-white">
+                <div
+                    className="tour-guide w-full h-screen flex flex-col items-center justify-center bg-cover bg-center"
+                    style={{
+                        backgroundImage: "url(/path/to/your/background.jpg)",
+                    }}
+                >
+                    <h4 className="text-white text-4xl font-bold mb-4">
+                        Afghanistan
+                    </h4>
+                    <h4 className="text-white text-2xl mb-8">
                         Discover the world with an expert by your side.
                     </h4>
-                    <div className="flex p-1 max-w-max pl-7 ">
-                        <form>
+                    <div className="flex p-1 max-w-max pl-7">
+                        <form className="flex">
                             <input
                                 type="search"
                                 placeholder="Search Tour Guide"
@@ -36,35 +47,35 @@ const TourGuide = () => {
                         </form>
                     </div>
                 </div>
-                <div class="sight-seeing-list my-8 mx-5 flex flex-row justify-center items-center  flex-wrap m-2">
-                    {data.map((item) => (
+                <div className="sight-seeing-list my-8 mx-5 flex flex-row justify-center items-center flex-wrap m-2">
+                    {tourists.map((item) => (
                         <div
-                            class="flex items-center justify-center flex-col my-5 mx-5 max-w-sm m-2 bg-white overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
+                            className="flex items-center justify-center flex-col my-5 mx-5 max-w-sm m-2 bg-white overflow-hidden rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out"
                             key={item.id}
                         >
                             <img
-                                class="w-full h-48 object-cover border-2 border-white rounded-lg"
+                                className="w-full h-48 object-cover border-2 border-white rounded-lg"
                                 src={item.image}
+                                alt={item.name}
                             />
-                            <div class="p-4">
-                                <h3 class="text-lg font-bold mb-2">
+                            <div className="p-4">
+                                <h3 className="text-lg font-bold mb-2">
                                     {item.name}
                                 </h3>
-                                <p class="text-gray-600">{item.bio}</p>
+                                <p className="text-gray-600">{item.bio}</p>
                             </div>
-
-                            <div>
+                            <div className="flex justify-center">
                                 <Button
-                                    className="mx-3 my-3 w-ful bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                                    className="mx-3 my-3 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
                                     onClick={() =>
                                         router.get(
-                                            `/tourGuideDetial/${item.id}`
+                                            `/tourGuideDetail/${item.id}`
                                         )
                                     }
                                     icon="pi pi-eye"
                                 ></Button>
                                 <Button
-                                    className="mx-3 my-3 w-ful bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                                    className="mx-3 my-3 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
                                     onClick={() =>
                                         router.get(
                                             `/booking/obj/${item.id}?type=tourguide`
