@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\bookingController;
+use App\Http\Controllers\messageController;
 use App\Http\Controllers\newsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
@@ -162,7 +163,9 @@ Route::middleware('auth')->group(function () {
     });
 
     // Message
-    Route::get('message', [HotelController::class, 'createMessage'])->name('hotelsMessage');
+    Route::get('/message', [messageController::class, 'create'])->name('message.create');
+
+    Route::get('/users', [messageController::class, 'index'])->name('message.index');
     Route::get('messageDetail/{id}', [HotelController::class, 'createMessageDetial'])->name('messageDetial');
     // Route::get('sendMessage', [HotelController::class, 'sendMessage'])->name('message.send');
 

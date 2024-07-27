@@ -130,17 +130,6 @@ const AppMenu = () => {
                     ],
                 },
                 {
-                    label: "Message",
-                    icon: "pi pi-fw pi-envelope",
-                    items: [
-                        {
-                            label: "Hotels",
-                            icon: "pi pi-fw pi-user",
-                            to: route("hotelsMessage"),
-                        },
-                    ],
-                },
-                {
                     label: "User",
                     icon: "pi pi-fw pi-user",
                     items: [

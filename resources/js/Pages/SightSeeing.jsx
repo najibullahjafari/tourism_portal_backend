@@ -34,6 +34,12 @@ const SightSeeing = () => {
                                         Sight Seeing
                                     </Link>
                                     <Link
+                                        href={route("message.index")}
+                                        className="px-3 py-2 rounded-md text-sm font-medium bg-gray-900 text-white"
+                                    >
+                                        Message
+                                    </Link>
+                                    <Link
                                         href={route("welcome.hotel")}
                                         className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                                     >
