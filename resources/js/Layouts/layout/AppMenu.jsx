@@ -123,18 +123,7 @@ const AppMenu = () => {
                     ],
                     roles: ["super-admin"],
                 },
-                {
-                    label: "Message",
-                    icon: "pi pi-fw pi-envelope",
-                    items: [
-                        {
-                            label: "Hotels",
-                            icon: "pi pi-fw pi-user",
-                            to: route("hotelsMessage"),
-                        },
-                    ],
-                    roles: ["super-admin"],
-                },
+
                 {
                     label: "Provinces",
                     icon: "pi pi-fw pi-envelope",
