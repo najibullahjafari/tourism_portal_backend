@@ -145,8 +145,9 @@ class tourguideController extends Controller
      */
     public function destroy($id)
     {
-        $hotel = tourguide::find($id);
-        $hotel->delete();
+        $tour = tourguide::find($id);
+        $tour->status = 'deactive';
+        $tour->save();
         $data = tourguide::where('status', 'active')->get();
         return Inertia::render('TourGuide/TourGuideList', [
             'data' => $data

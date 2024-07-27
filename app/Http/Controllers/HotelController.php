@@ -62,9 +62,9 @@ class HotelController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'province' => 'required|string',
+            'name' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'address' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'province' => 'required|regex:/^[a-zA-Z\s]+$/',
             'photoAddress' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'string',
 
@@ -161,11 +161,12 @@ class HotelController extends Controller
     {
         // Validate and update the hotel data
         $request->validate([
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'province' => 'required|string',
+            'name' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'address' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'province' => 'required|regex:/^[a-zA-Z\s]+$/',
             'photoAddress' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'string',
+
 
         ]);
         $photoAddressPath = null;
@@ -207,7 +208,8 @@ class HotelController extends Controller
     public function destroy($id)
     {
         $hotel = Hotel::find($id);
-        $hotel->delete();
+        $hotel->status = 'deactive';
+        $hotel->save();
         return redirect()->route('hotelList');
     }
 

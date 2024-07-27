@@ -72,12 +72,12 @@ class sight_seeingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'province' => 'required|string',
+            'name' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'address' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'province' => 'required|regex:/^[a-zA-Z\s]+$/',
             'close_time' => 'required|date',
             'open_time' => 'required|date',
-            'description' => 'required|string',
+            'description' => 'required|regex:/^[a-zA-Z\s]+$/',
             'ticket_cost' => 'required|string',
             // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'string',
@@ -119,7 +119,8 @@ class sight_seeingController extends Controller
     public function destroy($id)
     {
         $sight_seeing = sight_seeing::find($id);
-        $sight_seeing->delete();
+        $sight_seeing->status = 'deactive';
+        $sight_seeing->save();
         return redirect()->route('userRequest');
     }
     public function change($id, Request $request)
@@ -139,6 +140,18 @@ class sight_seeingController extends Controller
     }
     public function updateSightSeeing($id, Request $request)
     {
+        $request->validate([
+            'name' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'address' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'province' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'close_time' => 'required|date',
+            'open_time' => 'required|date',
+            'description' => 'required|regex:/^[a-zA-Z\s]+$/',
+            'ticket_cost' => 'required|string',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'string',
+
+        ]);
         if ($request->has('name') && $request->has('address') && $request->has('province') && $request->has('open_time') && $request->has('close_time') && $request->has('ticket_cost') && $request->has('description')) {
             // $SightSeeingPath = null;
             // if ($request->hasFile('image')) {
