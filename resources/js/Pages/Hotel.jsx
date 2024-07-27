@@ -112,13 +112,13 @@ const Hotel = () => {
                         </div>
                         <div className="">
                             <Button
-                                className="mx-3 my-3 font-bold p-1 text-sm rounded-tl-full rounded-bl-full focus:outline-none focus:shadow-outline"
+                                className="mx-3 my-3 font-bold p-1 text-sm  focus:outline-none focus:shadow-outline"
                                 onClick={() => handleDialogOpen(item)}
                             >
                                 See more
                             </Button>
                             <Button
-                                className="mx-3 my-3 font-bold p-1 text-sm rounded-tr-full rounded-br-full focus:outline-none focus:shadow-outline"
+                                className="mx-3 my-3 font-bold p-1 text-sm  focus:outline-none focus:shadow-outline"
                                 onClick={() => handleBookingOpen(item)}
                             >
                                 Book
