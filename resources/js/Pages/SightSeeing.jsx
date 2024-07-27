@@ -15,7 +15,7 @@ const SightSeeing = () => {
     const [selectedSight, setSelectedSight] = useState(null);
     const [visible, setVisible] = useState(false);
     const [travelVisible, setTravelVisible] = useState(false);
-    const [hotels, setHotels] = useState([]); // State to store hotels data
+    const [hotels, setHotels] = useState([]);
     const { data } = usePage().props;
 
     const toggleMenu = () => {
@@ -131,7 +131,7 @@ const SightSeeing = () => {
                             </div>
                             <div className="">
                                 <Button
-                                    className="mx-3 my-3 font-bold p-1 text-sm rounded-tr-full rounded-br-full focus:outline-none focus:shadow-outline"
+                                    className="mx-3 my-3 font-bold p-1 text-sm   focus:outline-none focus:shadow-outline"
                                     onClick={() => handleDialogOpen(item)}
                                 >
                                     See more
@@ -188,17 +188,19 @@ const SightSeeing = () => {
                 onHide={handleTravelDialogClose}
             >
                 <div className="travel-options">
-                    <h3 className="text-lg font-bold mb-2">Cars</h3>
-                    {/* Add your car options here */}
-                    <p>Car 1</p>
-                    <p>Car 2</p>
-                    <p>Car 3</p>
-
-                    <h3 className="text-lg font-bold mb-2 mt-4">Hotels</h3>
+                    <Link
+                        to="/about"
+                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
+                    >
+                        Available cars
+                    </Link>
                     {/* Display hotels fetched from the backend */}
-                    {hotels.map((hotel) => (
-                        <p key={hotel.id}>{hotel.name}</p>
-                    ))}
+                    <Link
+                        href={route("welcome.hotel")}
+                        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white"
+                    >
+                        Available hotels
+                    </Link>
                 </div>
             </Dialog>
 
