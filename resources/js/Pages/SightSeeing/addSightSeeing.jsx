@@ -15,7 +15,6 @@ const AddSightSeeing = (props) => {
         ticket_cost: "",
         sight_seeing_id: "",
         status: "deactive",
-        status: "sight_seeing_idctive",
     });
 
     const toast = useRef(null);
@@ -76,7 +75,14 @@ const AddSightSeeing = (props) => {
                             placeholder=" "
                             required
                             value={data.name}
-                            onChange={(e) => setData("name", e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (!isNaN(value)) {
+                                    // Handle the error, display a message or take any other appropriate action
+                                    return;
+                                }
+                                setData("name", value);
+                            }}
                         />
                         <label
                             htmlFor="name"
@@ -125,7 +131,7 @@ const AddSightSeeing = (props) => {
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
                         <input
-                            type="datetime-local"
+                            type="number" // Modified this line
                             name="open_time"
                             id="open_time"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -145,7 +151,7 @@ const AddSightSeeing = (props) => {
                     </div>
                     <div className="relative z-0 w-full mb-5 group">
                         <input
-                            type="datetime-local"
+                            type="number" // Modified this line
                             name="close_time"
                             id="close_time"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
