@@ -22,7 +22,8 @@ return new class extends Migration {
             $table->text('image');
             $table->string('ticket_cost');
             $table->unsignedBigInteger('hotel_id');
-            $table->foreign('province_id')->references('id')->on('provinces')->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('province_id')->nullable(); // Added province_id column
+            $table->foreign('province_id')->references('id')->on('provinces')->onDelete('cascade');
             $table->string('status');
         });
     }

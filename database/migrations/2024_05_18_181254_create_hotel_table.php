@@ -19,7 +19,8 @@ return new class extends Migration {
             $table->string('photoAddress');
             $table->string('status');
             $table->unsignedBigInteger('sightseeing_id')->nullable();
-            $table->foreign('sight_seeing_id')->references('id')->on('sight_seeing');
+            $table->foreign('sightseeing_id')->references('id')->on('sight_seeing')->nullable();
+
         });
     }
 
