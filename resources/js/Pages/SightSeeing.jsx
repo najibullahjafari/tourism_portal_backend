@@ -4,7 +4,7 @@ import { Dialog } from "primereact/dialog";
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import "./content.css";
+import "./Content.css";
 import Footer from "./Footer";
 import Vission from "./Vission";
 import Navbar from "./Navbar";

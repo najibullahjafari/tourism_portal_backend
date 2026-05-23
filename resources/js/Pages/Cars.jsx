@@ -2,7 +2,7 @@ import { Link, router, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import "./content.css";
+import "./Content.css";
 import Footer from "./Footer";
 import Vission from "./Vission";
 import Navbar from "./Navbar";

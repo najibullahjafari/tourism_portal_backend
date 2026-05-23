@@ -1,7 +1,7 @@
 import { Link, router, usePage } from "@inertiajs/react";
 import { Button } from "primereact/button";
 import React, { useState } from "react";
-import "./content.css";
+import "./Content.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Vission from "./Vission";

@@ -1,13 +1,17 @@
-import { useForm, usePage } from "@inertiajs/react";
-import React, { useState, useEffect } from "react";
+import { useForm } from "@inertiajs/react";
+import React, { useMemo, useState } from "react";
 
-const Book = ({ id, objType }) => {
+const Book = ({ id, objType, title, subtitle, onSuccess }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         obj_type: objType,
         obj_id: id,
         start_date: "",
     });
     const [success, setSuccess] = useState(false);
+    const minDateTime = useMemo(
+        () => new Date().toISOString().slice(0, 16),
+        []
+    );
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -15,26 +19,34 @@ const Book = ({ id, objType }) => {
             onSuccess: () => {
                 setSuccess(true);
                 reset();
+                window.setTimeout(() => {
+                    onSuccess?.();
+                }, 800);
             },
         });
     }
 
     return (
-        <div className="flex justify-center items-center  ">
-            <div className="  rounded-lg p-8 w-full max-w-md sm:p-12">
+        <div className="flex items-center justify-center">
+            <div className="w-full max-w-md rounded-3xl bg-slate-50 p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
                 {success && (
-                    <div className="mb-6 text-green-500 font-bold text-center">
-                        Booking successful!
+                    <div className="mb-6 rounded-2xl bg-emerald-50 px-4 py-3 text-center text-sm font-semibold text-emerald-700">
+                        Booking confirmed successfully.
                     </div>
                 )}
                 <form onSubmit={handleSubmit}>
-                    <h2 className="text-2xl font-bold mb-6 text-center">
-                        Booking
+                    <h2 className="mb-2 text-2xl font-bold text-slate-900">
+                        Booking details
                     </h2>
+                    <p className="mb-6 text-sm text-slate-600">
+                        {title ? `${title} • ` : ""}
+                        {subtitle || "Choose your preferred booking time."}
+                    </p>
+
                     <div className="mb-6">
                         <label
                             htmlFor="datetime"
-                            className="block text-gray-700 font-bold mb-2"
+                            className="mb-2 block text-sm font-semibold text-slate-700"
                         >
                             Date and Time
                         </label>
@@ -46,15 +58,22 @@ const Book = ({ id, objType }) => {
                             onChange={(e) =>
                                 setData("start_date", e.target.value)
                             }
-                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+                            min={minDateTime}
+                            className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200"
                         />
+                        {errors.start_date && (
+                            <p className="mt-2 text-sm text-red-600">
+                                {errors.start_date}
+                            </p>
+                        )}
                     </div>
-                    <div className="flex justify-end">
+                    <div className="flex items-center justify-end gap-3">
                         <button
                             type="submit"
-                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline transition-colors duration-300"
+                            disabled={processing}
+                            className="rounded-2xl bg-emerald-500 px-6 py-3 font-semibold text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            Submit
+                            {processing ? "Saving..." : "Confirm booking"}
                         </button>
                     </div>
                 </form>
