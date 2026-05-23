@@ -9,9 +9,10 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
 const Booked = () => {
-    const { user } = usePage().props;
-    console.log(user.roles);
+    const { auth, user: pageUser } = usePage().props;
+    const user = pageUser ?? auth?.user ?? null;
     const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [q, setQ] = useState("");
     const [category, setCategory] = useState("");
     const [selectedbooking, setSelectedbooking] = useState(null);
@@ -20,12 +21,14 @@ const Booked = () => {
 
     const fetchBookings = async () => {
         try {
-            const response = await fetch("getBooking");
+            setLoading(true);
+            const response = await fetch("/getBooking");
             const data = await response.json();
-            console.log(data, "bookings");
-            setBookings(data.data); // Adjusted to access the data array
+            setBookings(data.data);
         } catch (error) {
             console.error("Error fetching bookings:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -66,15 +69,13 @@ const Booked = () => {
     };
 
     const filteredData = bookings.filter((item) => {
-        if (user.roles.includes("hotel-admin")) {
+        if (user?.roles?.includes("hotel-admin")) {
             return item.obj_type === "hotel";
-        } else if (user.roles.includes("transport-admin")) {
+        } else if (user?.roles?.includes("transport-admin")) {
             return item.obj_type === "car";
         }
         return false;
     });
-
-    console.log("Filtered Data:", filteredData);
 
     return (
         <Layout>
@@ -116,7 +117,11 @@ const Booked = () => {
                 <ConfirmDialog />
             </div>
             <div className="relative overflow-x-auto shadow-x sm:rounded-lg bg-white mt-5">
-                {filteredData.length > 0 ? (
+                {loading ? (
+                    <div className="p-6 text-center text-slate-600">
+                        Loading bookings...
+                    </div>
+                ) : filteredData.length > 0 ? (
                     <DataTable value={filteredData} paginator rows={10}>
                         <Column field="id" header="ID" />
                         <Column field="obj_type" header="Type" />
